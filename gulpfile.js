@@ -17,9 +17,9 @@ gulp.task('css', function(){
 gulp.task('js', function(){
 
 	// grab all the files
-	return gulp.src([	'server/**/*.js',	'client/**/*.js'])
-		.pipe(jshint())
-		.pipe(jshint.reporter('default'));
+	// return gulp.src([	'server/**/*.js',	'client/**/*.js'])
+		// .pipe(jshint())
+		// .pipe(jshint.reporter('default'));
 });
 
 // task to lint, minify, and concat frontend files
@@ -34,7 +34,7 @@ gulp.task('angular', function(){
 gulp.task('watch',function() {
 
 	// watch js files and run lint and run js and angular tasks
-	gulp.watch(	['app.js', 'server/app/*.js', 'client/app/**/*.js'],
+	gulp.watch(	['server/**/*.js', 'client/**/*.js'],
 				['js', 'angular']);
 
 	// watch css files and run css task to minify

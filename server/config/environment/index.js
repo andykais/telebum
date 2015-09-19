@@ -8,16 +8,11 @@ var _ = require('lodash');
 // ============================================
 var all = {
   // Root path of server
-  root: path.normalize(__dirname + '/../../..'),
-
-  // Server port
-  // port: process.env.PORT || 8080,
-
+  root: path.normalize(__dirname + '/../../..')
 };
 
 // Export the config object based on the NODE_ENV
 // ==============================================
 module.exports = _.merge(
   all
-  // ,require('./' + process.env.NODE_ENV + '.js') || {}
 );
