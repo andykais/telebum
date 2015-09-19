@@ -34,7 +34,7 @@ gulp.task('angular', function(){
 gulp.task('watch',function() {
 
 	// watch js files and run lint and run js and angular tasks
-	gulp.watch(	['server/**/*.js', 'client/**/*.js'],
+	gulp.watch(	['server/**/*.js'],
 				['js', 'angular']);
 
 	// watch css files and run css task to minify
@@ -46,7 +46,7 @@ gulp.task('watch',function() {
 gulp.task('nodemon',function() {
 	nodemon({
 		script:'server/server.js',
-		ext:'js html css'
+		ext:'js'
 	})
 	.on('start', ['watch'])
 	.on('change', ['watch'])
