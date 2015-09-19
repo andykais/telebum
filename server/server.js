@@ -10,6 +10,10 @@
 var express = require('express');
 var mongoose = require('mongoose');
 // var config = require('./config/environment');
+var expressConfig = require('./config/express');
+var routes = require('./routes');
+var server = require('http').createServer(app);
+var app = express();
 
 // Connect to database
 mongoose.connect('mongodb://localhost/telebum');
@@ -19,10 +23,8 @@ mongoose.connect('mongodb://localhost/telebum');
 // if(config.seedDB) { require('./config/seed'); }
 
 // Setup server
-var app = express();
-var server = require('http').createServer(app);
-require('./config/express')(app);
-require('./routes')(app);
+expressConfig(app);
+routes(app);
 
 // Start server
 // server.listen(config.port, config.ip, function () {
