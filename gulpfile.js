@@ -46,7 +46,7 @@ gulp.task('watch',function() {
 gulp.task('nodemon',function() {
 	nodemon({
 		script:'server/server.js',
-		ext:'js html css'
+		ext:'js'
 	})
 	.on('start', ['watch'])
 	.on('change', ['watch'])
