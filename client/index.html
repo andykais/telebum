@@ -1,14 +1,21 @@
 <!doctype html>
-
+<html>
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta charset="utf-8"> -->
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
     <base href="/">
-    <title></title>
+    <title>telebum</title>
     <meta name="description" content="">
-
   </head>
-  <body >
-    Yolo hahaha
+
+  <body ng-view ng-app="telebumApp">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-route.js"></script> -->
+    <script src="app/app.js"></script>
+    <script src="app/main/main.js"></script>
+    <script src="app/main/main.controller.js"></script>
+    Yolo ha
+    <div ui-view></div>
   </body>
 </html>
