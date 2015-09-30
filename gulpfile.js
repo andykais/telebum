@@ -7,6 +7,18 @@ var concat		= require('gulp-concat');				   // Converts multiple files into one 
 var uglify 		= require('gulp-uglify');				   // stringifies js files
 var ngAnnotate 	= require('gulp-ng-annotate'); 	 // Makes angular files able to be combined into one file
 var nodemon 	= require('gulp-nodemon');				 // Watches for changing files and restarts
+var bower       = require('gulp-bower')
+
+// config object
+var config = {
+    // sassPath: './resources/sass',
+    bowerDir: './bower_components' 
+}
+
+gulp.task('bower', function() { 
+    return bower()
+        .pipe(gulp.dest(config.bowerDir)) 
+});
 
 // task to minify css files
 gulp.task('css', function(){
