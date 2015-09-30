@@ -7,22 +7,27 @@ var concat		= require('gulp-concat');				   // Converts multiple files into one 
 var uglify 		= require('gulp-uglify');				   // stringifies js files
 var ngAnnotate 	= require('gulp-ng-annotate'); 	 // Makes angular files able to be combined into one file
 var nodemon 	= require('gulp-nodemon');				 // Watches for changing files and restarts
-var bower       = require('gulp-bower')
+var bower       = require('gulp-bower');
+var sass        = require('gulp-sass');
+// // paths config object
+// var config = {
+//     sassPath: './client/app',
+//     bowerDir: './clent/bower_components' 
+// }
 
-// config object
-var config = {
-    // sassPath: './resources/sass',
-    bowerDir: './bower_components' 
-}
-
-gulp.task('bower', function() { 
-    return bower()
-        .pipe(gulp.dest(config.bowerDir)) 
+// move font awesome to
+gulp.task('icons', function() { 
+    return gulp.src('./clent/bower_components/fontawesome/fonts/**.*') 
+        .pipe(gulp.dest('./client/fonts')); 
 });
 
 // task to minify css files
-gulp.task('css', function(){
 
+// task to convert sass to css
+gulp.task('styles', function() {
+    gulp.src('./client/app/app.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./client/assets/css/'));
 });
 
 // task for linting js files
@@ -46,9 +51,10 @@ gulp.task('angular', function(){
 gulp.task('watch',function() {
 
 	// watch js files and run lint and run js and angular tasks
-	gulp.watch(	['server/**/*.js', 'client/**/*.js'],
+	gulp.watch(	['server/**/*.js'],
 				['js', 'angular']);
-
+    // compile the sass to css
+    gulp.watch( ['client/app/**/*.scss'], ['styles'])
 	// watch css files and run css task to minify
 	// gulp.watch(	['client/assets/css/*.css'],['css']);
 
