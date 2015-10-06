@@ -73,4 +73,4 @@ gulp.task('nodemon',function() {
 	});
 });
 
-gulp.task('default', ['nodemon']);		// Just run gulp!
+gulp.task('default', ['nodemon', 'styles']);		// Just run gulp!
