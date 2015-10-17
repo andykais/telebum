@@ -1,0 +1,19 @@
+$font-size: 1.5em;
+
+#navbar {
+  background-color: #5CBB5D;
+  text-align:center;
+  .columns {
+    margin-top: auto;
+    font-size: $font-size;
+    display: inline-block;
+    color: white;
+    button {
+      color: white;
+      margin: 0;
+    }
+    button[disabled] {
+      border-style: none;
+    }
+  }
+}

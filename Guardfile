@@ -3,6 +3,7 @@
 
 
 guard 'livereload' do
+  ignore %r{^client/bower_components/}, /public/
   watch(%r{client/.+\.(css|js|html)})
   # Rails Assets Pipeline
   watch(%r{(app|vendor)(/assets/\w+/(.+\.(css|js|html|png|jpg))).*}) { |m| "/assets/#{m[3]}" }

@@ -4,7 +4,11 @@
   "homepage": "https://github.com/andykais/telebum",
   "dependencies": {
     "angular": "1.4.6",
-    "angular-material": "~0.11.1",
-    "angular-ui-router": "~0.2.15"
+    "angular-ui-router": "~0.2.15",
+    "font-awesome": "fontawesome#~4.4.0",
+    "Skeleton-Sass": "skeleton-scss#*"
+  },
+  "resolutions": {
+    "angular": "1.4.6"
   }
 }
