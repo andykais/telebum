@@ -1,7 +1,15 @@
 $fa-font-path: "/bower_components/font-awesome/fonts";
 
 @import '../bower_components/font-awesome/scss/font-awesome';
+@import 'navbar/navbar';
+@import 'account/account';
 
-md-toolbar {
-  background-color: #5CBB5D;
+html,body {
+  margin: 0;
+  padding: 0;
+}
+
+#loginHolder {
+  // margin-left: 10%;
+  // width: 80%;
 }
