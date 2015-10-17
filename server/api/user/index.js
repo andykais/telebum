@@ -6,7 +6,8 @@ var config = require('../../config/environment');
 
 var router = express.Router();
 
-router.get('/createUser',  controller.createUser);
+router.put('/createUser',  controller.createUser);
+router.get('/:id', controller.getUserInfo);
 
 
 module.exports = router;

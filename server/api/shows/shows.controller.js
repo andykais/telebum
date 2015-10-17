@@ -1,6 +1,6 @@
 'use strict';
 
-var Shows = require('./shows.model');
+var Show = require('./show.model');
 
 /**
  * Creates a user

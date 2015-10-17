@@ -3,9 +3,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ShowsSchema = new Schema({
+var ShowSchema = new Schema({
   name: {type: String, require: true}
 });
 
 
-module.exports = mongoose.model('Shows', ShowsSchema);
+module.exports = mongoose.model('Show', ShowSchema);
