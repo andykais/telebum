@@ -28,6 +28,10 @@ gulp.task('styles', function() {
     gulp.src('./client/app/app.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('./client/assets/css/'));
+    gulp.src('./client/bower_components/Skeleton-Sass/scss/skeleton.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./client/assets/css/'));
+
 });
 
 // task for linting js files
@@ -54,6 +58,7 @@ gulp.task('watch',function() {
 	gulp.watch(	['server/**/*.js'],
 				['js', 'angular']);
     // compile the sass to css
+    // no need to watch ./client/bower_components/Skeleton-Sass bc only changed when bower installing
     gulp.watch( ['client/app/**/*.scss'], ['styles'])
 	// watch css files and run css task to minify
 	// gulp.watch(	['client/assets/css/*.css'],['css']);
