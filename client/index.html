@@ -1,14 +1,42 @@
 <!doctype html>
-
+<html>
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta charset="utf-8"> -->
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
     <base href="/">
-    <title></title>
+    <title>telebum</title>
     <meta name="description" content="">
-
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="icon" type="image/png" href="assets/images/sword.ico">
   </head>
-  <body >
-    Yolo hahaha
+
+  <body ng-view ng-app="telebumApp">
+
+    <!-- div where angular content will be loaded into -->
+    <div ui-view></div>
+
+    <script src="bower_components/angular/angular.min.js"></script>
+    <!-- <script src="bower_components/angular-aria/angular-aria.js"></script> -->
+    <!-- <script src="bower_components/angular-animate/angular-animate.js"></script> -->
+    <!-- <script src="bower_components/angular-material/angular-material.js"></script> -->
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <!-- <link src="bower_components/font-awesome/css/font-awesome.min.css"></link> -->
+    <!-- <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css"> -->
+    <!-- <script src="bower_components/skeleton/css/skeleton.css"></script> -->
+    <!-- <script src="bower_components/skeleton/css/normalize.css"></script> -->
+    <link rel="stylesheet" href="assets/css/skeleton.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+
+
+    <!-- main angular file -->
+    <script src="app/app.js"></script>
+    <!-- modularized controllers -->
+    <script src="app/main/main.js"></script>
+    <script src="app/main/main.controller.js"></script>
+    <script src="app/navbar/navbar.controller.js"></script>
+    <script src="app/account/login/login.js"></script>
+    <script src="app/account/login/login.controller.js"></script>
+
+
   </body>
 </html>
