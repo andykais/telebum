@@ -1,0 +1,35 @@
+{
+  "username": "andrew",
+  "tv_shows":
+    {
+      "adventure_time": {
+        "title": "Adventure Time",
+        "1": [1,2,3,4,9,20,21],
+        "2": [10,12,13],
+        "4": [1,2,3,4],
+        "favorites": [{"1":2, "1":5}], // favorite episode list with season number and then episode
+        "finished": 0 // a quick way to check if the show has been completed instead of counting seasons
+      },
+      "house_of_cards": {
+      "title": "House of Cards",
+        "1": [1,2,3,4,9,20,21],
+        "2": [1],
+        "favorites": [{}],
+        "finished": 0
+      }
+    },
+    "watch_later_queue": [{"archer":"Archer"}, {"rick_and_morty":"Rick and Morty"}],
+    "friends": ["jane", "bobby", "alice"]
+}
+
+
+{
+  "adventure_time": {
+    "title": "Adventure Time",
+    "last_seen": {"2":"4"}
+  },
+  "house_of_cards": {
+  "title": "House of Cards",
+  "last_seen": {"1":"7"}
+  }
+}
