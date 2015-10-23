@@ -18,7 +18,6 @@ mongoose.connect('mongodb://localhost/telebum');
 // Setup server
 expressConfig(app);
 routes(app);
-
 server.listen(8080);
 console.log("magic on port 8080");
 

@@ -55,12 +55,12 @@ gulp.task('angular', function(){
 gulp.task('watch',function() {
 
 	// watch js files and run lint and run js and angular tasks
-	gulp.watch(	['server/**/*.js'],
-				['js', 'angular']);
+	gulp.watch(	['server/**/*.js']);
+
     // compile the sass to css
     // no need to watch ./client/bower_components/Skeleton-Sass bc only changed when bower installing
-    gulp.watch( ['client/app/**/*.scss'], ['styles'])
-	// watch css files and run css task to minify
+  gulp.watch( ['client/app/**/*.scss'], ['styles'])
+	// watch css files and rzun css task to minify
 	// gulp.watch(	['client/assets/css/*.css'],['css']);
 
 });
@@ -71,11 +71,9 @@ gulp.task('nodemon',function() {
 		script:'server/server.js',
 		ext:'js'
 	})
-	.on('start', ['watch'])
-	.on('change', ['watch'])
-	.on('restart',function() {
-		console.log("restarted");
-	});
+	.on('restart',function() { console.log("restarted"); })
+  .on('crash', function () { console.log('script crashed for some reason'); })
+
 });
 
-gulp.task('default', ['nodemon', 'styles']);		// Just run gulp!
+gulp.task('default', ['nodemon', 'styles', 'watch']);		// Just run gulp!

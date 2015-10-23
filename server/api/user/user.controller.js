@@ -12,8 +12,6 @@ exports.createUser = function(req, res, next) {
     if (err) return res.json({ success: "False" });
     res.json({ success: "True" });
   });
-
-
 };
 
 exports.getUserInfo = function(req, res, next){
@@ -23,7 +21,16 @@ exports.getUserInfo = function(req, res, next){
 		res.json({sucess: "True"});
 		res.json(userInfo);
 	});
+};
 
 
+exports.login = function(req, res, next){
+	// var userID = String(req.params.id);
+  res.json({sucess: "True"});
+	// User.findById(id, function(err, userInfo){
+	// 	if(err) return res.json({sucess: "False"});
+	// 	res.json({sucess: "True"});
+	// 	res.json(userInfo);
+	// });
 
 };
