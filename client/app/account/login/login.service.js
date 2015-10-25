@@ -1,20 +1,19 @@
 angular.module('telebumApp')
-  .controller('LoginCtrl', function ($scope, $http) {
-    $scope.login = function() {
-      var username = $scope.username;
-      var password = $scope.password;
-      $http.post("/api/user/login", {username: username, password: password})
-        .success(function (response) {
-          console.log(response)
-        })
+  .factory('LoginService', function ($http, $q) {
+    console.log("sindei here")
+
+    function loginCall (userInfo) {
+      return $http.post("/api/user/login", userInfo)
     }
-    $scope.register = function () {
-      var username = $scope.username;
-      var password = $scope.password;
-      $http.put("/api/user/createUser", {username: username, password: password})
-        .success(function (response) {
-          console.log(response)
-        })
+
+    function registerCall (userInfo) {
+      return $http.put("/api/user/createUser", userInfo)
     }
-    // }
+
+    return {
+      loginCall:loginCall,
+      registerCall: registerCall
+    }
+
   });
+  console.log("sindei here")

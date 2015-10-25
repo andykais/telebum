@@ -9,12 +9,12 @@ var ngAnnotate 	= require('gulp-ng-annotate'); 	 // Makes angular files able to 
 var nodemon 	= require('gulp-nodemon');				 // Watches for changing files and restarts
 var bower       = require('gulp-bower');
 var sass        = require('gulp-sass');
+
 // // paths config object
 // var config = {
 //     sassPath: './client/app',
 //     bowerDir: './clent/bower_components' 
 // }
-
 // move font awesome to
 gulp.task('icons', function() { 
     return gulp.src('./clent/bower_components/fontawesome/fonts/**.*') 

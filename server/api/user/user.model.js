@@ -5,7 +5,8 @@ var Schema = mongoose.Schema;
 var Show = require('../shows/shows.model');
 
 var UserSchema = new Schema({
-  name: {type: String, require: true},
+  username: {type: String, require: true},
+  password: {type: String},
   email: {type: String, lowercase: true },
   shows: [{
   	show: {type: Schema.Types.ObjectId},
