@@ -1,46 +1,92 @@
 'use strict';
 
 var User = require('./user.model');
+var passport = require('passport');
+var config = require('../../config/environment');
+var jwt = require('jsonwebtoken');
+
+var validationError = function(res, err) {
+  return res.status(422).json(err);
+};
 
 /**
- * Creates a user
+ * Creates a new user
  */
-exports.createUser = function(req, res, next) {
-  User.findOne({username: req.body.username } , function (err, user) {
-    console.log("here")
-    console.log(user)
-    console.log(!user)
-    if(err){
-      return res.json({ success: "flase"});
-    }
-    else if(!user){
-      var newUser = new User(req.body);
-      newUser.save(function(err, user) {
-        if (err) return res.json({ success: "False" });
-        return res.json({ success: "True", id:user._id});
+exports.create = function (req, res, next) {
+  var newUser = new User(req.body);
+  newUser.provider = 'local';
+  newUser.role = 'user';
+  newUser.save(function(err, user) {
+    if (err) return validationError(res, err);
+    var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
+    res.json({ token: token });
+  });
+};
+
+
+/**
+ * Deletes a user
+ * restriction: 'admin'
+ */
+exports.destroy = function(req, res) {
+  User.findByIdAndRemove(req.params.id, function(err, user) {
+    if(err) return res.status(500).send(err);
+    return res.status(204).send('No Content');
+  });
+};
+
+
+/**
+ * Get a single user
+ */
+exports.show = function (req, res, next) {
+  var userId = req.params.id;
+
+  User.findById(userId, function (err, user) {
+    if (err) return next(err);
+    if (!user) return res.status(401).send('Unauthorized');
+    res.json(user.profile);
+  });
+};
+
+/**
+ * Change a users password
+ */
+exports.changePassword = function(req, res, next) {
+  var userId = req.user._id;
+  var oldPass = String(req.body.oldPassword);
+  var newPass = String(req.body.newPassword);
+
+  User.findById(userId, function (err, user) {
+    if(user.authenticate(oldPass)) {
+      user.password = newPass;
+      user.save(function(err) {
+        if (err) return validationError(res, err);
+        res.status(200).send('OK');
       });
-    }
-    else{
-      console.log(user.id);
-      return res.json({ success: "Already made", id:user._id});
+    } else {
+      res.status(403).send('Forbidden');
     }
   });
 };
 
-exports.getUserInfo = function(req, res, next){
-	var userID = String(req.params.id);
-	User.findOne({_id: req.body.id }, function(err, user){
-		if(err) return res.json({sucess: "False"});
-		res.json({ success: "True", id:user._id});
-	});
+/**
+ * Get my info
+ */
+exports.me = function(req, res, next) {
+  var userId = req.user._id;
+  User.findOne({
+    _id: userId
+  }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
+    if (err) return next(err);
+    if (!user) return res.status(401).send('Unauthorized');
+    res.json(user);
+  });
 };
 
-exports.login = function(req, res, next){
-  var userID = String(req.params.id);
-  console.log(req.body.id);
-	User.find({_id: req.body.id }, function(err, user){
-		if(err) return res.json({sucess: "False"});
-    else if(user.length == 0) return res.json({sucess: "False"});
-		return res.json({ success: "True", id:user._id});
-	});
+/**
+ * Authentication callback
+ */
+exports.authCallback = function(req, res, next) {
+  res.redirect('/');
 };

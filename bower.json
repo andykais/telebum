@@ -6,9 +6,11 @@
     "angular": "1.4.6",
     "angular-ui-router": "~0.2.15",
     "font-awesome": "fontawesome#~4.4.0",
-    "Skeleton-Sass": "skeleton-scss#*"
+    "Skeleton-Sass": "skeleton-scss#*",
+    "angular-cookies": "~1.4.7",
+    "angular-resource": "~1.4.7"
   },
   "resolutions": {
-    "angular": "1.4.6"
+    "angular": "1.4.7"
   }
 }
