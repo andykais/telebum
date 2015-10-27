@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Show = require('../shows/shows.model');
+var crypto = require('crypto');
 
 var UserSchema = new Schema({
   username: {type: String, require: true},

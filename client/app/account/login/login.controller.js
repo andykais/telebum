@@ -1,20 +1,24 @@
 angular.module('telebumApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location) {
-    $scope.user = {};
-    $scope.errors = {};
-
+  .controller('LoginCtrl', function ($scope, $http) {
     $scope.login = function() {
-      Auth.login({
-        email: $scope.user.username,
-        password: $scope.user.password
-      })
-      .then( function() {
-        // Logged in, redirect to home
-        $location.path('/');
-      })
-      .catch( function(err) {
-        $scope.errors.other = err.message;
-      });
-    };
+      var username = $scope.username;
+      var password = $scope.password;
+      var user = {username: username, password: password}
 
+      // LoginService.loginCall(user)
+      //   .success(function (response) {
+      //     console.log(response)
+      //   })
+    }
+    $scope.register = function () {
+      var username = $scope.username;
+      var password = $scope.password;
+      var user = {username: username, password: password}
+
+      // LoginService.registerCall(user)
+      //   .success(function (response) {
+      //     console.log(response)
+      //   })
+    }
+    // }
   });

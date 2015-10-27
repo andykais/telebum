@@ -5,9 +5,9 @@ angular.module('telebumApp')
     $scope.user = {};
     $scope.errors = {};
 
-    $scope.register = function(form) {
+    $scope.register = function() {
       $scope.submitted = true;
-
+      console.log($scope.user.email)
       Auth.createUser({
         email: $scope.user.email,
         username: $scope.user.username,

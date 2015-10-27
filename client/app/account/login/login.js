@@ -2,7 +2,7 @@ angular.module('telebumApp')
   .config(function ($stateProvider) {
     $stateProvider
     .state('login', {
-      url: '/',
+      url: '/login',
       templateUrl: 'app/account/login/login.html',
       controller: 'LoginCtrl'
     });
