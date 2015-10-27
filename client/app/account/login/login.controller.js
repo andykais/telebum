@@ -16,5 +16,4 @@ angular.module('telebumApp')
           console.log(response)
         })
     }
-    // }
   });
