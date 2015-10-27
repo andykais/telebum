@@ -1,8 +1,11 @@
-<!-- <div id="navbarholder" ng-include src="'app/components/navbar/navbar.html'"></div> -->
+<div id="navbarholder" ng-include src="'app/components/navbar/navbar.html'"></div>
 
 <div id="login">
   <div class="user">
-    <input ng-model="user.email" type="text" placeholder="email"></input>
+    <input ng-model="user.firstName" type="text" placeholder="John"></input>
+  </div>
+  <div class="user">
+    <input ng-model="user.lastName" type="text" placeholder="Doe"></input>
   </div>
   <div class="user">
     <input ng-model="user.username" type="text" placeholder="username"></input>
@@ -11,9 +14,6 @@
     <input ng-model="user.password" type="password" placeholder="password"></input>
   </div>
   <div class="row" id="submitters">
-    <div class="six columns">
-      <button ng-click="login()">login</button>
-    </div>
     <div class="six columns">
       <button ng-click="register()">register</button>
     </div>

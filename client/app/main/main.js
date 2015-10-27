@@ -2,7 +2,7 @@ angular.module('telebumApp')
   .config(function ($stateProvider) {
     $stateProvider
     .state('main', {
-      url: '/other',
+      url: '/',
       templateUrl: 'app/main/main.html',
       controller: 'MainCtrl'
     });

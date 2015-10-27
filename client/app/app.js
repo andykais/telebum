@@ -41,6 +41,7 @@ angular.module('telebumApp', ['ui.router', 'ngCookies', 'ngResource'])
   .run(function ($rootScope, $location, Auth) {
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, next) {
+      console.log("redirecting to login");
       Auth.isLoggedInAsync(function(loggedIn) {
         if (next.authenticate && !loggedIn) {
           event.preventDefault();

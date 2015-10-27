@@ -1,16 +1,13 @@
 <div ng-controller="LoginCtrl" id="login">
   <div class="user">
-    <input ng-model="username" type="text" placeholder="username"></input>
+    <input ng-model="user.username" type="text" placeholder="username"></input>
   </div>
   <div class="password">
-    <input ng-model="password" type="password" placeholder="password"></input>
+    <input ng-model="user.password" type="password" placeholder="password"></input>
   </div>
   <div class="row" id="submitters">
     <div class="six columns">
       <button ng-click="login()">login</button>
-    </div>
-    <div class="six columns">
-      <button ng-click="register()">register</button>
     </div>
   </div>
 </div>

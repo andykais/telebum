@@ -6,6 +6,9 @@ angular.module('telebumApp')
       id: '@_id'
     },
     {
+      save: {
+        method: 'POST'
+      },
       changePassword: {
         method: 'PUT',
         params: {

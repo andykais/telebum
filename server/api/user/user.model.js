@@ -6,6 +6,8 @@ var Show = require('../shows/shows.model');
 var crypto = require('crypto');
 
 var UserSchema = new Schema({
+  firstName: {type: String},
+  lastName: {type: String},
   username: {type: String, require: true},
   role: {
     type: String,
