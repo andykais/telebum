@@ -16,6 +16,8 @@ module.exports = function(app) {
   app.set('view engine', 'html');
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+  // inject livreload to browser
+  app.use(require('connect-livereload')({port: 35729}));
   app.use(express.static(path.join(config.root, 'client')));
   app.set('appPath', 'client');
   app.use(morgan('dev'));
