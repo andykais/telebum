@@ -1,4 +1,6 @@
-<div ng-controller="LoginCtrl" id="login">
+<div id="navbarholder" ng-include src="'app/components/navbar/navbar.html'"></div>
+
+<div ng-controller="LoginCtrl" class="login">
   <div class="user">
     <input ng-model="user.username" type="text" placeholder="username"></input>
   </div>
@@ -8,6 +10,10 @@
   <div class="row" id="submitters">
     <div class="six columns">
       <button ng-click="login()">login</button>
+    </div>
+    <div class="six columns">
+      <a class="button" href="/signup">register</a>
+      <!-- <button ng-click="register()">register</button> -->
     </div>
   </div>
 </div>

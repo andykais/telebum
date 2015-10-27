@@ -1,9 +1,8 @@
 angular.module('telebumApp')
   .config(function ($stateProvider) {
     $stateProvider
-    .state('signup', {
+    .state('register', {
       url: '/signup',
-      templateUrl: 'app/account/signup/signup.html',
-      controller: 'SignupCtrl'
+      templateUrl: 'app/account/register/register.html'
     });
   })

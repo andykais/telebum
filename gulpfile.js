@@ -80,10 +80,9 @@ gulp.task('watch',function() {
   gulp.watch(['client/assets/images/*.gif'], notifyLivereload)
   // watch server pages and reload the browser after nodemon executes
   gulp.watch(['server/**/*.js'], function (event) {
-    // waits until the server restarts to execute
     setTimeout(function () {
       notifyLivereload(event)
-    }, 1000)
+    }, 1000) // waits until the server restarts to execute
   });
   // compile the sass to css
   gulp.watch( ['client/app/**/*.scss'], ['styles'])
