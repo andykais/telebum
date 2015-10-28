@@ -2,7 +2,6 @@ angular.module('telebumApp')
   .controller('RegisterCtrl', function ($scope, Auth, $location) {
     $scope.user = {};
     $scope.errors = {};
-
     $scope.create = function() {
       $scope.submitted = true;
       console.log($scope.user.email)

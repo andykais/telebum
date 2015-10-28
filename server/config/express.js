@@ -24,6 +24,8 @@ module.exports = function(app) {
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+  // inject livreload to browser
+  app.use(require('connect-livereload')({port: 35729}));
   app.use(methodOverride());
   app.use(cookieParser());
   app.use(passport.initialize());
