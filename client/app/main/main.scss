@@ -1,0 +1,30 @@
+#main {
+  padding: 0 5% 0 5%;
+}
+
+#blurb {
+  margin-top: 100px;
+  width: 40%;
+  display: inline-block;
+}
+
+#loginHolder {
+  width: 40%
+}
+
+@media only screen and (max-width: 1024px) {
+  #main {
+    display: inline-flex;
+    flex-direction: column;
+    padding: 0 3% 0 3%;
+  }
+  #blurb {
+    order: 2;
+    width: 100%;
+  }
+  #loginHolder {
+    margin: 0;
+    width: 100%;
+    order: 1;
+  }
+}
