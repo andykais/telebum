@@ -16,7 +16,7 @@ angular.module('telebumApp')
       })
       .catch( function(err) {
         err = err.data;
-        $scope.errors = {};
+        $scope.errors = err;
 
         // Update validity of form fields that match the mongoose errors
         // angular.forEach(err.errors, function(error, field) {

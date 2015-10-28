@@ -15,6 +15,7 @@ var UserSchema = new Schema({
   },
   hashedPassword: String,
   email: {type: String, lowercase: true },
+  salt: String,
   shows: [{
   	show: {type: Schema.Types.ObjectId},
   	previousEpisodeS: {type: Number},
@@ -67,10 +68,10 @@ UserSchema
 
 // Validate empty email
 UserSchema
-  .path('email')
-  .validate(function(email) {
-    return email.length;
-  }, 'Email cannot be blank');
+  .path('username')
+  .validate(function(username) {
+    return username;
+  }, 'username cannot be blank');
 
 // Validate empty password
 UserSchema
@@ -81,10 +82,10 @@ UserSchema
 
 // Validate email is not taken
 UserSchema
-  .path('email')
+  .path('username')
   .validate(function(value, respond) {
     var self = this;
-    this.constructor.findOne({email: value}, function(err, user) {
+    this.constructor.findOne({username: value}, function(err, user) {
       if(err) throw err;
       if(user) {
         if(self.id === user.id) return respond(true);
@@ -92,7 +93,7 @@ UserSchema
       }
       respond(true);
     });
-}, 'The specified email address is already in use.');
+}, 'The specified username is already in use.');
 
 var validatePresenceOf = function(value) {
   return value && value.length;
@@ -123,6 +124,10 @@ UserSchema.methods = {
    * @api public
    */
   authenticate: function(plainText) {
+    console.log((plainText));
+    console.log(this.encryptPassword(plainText));
+    console.log(this.hashedPassword);
+    console.log("salt: " + this.salt);
     return this.encryptPassword(plainText) === this.hashedPassword;
   },
   /**
@@ -145,6 +150,8 @@ UserSchema.methods = {
   encryptPassword: function(password) {
     if (!password || !this.salt) return '';
     var salt = new Buffer(this.salt, 'base64');
+    console.log("here");
+    console.log(crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64'));
     return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
   }
 };
