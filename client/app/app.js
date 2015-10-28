@@ -26,7 +26,7 @@ angular.module('telebumApp', ['ui.router', 'ngCookies', 'ngResource'])
       // Intercept 401s and redirect you to login
       responseError: function(response) {
         if(response.status === 401) {
-          $location.path('/login');
+          $location.path('/');
           // remove any stale tokens
           $cookieStore.remove('token');
           return $q.reject(response);
@@ -45,8 +45,12 @@ angular.module('telebumApp', ['ui.router', 'ngCookies', 'ngResource'])
         if (next.authenticate && !loggedIn) {
           console.log("redirecting to login");
           event.preventDefault();
-          $location.path('/login');
+          $location.path('/');
         }
+        // redirect to shows page if logged in - So, user can't get back to login
+        // if ($location.path() == '/' && loggedIn) {
+        //     $location.path('/shows');
+        // }
       });
     });
   });
