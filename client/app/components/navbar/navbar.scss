@@ -1,4 +1,4 @@
-$font-size: 1.6em;
+$font-size: 1.5em;
 $font-color: white;
 $nav-height: 35px;
 @mixin setLinkStyleAll($param-color) {
@@ -10,7 +10,6 @@ $nav-height: 35px;
 }
 
 
-
 #navbar {
   background-color: #5CBB5D;
   text-align:center;
@@ -18,20 +17,32 @@ $nav-height: 35px;
   color: $font-color;
 
   .column,.columns {
+    height: 100%;
     margin-top: auto;
-    font-size: $font-size;
+    // font-size: $font-size;
     display: inline-block;
-    button {
-      i {
-        vertical-align: bottom;
-        line-height: 1.7em;
-      }
+    // width: 49%;
+
+    i {
+      font-size: $font-size;
+      // vertical-align: bottom;
+      line-height: $font-size;
       color: $font-color;
-      border-style: none;
       margin: 0;
     }
+      // border-style: none;
     a {
+      line-height: $font-size;
+      font-size: $font-size;
       @include setLinkStyleAll($font-color);
+    }
+  }
+  @media only screen and (max-width: 550px){
+    #menu, #spacer {
+      width: 20%;
+    }
+    #name {
+      width: 60%;
     }
   }
 }

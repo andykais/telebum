@@ -23,8 +23,8 @@ $font-size: 1.1em;
   .bar {
     height: 28px;
     background-color: #B9E9B9;
-    -webkit-transition: width 2s; /* Safari */
-    transition: width 2s;
+    -webkit-transition: width 1s; /* Safari */
+    transition: width 1s;
     width: 0;
   }
 }
