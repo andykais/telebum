@@ -4,8 +4,27 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ShowSchema = new Schema({
-  name: {type: String, require: true}
+  _id: Number,
+  name: String,
+  airsDayOfWeek: String,
+  airsTime: String,
+  firstAired: Date,
+  genre: [String],
+  network: String,
+  overview: String,
+  rating: Number,
+  ratingCount: Number,
+  status: String,
+  poster: String,
+  episodes: [{
+    season: Number,
+    episodeNumber: Number,
+    episodeName: String,
+    firstAired: Date,
+    overview: String
+  }]
 });
+
 
 
 module.exports = mongoose.model('Show', ShowSchema);

@@ -34,7 +34,6 @@ exports.create = function (req, res, next) {
   });
 };
 
-
 /**
  * Deletes a user
  * restriction: 'admin'
@@ -100,4 +99,30 @@ exports.me = function(req, res, next) {
  */
 exports.authCallback = function(req, res, next) {
   res.redirect('/');
+};
+
+/**
+ * Add shows to user's list
+ */
+exports.addShow = function(req, res, next) {
+  var userId = req.user._id;
+  var showId;
+  Show.find({name:req.showName}, function (err, show) {
+    if(show) {
+      // record show's id
+      console.log("yeah");
+    } else {
+      // record the show's id
+      console.log("yeah");
+    }
+  });
+
+  User.findById(userId, function (err, user) {
+    if(err) {
+      res.status(200).send('OK');
+    } else {
+      // Add it to the user's dataset
+      res.status(200).send("works");
+    }
+  });
 };
