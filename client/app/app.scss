@@ -3,11 +3,11 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import '../bower_components/normalize.css/normalize';
 @import '../bower_components/Skeleton-Sass/scss/skeleton';
 @import '../bower_components/font-awesome/scss/font-awesome';
+@import 'mixins';
 @import 'components/navbar/navbar';
 @import 'account/account';
 @import 'shows/shows';
 @import 'main/main';
-@import 'mixins';
 
 // @include font-face('MyWebby', '../fonts/bariol/bariol_regular-webfont');
 @import url(https://fonts.googleapis.com/css?family=NTR);

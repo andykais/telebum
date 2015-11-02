@@ -11,10 +11,13 @@ angular.module('telebumApp')
         var showModel = document.getElementById(seriesId);
         var bar = showModel.childNodes[1].childNodes[1];
         bar.style.width=percent + "%";
-
-
       }
     })
+    $scope.advance = function(id) {
+      var show = showData[id];
+      show.episode ++;
+      console.log(show)
+    }
   });
 
 

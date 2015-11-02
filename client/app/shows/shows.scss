@@ -1,18 +1,26 @@
 $font-size: 1.1em;
-
+$padding-size: 10px;
 
 .showItem {
   font-size: $font-size;
   border-top: 1px solid #ececec;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid #a7a7a7;
   margin-top: 7px;
   box-shadow: 0 2px 4px 0.3px #a7a7a7;
+  .advance {
+    @include no-touchy();
+    padding: 3px 8px 6px $padding-size;
+  }
+  .advance:hover {
+    cursor: pointer;
+    color: white;
+  }
   .showName {
-    padding-left: 5px;
+    padding-left: $padding-size;
   }
   .lastSeen {
     float: right;
-    padding-right: 5px;
+    padding-right: $padding-size;
   }
 }
 
