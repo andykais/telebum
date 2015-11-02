@@ -1,5 +1,14 @@
 <div id="navbarholder" ng-include src="'app/components/navbar/navbar.html'"></div>
 
-<div ng-controller="ShowsCtrl">
-  test in shows
+<div id="{{ seriesId }}" class="showItem" ng-repeat="(seriesId, show) in shows">
+    <div class="progressBar">
+      <div class="bar"></div>
+      <!-- <div class="bar" style="width:{{ show.percentComplete }}%;"></div> -->
+    </div>
+  <span class="showName">
+    {{ show.title }}
+  </span>
+  <span class="lastSeen">
+    Season {{ show.season }}  Episode {{ show.episode }}
+  </span>
 </div>

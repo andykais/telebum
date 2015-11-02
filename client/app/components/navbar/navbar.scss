@@ -1,4 +1,4 @@
-$font-size: 1.5em;
+$font-size: 1.6em;
 $font-color: white;
 $nav-height: 35px;
 @mixin setLinkStyleAll($param-color) {
@@ -14,7 +14,7 @@ $nav-height: 35px;
 #navbar {
   background-color: #5CBB5D;
   text-align:center;
-  height: $nav-height;
+  // height: $nav-height;
   color: $font-color;
 
   .column,.columns {
@@ -22,21 +22,14 @@ $nav-height: 35px;
     font-size: $font-size;
     display: inline-block;
     button {
+      i {
+        vertical-align: bottom;
+        line-height: 1.7em;
+      }
       color: $font-color;
       border-style: none;
       margin: 0;
     }
-  }
-  .name {
-    font-size: $font-size;
-    z-index: 1;
-    position: absolute;
-    width: 30%;
-    left: 35%;
-    // text-align: center;
-    // vertical-align: middle;
-    // line-height: $font-size;
-
     a {
       @include setLinkStyleAll($font-color);
     }

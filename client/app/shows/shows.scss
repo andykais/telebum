@@ -1,0 +1,30 @@
+$font-size: 1.1em;
+
+
+.showItem {
+  font-size: $font-size;
+  border-top: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+  margin-top: 7px;
+  box-shadow: 0 2px 4px 0.3px #a7a7a7;
+  .showName {
+    padding-left: 5px;
+  }
+  .lastSeen {
+    float: right;
+    padding-right: 5px;
+  }
+}
+
+.progressBar {
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  .bar {
+    height: 28px;
+    background-color: #B9E9B9;
+    -webkit-transition: width 2s; /* Safari */
+    transition: width 2s;
+    width: 0;
+  }
+}
