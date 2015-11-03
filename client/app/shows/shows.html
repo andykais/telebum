@@ -5,13 +5,14 @@
     <div class="bar"></div>
     <!-- <div class="bar" style="width:{{ show.percentComplete }}%;"></div> -->
   </div>
-  <!-- <button> -->
-    <i class="advance fa fa-check fa-1x" ng-click="advance(seriesId)"></i>
-  <!-- </button> -->
+
+  <span class="advanceIcon" ng-click="advance(seriesId)">
+    <i class="fa fa-check fa-1x"></i>
+  </span>
   <span class="showName">
     {{ show.title }}
   </span>
   <span class="lastSeen">
-    Season {{ show.season }}  Episode {{ show.episode }}
+    Season {{ show.on.season }}  Episode {{ show.on.episode }}
   </span>
 </div>
