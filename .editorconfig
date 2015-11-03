@@ -1,0 +1,10 @@
+# editorconfig.org
+; quote does not do anything but these are the guidelines
+
+[*]
+indent_style  = space
+indent_size   = 2
+quote         = single
+
+[*.html]
+quote         = double
