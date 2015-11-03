@@ -22,16 +22,36 @@ angular.module('telebumApp')
 var showData = {
   "183122": {
     "title": "Adventure Time",
-    "season": 2,
-    "episode": 24,
-    "episodesSeen": 34,
-    "totalEpisodes": 108
+    "released": {
+      "1": 22,
+      "2": 22,
+      "3": 28,
+      "4": 30,
+      "5": 20,
+      "6": 43,
+      "total": 165
+    },
+    "on" {
+      "season": 2,
+      "episode": 21
+    },
+    "seen": {
+      "episodes": 44
+    }
   },
   "652123": {
     "title": "House of Cards",
-    "season": 3,
-    "episode": 14,
-    "episodesSeen": 26,
-    "totalEpisodes": 45
+    "released": {
+      "1": 15,
+      "2": 20,
+      "total": 35
+    },
+    "on": {
+      "season": 1,
+      "episode": 14
+    },
+    "seen": {
+      "episodes": 14
+    }
   }
 }
