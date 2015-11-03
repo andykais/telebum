@@ -5,10 +5,22 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import '../bower_components/font-awesome/scss/font-awesome';
 @import 'components/navbar/navbar';
 @import 'account/account';
+@import 'shows/shows';
+@import 'main/main';
+@import 'mixins';
+
+// @include font-face('MyWebby', '../fonts/bariol/bariol_regular-webfont');
+@import url(https://fonts.googleapis.com/css?family=NTR);
+// @import url(https://fonts.googleapis.com/css?family=Varela+Round);
 
 html,body {
+  // font-family: 'Varela Round', sans-serif;
+  font-family: 'NTR';
+  // font-family: 'myWebby';
   margin: 0;
   padding: 0;
+  // background: #ccc;
+  color: #000;
 }
 
 #loginHolder {

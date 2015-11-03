@@ -10,35 +10,39 @@ $nav-height: 35px;
 }
 
 
-
 #navbar {
   background-color: #5CBB5D;
   text-align:center;
-  height: $nav-height;
+  // height: $nav-height;
   color: $font-color;
 
   .column,.columns {
+    height: 100%;
     margin-top: auto;
-    font-size: $font-size;
+    // font-size: $font-size;
     display: inline-block;
-    button {
+    // width: 49%;
+
+    i {
+      font-size: $font-size;
+      // vertical-align: bottom;
+      line-height: $font-size;
       color: $font-color;
-      border-style: none;
       margin: 0;
     }
-  }
-  .name {
-    font-size: $font-size;
-    z-index: 1;
-    position: absolute;
-    width: 30%;
-    left: 35%;
-    // text-align: center;
-    // vertical-align: middle;
-    // line-height: $font-size;
-
+      // border-style: none;
     a {
+      line-height: $font-size;
+      font-size: $font-size;
       @include setLinkStyleAll($font-color);
+    }
+  }
+  @media only screen and (max-width: 550px){
+    #menu, #spacer {
+      width: 20%;
+    }
+    #name {
+      width: 60%;
     }
   }
 }
