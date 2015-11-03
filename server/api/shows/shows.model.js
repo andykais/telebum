@@ -22,7 +22,8 @@ var ShowSchema = new Schema({
     episodeName: String,
     firstAired: Date,
     overview: String
-  }]
+  }],
+  seasons: {}
 });
 
 
