@@ -17,15 +17,8 @@ User.find({}).remove(function() {
     shows: {
       183122: {
         title: "Adventure Time",
-        released: {
-          1: 22,
-          2: 22,
-          3: 28,
-          4: 30,
-          5: 20,
-          6: 43,
-          total: 165
-        },
+        released: [22,22,28,30,20,43],
+        totalEpisodes: 165,
         on: {
           season: 2,
           episode: 21
@@ -36,11 +29,8 @@ User.find({}).remove(function() {
       },
       652123: {
         title: "House of Cards",
-        released: {
-          1: 15,
-          2: 20,
-          total: 35
-        },
+        released: [15,20],
+        totalEpisodes: 35,
         on: {
           season: 1,
           episode: 14
