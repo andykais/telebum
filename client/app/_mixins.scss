@@ -1,4 +1,4 @@
-// import a font 
+// import a font
 @mixin font-face($name, $path, $exts: eot woff2 woff ttf svg, $src: null) {
   $extmods: (
 		eot: "?",
@@ -17,4 +17,20 @@
     font-family: quote($name);
     src: $src;
   }
+}
+@mixin setLinkStyleAll($param-color) {
+  &, &:hover, &:link, &:active, &:visited {
+        text-decoration: none;
+        color:$param-color;
+        // @content;
+    }
+}
+
+@mixin no-touchy() {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

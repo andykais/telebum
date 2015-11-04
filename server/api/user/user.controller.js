@@ -4,6 +4,7 @@ var User = require('./user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
+var tvdb = require('../tvdb');
 
 var validationError = function(res, err) {
   return res.status(422).json(err);
@@ -33,7 +34,6 @@ exports.create = function (req, res, next) {
     res.json({ token: token });
   });
 };
-
 
 /**
  * Deletes a user
@@ -100,4 +100,51 @@ exports.me = function(req, res, next) {
  */
 exports.authCallback = function(req, res, next) {
   res.redirect('/');
+};
+
+/**
+ * Add shows to user's list
+ */
+exports.addShow = function(req, res, next) {
+  var userId = req.user._id;
+  var showId;
+
+
+  User.findById(userId, function (err, user) {
+    if(err) {
+      res.status(200).send('OK');
+    } else {
+
+      user.shows.forEach( function(val, key){
+        if(val.title == req.showName){
+          return res.status(200).send('already added');
+        }
+      })
+
+      Show.find({name:req.showName}, function (err, show) {
+        if(show) {
+          showId = show._id;
+        } else {
+          showId = tvdb.addShow(req.body.showName);
+        }
+      });
+
+      // Add it to the user's dataset
+      user.shows.append({showId:showId})
+      res.status(200).send("works");
+    }
+  });
+};
+
+/**
+ * Add shows to user's list
+ */
+exports.allShows = function(req, res, next) {
+  var userId = req.params.id;
+  User.findById(userId, function (err, user) {
+    if(err) {
+      return res.status(200).send('Error');
+    }
+    res.json(user.shows);
+  });
 };

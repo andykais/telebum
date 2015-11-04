@@ -1,39 +1,24 @@
 $font-size: 1.5em;
 $font-color: white;
-$nav-height: 35px;
-@mixin setLinkStyleAll($param-color) {
-  &, &:hover, &:link, &:active, &:visited {
-        text-decoration: none;
-        color:$param-color;
-        // @content;
-    }
-}
+
 
 
 #navbar {
   background-color: #5CBB5D;
   text-align:center;
-  // height: $nav-height;
+  height: $nav-height;
   color: $font-color;
 
   .column,.columns {
     height: 100%;
     margin-top: auto;
-    // font-size: $font-size;
     display: inline-block;
-    // width: 49%;
 
     i {
-      font-size: $font-size;
-      // vertical-align: bottom;
-      line-height: $font-size;
+      line-height: 4rem;
       color: $font-color;
-      margin: 0;
     }
-      // border-style: none;
     a {
-      line-height: $font-size;
-      font-size: $font-size;
       @include setLinkStyleAll($font-color);
     }
   }

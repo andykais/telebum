@@ -13,10 +13,12 @@ var router = express.Router();
 // router.post('/login',  controller.login);
 
 router.get('/', auth.hasRole('admin'), controller.index);
-// router.delete('/:id', auth.hasRole('admi-n'), controller.destroy);
+router.get('/:id/allShows', controller.allShows)
 router.get('/me', auth.isAuthenticated(), controller.me);
+
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
 
+// router.delete('/:id', auth.hasRole('admi-n'), controller.destroy);
 module.exports = router;
