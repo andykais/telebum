@@ -1,16 +1,37 @@
 angular.module('telebumApp')
-  .controller('ShowsCtrl', function($scope) {
-    $scope.shows = showData;
+  .controller('ShowsCtrl', function($scope, Auth, User, $http, $cookieStore, $q) {
 
-    angular.element(document).ready(function () {
-      for (var seriesId in showData) {
-        var show = showData[seriesId];
-          changePercentage(show, seriesId)
-      }
+    async.waterfall([
+      getUser,
+      getShows,
+      checkHtml
+    ], function (err, results) {
+      initialPercentage($scope.shows);
     });
 
+    function getUser(asyncCallback) {
+      User.get().$promise.then( function(user) {
+        asyncCallback(null, user);
+      });
+    }
+    function getShows(user, asyncCallback) {
+      $http.get('/api/users/' + user._id + '/allShows').success(function(shows){
+        $scope.shows = shows;
+        if (!shows) console.log('no shows yet!')
+        asyncCallback(null)
+      });
+    }
+    function checkHtml(asyncCallback) {
+      angular.element(document).ready(function () {
+        setTimeout(function () {
+          asyncCallback(null)
+        }, 50)
+      })
+    }
+
+
     $scope.advance = function (id) {
-      var show = showData[id];
+      var show = $scope.shows[id];
       var episodeNum = show.on.episode;
       var seasonNum = show.on.season;
       var numPerSeason = show.released[seasonNum - 1];
@@ -28,7 +49,6 @@ angular.module('telebumApp')
         episodeNum ++;
         seenEpisodes ++;
       }
-      console.log(seenEpisodes)
       show.on.episode = episodeNum;
       show.on.season = seasonNum;
       show.seen.episodes = seenEpisodes;
@@ -47,30 +67,13 @@ function changePercentage(show, seriesId) {
 
 }
 
-//temporary data until joey gets the main api call working
-var showData = {
-  "183122": {
-    "title": "Adventure Time",
-    "released": [22,22,28,30,20,43],
-    "totalEpisodes": 165,
-    "on": {
-      "season": 2,
-      "episode": 21
-    },
-    "seen": {
-      "episodes": 44
-    }
-  },
-  "652123": {
-    "title": "House of Cards",
-    "released": [15,20],
-    "totalEpisodes": 35,
-    "on": {
-      "season": 1,
-      "episode": 14
-    },
-    "seen": {
-      "episodes": 14
-    }
+function initialPercentage(shows) {
+// setTimeout(function () {
+  for (var seriesId in shows) {
+    var showModel = document.getElementById(seriesId);
+    var bar = showModel.childNodes[1].childNodes[1];
+    var show = shows[seriesId];
+    changePercentage(show, seriesId)
   }
+// }, 100)
 }
