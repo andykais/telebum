@@ -1,11 +1,11 @@
 angular.module('telebumApp')
   .controller('ShowsCtrl', function($scope, Auth, User, $http, $cookieStore, $q) {
-    var user = Auth.getCurrentUser();
 
+    var user = Auth.getCurrentUser();
     $http.get('/api/users/' + user._id + '/allShows').success(function(shows){
       $scope.shows = shows;
+      console.log(shows)
     });
-
     angular.element(document).ready(function () {
       for (var seriesId in $scope.shows) {
         var showModel = document.getElementById(seriesId);

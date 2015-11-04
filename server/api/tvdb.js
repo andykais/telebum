@@ -103,7 +103,7 @@ exports.addShow = function(showName) {
         }
         return (err);
       }
-      return(show._id);
+      return(show);
     });
   });
 };

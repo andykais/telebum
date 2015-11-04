@@ -4,6 +4,7 @@ angular.module('telebumApp')
   .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
     var currentUser = {};
     if($cookieStore.get('token')) {
+      console.log("Making a call for the token");
       currentUser = User.get();
     }
 
