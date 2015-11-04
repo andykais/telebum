@@ -7,7 +7,11 @@
         <a href="/">telebum</a>
       </h2>
     </div>
-    <div id="spacer" class="two columns"></div>
+    <div id="spacer" class="two columns">
+        <a href="/addShow" ng-show="$Auth.getUser()">
+          <i class="fa fa-plus fa-2x"></i>
+        </a>
+    </div>
   </div>
 
 </div>
