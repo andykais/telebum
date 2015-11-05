@@ -3,6 +3,7 @@ angular.module('telebumApp')
     $stateProvider
     .state('addShow', {
       url: '/addShow',
-      templateUrl: 'app/shows/addShow/addShow.html'
+      templateUrl: 'app/shows/addShow/addShow.html',
+      controller: 'addCtrl'
     });
   })
