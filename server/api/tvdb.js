@@ -109,9 +109,7 @@ exports.addShow = function(showName) {
 };
 
 
-
-
-var searchSeriesId = function(seriesName, callback){
+var searchSeriesId = function(seriesName){
   return function(callback){
     request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function (error, response, body) {
       if (error) return next(error);
@@ -119,7 +117,13 @@ var searchSeriesId = function(seriesName, callback){
         if (!result.data.series) {
           return res.send(400, { message: req.body.showName + ' was not found.' });
         }
-        var series = result.data.series.slice(0, 10);
+
+        if(result.data.series.length){
+          var series = result.data.series.slice(0, 10);
+        }
+        else{
+          var series = [result.data.series];
+        }
         async.map(series, getAllData, function (err, results) {
           callback(err, series);
         })

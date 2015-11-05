@@ -16,13 +16,13 @@ exports.addShow = function(req, res, next) {
 // Adds a show to the database !
 exports.searchShows = function(req, res, next) {
   tvdb.searchShows(req.params.showName, function(shows){
-    return res.json(shows);    
+    return res.json(shows);
   });
 };
 
 /**
 
-
+result.data.series
 /**
  * Retrieves All shows
  * router.get('/',  controller.getAllShows);
