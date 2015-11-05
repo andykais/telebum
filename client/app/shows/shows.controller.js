@@ -1,19 +1,33 @@
 angular.module('telebumApp')
   .controller('ShowsCtrl', function($scope, Auth, User, $http, $cookieStore, $q) {
 
-    var user = Auth.getCurrentUser();
-    $http.get('/api/users/' + user._id + '/allShows').success(function(shows){
-      $scope.shows = shows;
-      console.log(shows)
+    async.waterfall([
+      getUser,
+      getShows,
+      checkHtml
+    ], function (err, results) {
+      initialPercentage($scope.shows);
     });
-    angular.element(document).ready(function () {
-      for (var seriesId in $scope.shows) {
-        var showModel = document.getElementById(seriesId);
-        var bar = showModel.childNodes[1].childNodes[1];
-        var show = $scope.shows[seriesId];
-        changePercentage(show, seriesId)
-      }
-    })
+
+    function getUser(asyncCallback) {
+      User.get().$promise.then( function(user) {
+        asyncCallback(null, user);
+      });
+    }
+    function getShows(user, asyncCallback) {
+      $http.get('/api/users/' + user._id + '/allShows').success(function(shows){
+        $scope.shows = shows;
+        if (!shows) console.log('no shows yet!')
+        asyncCallback(null)
+      });
+    }
+    function checkHtml(asyncCallback) {
+      angular.element(document).ready(function () {
+        setTimeout(function () {
+          asyncCallback(null)
+        }, 50)
+      })
+    }
 
     $scope.advance = function (id) {
       var show = $scope.shows[id];
@@ -50,4 +64,15 @@ function changePercentage(show, seriesId) {
   var bar = showModel.childNodes[1].childNodes[1];
   bar.style.width=percent + "%";
 
+}
+
+function initialPercentage(shows) {
+// setTimeout(function () {
+  for (var seriesId in shows) {
+    var showModel = document.getElementById(seriesId);
+    var bar = showModel.childNodes[1].childNodes[1];
+    var show = shows[seriesId];
+    changePercentage(show, seriesId)
+  }
+// }, 100)
 }

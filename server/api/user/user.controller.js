@@ -153,6 +153,27 @@ exports.addShow = function(req, res, next) {
 };
 
 /**
+ * remove show from user's list
+ */
+exports.removeShow = function(req, res, next) {
+  var userId = req.user._id,
+      show = req.body.showId;
+  User.findById(userId, function (err, user) {
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      delete user.shows[showId];
+      user.save(function(err) {
+        if (err) return res.status(500).send(err);
+        res.status(200).send('OK');
+      });
+    }
+  });
+};
+
+
+
+/**
  * Add shows to user's list
  */
 exports.allShows = function(req, res, next) {

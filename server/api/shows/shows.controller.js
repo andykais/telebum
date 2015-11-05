@@ -5,12 +5,23 @@ var api = require('../../config/apiKey');
 var tvdb = require('../tvdb');
 var apiKey = api.tvdb;
 var _ = require('lodash');
+var tvdb = require('../tvdb');
 
 // Adds a show to the database !
 exports.addShow = function(req, res, next) {
   var response = tvdb.addShow(req.body.showName);
   res.send(response);
 };
+
+// Adds a show to the database !
+exports.searchShows = function(req, res, next) {
+  tvdb.searchShows(req.params.showName, function(shows){
+    return res.json(shows);    
+  });
+};
+
+/**
+
 
 /**
  * Retrieves All shows
