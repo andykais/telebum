@@ -24,17 +24,24 @@ $padding-size: 10px;
   .advanceIcon:hover {
     color: white;
   }
+  .progressBar {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    .bar {
+      height: $item-height;
+      background-color: #B9E9B9;
+      -webkit-transition: width 1s; /* Safari */
+      transition: width 1s;
+      width: 0;
+    }
+  }
 }
 
-.progressBar {
-  position: absolute;
-  z-index: -1;
-  width: 100%;
-  .bar {
-    height: $item-height;
-    background-color: #B9E9B9;
-    -webkit-transition: width 1s; /* Safari */
-    transition: width 1s;
-    width: 0;
+#searchHolder {
+  margin: 2.5%;
+  width: 95%;
+  #search {
+    width: 100%;
   }
 }

@@ -107,12 +107,11 @@ exports.authCallback = function(req, res, next) {
  */
 exports.addShow = function(req, res, next) {
   var userId = req.user._id;
-  var showId;
-
+  var showinfo;
 
   User.findById(userId, function (err, user) {
     if(err) {
-      res.status(200).send('OK');
+      res.status(500).send(err);
     } else {
 
       user.shows.forEach( function(val, key){
@@ -123,24 +122,63 @@ exports.addShow = function(req, res, next) {
 
       Show.find({name:req.showName}, function (err, show) {
         if(show) {
-          showId = show._id;
+          showinfo = show;
         } else {
-          showId = tvdb.addShow(req.body.showName);
+          showinfo = tvdb.addShow(req.body.showName);
         }
       });
 
+      numEpisodes = 0;
+      seasons = [];
+      for(season in showinfo.seasons){
+        numEpisodes+=seasons.length;
+        seasons.append(seasons.length);
+      }
       // Add it to the user's dataset
-      user.shows.append({showId:showId})
-      res.status(200).send("works");
+      userShow = {
+        showId: showinfo._id,
+        title: showinfo.name,
+        seen : {episodes : 0 },
+        on : {
+          episode : 1,
+          season : 1
+        },
+        totalEpisodes : numEpisodes,
+        released: seasons
+      };
+      user.shows.append(userShow);
+      res.json(userShow);
     }
   });
 };
+
+/**
+ * remove show from user's list
+ */
+exports.removeShow = function(req, res, next) {
+  var userId = req.user._id,
+      show = req.body.showId;
+  User.findById(userId, function (err, user) {
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      delete user.shows[showId];
+      user.save(function(err) {
+        if (err) return res.status(500).send(err);
+        res.status(200).send('OK');
+      });
+    }
+  });
+};
+
+
 
 /**
  * Add shows to user's list
  */
 exports.allShows = function(req, res, next) {
   var userId = req.params.id;
+  console.log(userId);
   User.findById(userId, function (err, user) {
     if(err) {
       return res.status(200).send('Error');

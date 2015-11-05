@@ -17,6 +17,7 @@ $font-color: white;
     i {
       line-height: 4rem;
       color: $font-color;
+      cursor: pointer;
     }
     a {
       @include setLinkStyleAll($font-color);

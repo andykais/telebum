@@ -6,8 +6,10 @@ var config = require('../../config/environment');
 
 var router = express.Router();
 
+router.get('/search/:showName',  controller.searchShows);
 router.get('/',  controller.getAllShows);
 router.get('/:id',  controller.getShow);
+
 
 router.post('/',  controller.addShow);
 

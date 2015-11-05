@@ -29,7 +29,6 @@ angular.module('telebumApp')
       })
     }
 
-
     $scope.advance = function (id) {
       var show = $scope.shows[id];
       var episodeNum = show.on.episode;

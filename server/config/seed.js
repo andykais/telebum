@@ -6,6 +6,12 @@
 'use strict';
 
 var User = require('../api/user/user.model');
+var mongoose = require('mongoose');
+/* Connect to the DB */
+mongoose.connect('mongodb://localhost/telebum',function(){
+    /* Drop the DB */
+    mongoose.connection.db.dropDatabase();
+});
 
 User.find({}).remove(function() {
   User.create({

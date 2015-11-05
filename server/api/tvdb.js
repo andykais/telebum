@@ -103,7 +103,68 @@ exports.addShow = function(showName) {
         }
         return (err);
       }
-      return(show._id);
+      return(show);
     });
   });
+};
+
+
+var searchSeriesId = function(seriesName){
+  return function(callback){
+    request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function (error, response, body) {
+      if (error) return next(error);
+      parser.parseString(body, function (err, result) {
+        if (!result.data.series) {
+          return res.send(400, { message: req.body.showName + ' was not found.' });
+        }
+
+        if(result.data.series.length){
+          var series = result.data.series.slice(0, 10);
+        }
+        else{
+          var series = [result.data.series];
+        }
+        async.map(series, getAllData, function (err, results) {
+          callback(err, series);
+        })
+      });
+    });
+  }
+}
+function getAllData(series, asyncCallback) {
+  request.get('http://thetvdb.com/api/' + apiKey + '/series/' + series.seriesid + '/all/en.xml', function (error, response, body) {
+    parser.parseString(body, function (err, result) {
+      var series = result.data.series;
+      var episodes = result.data.episode;
+      var show = {
+        _id: series.id,
+        name: series.seriesname,
+        year: series.firstaired,
+        genre: series.genre.split('|').filter(Boolean),
+        network: series.network,
+        overview: series.overview,
+        status: series.status,
+        poster: series.poster
+      }
+      asyncCallback(null, show)
+    });
+
+  })
+}
+
+
+// Searches for a show to be added !
+exports.searchShows = function(showName, cb){
+  var seriesName = showName
+    .toLowerCase()
+    .replace(/ /g, '_')
+    .replace(/[^\w-]+/g, '');
+
+    // Return name, year, and numer of season
+    async.waterfall([
+      searchSeriesId(seriesName)
+    ], function (err, shows) {
+      if (err) return res.send(err);
+      cb(shows);
+    });
 };
