@@ -171,10 +171,8 @@ exports.removeShow = function(req, res, next) {
   });
 };
 
-
-
 /**
- * Add shows to user's list
+ * Displays all shows in the user's list
  */
 exports.allShows = function(req, res, next) {
   var userId = req.params.id;
@@ -184,5 +182,23 @@ exports.allShows = function(req, res, next) {
       return res.status(200).send('Error');
     }
     res.json(user.shows);
+  });
+};
+
+/**
+ * Adds one show to user's list
+ */
+exports.show = function(req, res, next) {
+  var userId = req.params.id,
+      showId = req.params.showId;
+      console.log(req.params)
+  User.findById(userId, function (err, user) {
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      var show = user.shows[showId];
+      console.log(user.shows[showId])
+      res.json(show);
+    }
   });
 };

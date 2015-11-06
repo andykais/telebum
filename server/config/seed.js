@@ -24,6 +24,38 @@ User.find({}).remove(function() {
       183122: {
         title: "Adventure Time",
         released: [22,22,28,30,20,43],
+        season:[
+          {number: 1,
+            episode: [
+              true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true
+            ]
+          },
+          {number: 2,
+            episode: [
+              true,true,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false
+            ]
+          },
+          {number: 3,
+            episode: [
+              false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
+            ]
+          },
+          {number: 4,
+            episode: [
+              false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
+            ]
+          },
+          {number: 5,
+            episode: [
+              false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
+            ]
+          },
+          {number: 6,
+            episode: [
+              false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
+            ]
+          }
+        ],
         totalEpisodes: 165,
         on: {
           season: 2,
