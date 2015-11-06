@@ -5,6 +5,7 @@ var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
 var tvdb = require('../tvdb');
+var Show = require('../shows/shows.model');
 
 var validationError = function(res, err) {
   return res.status(422).json(err);
@@ -191,14 +192,18 @@ exports.allShows = function(req, res, next) {
 exports.show = function(req, res, next) {
   var userId = req.params.id,
       showId = req.params.showId;
-      console.log(req.params)
   User.findById(userId, function (err, user) {
     if(err) {
       res.status(500).send(err);
     } else {
       var show = user.shows[showId];
-      console.log(user.shows[showId])
-      res.json(show);
+      Show.findById(showId, function (err, showInfo) {
+        if(err) {
+          return res.status(200).send('Error');
+        }
+        console.log(show)
+        return res.json({show: show, showInfo: showInfo});
+      });
     }
   });
 };
