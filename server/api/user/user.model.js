@@ -16,7 +16,7 @@ var UserSchema = new Schema({
   hashedPassword: String,
   email: {type: String, lowercase: true },
   salt: String,
-  shows: {}
+  shows:{}
 });
 
 /**
