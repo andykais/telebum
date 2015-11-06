@@ -12,5 +12,6 @@ angular.module('telebumApp')
         if (!show) console.log('No show returned')
       });
     }
+    
     $scope.getshow();
   });
