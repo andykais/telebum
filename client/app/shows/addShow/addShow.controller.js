@@ -1,11 +1,19 @@
 angular.module('telebumApp')
-  .controller('addCtrl', function($scope, Auth, $state) {
+  .controller('addCtrl', function($scope, $http, Auth, $state) {
 
-    $scope.searchValue = "";
+    $scope.searchValue = '';
 
     $scope.search = function() {
-      console.log($scope.searchValue)
+      $scope.shows;
+      console.log('searching...')
+
+      $http.get('api/shows/search/'+ $scope.searchValue).success(function(shows){
+        $scope.shows = shows;
+        console.log($scope.shows)
+        // if (!shows) console.log('no shows yet!')
+      });
     }
+
     // var source = $('#search')
   	// 	.asEventStream('input')
   	// 	.debounce(400)
