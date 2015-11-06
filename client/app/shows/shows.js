@@ -12,7 +12,7 @@ angular.module('telebumApp')
       controller: 'addCtrl'
     })
     .state('showInfo', {
-      url: '/shows/showInfo',
+      url: '/shows/:seriesId',
       templateUrl: 'app/shows/showInfo/showInfo.html',
       controller: 'showInfo'
     });

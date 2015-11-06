@@ -28,7 +28,11 @@ angular.module('telebumApp')
         }, 50)
       })
     }
-    $scope.setShowId = Auth.setShowId;
+    $scope.setShowId = function (seriesId, added) {
+      Auth.currentShow.seriesid = seriesId;
+      Auth.currentShow.added = added;
+    }
+
 
     $scope.advance = function (id) {
       var show = $scope.shows[id];

@@ -7,11 +7,18 @@
 
 var User = require('../api/user/user.model');
 var mongoose = require('mongoose');
+var tvdb = require('../api/tvdb');
+
 /* Connect to the DB */
 mongoose.connect('mongodb://localhost/telebum',function(){
     /* Drop the DB */
     mongoose.connection.db.dropDatabase();
 });
+
+
+tvdb.addShow("rick and morty");
+tvdb.addShow("adventure time");
+tvdb.addShow("house of cards");
 
 User.find({}).remove(function() {
   User.create({
@@ -21,7 +28,7 @@ User.find({}).remove(function() {
     password: 'andrew',
     //temporary data until joey gets the main api call working
     shows: {
-      183122: {
+      152831: {
         title: "Adventure Time",
         released: [22,22,28,30,20,43],
         season:[
@@ -65,7 +72,7 @@ User.find({}).remove(function() {
           episodes: 44
         }
       },
-      652123: {
+      79861: {
         title: "House of Cards",
         released: [15,20],
         totalEpisodes: 35,

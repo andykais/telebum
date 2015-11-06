@@ -1,0 +1,8 @@
+a {
+  @include setLinkStyleAll(black);
+  -webkit-transition: color .5s; /* Safari */
+  transition: color .5s;
+}
+a:hover {
+  color: $main-palatte;
+}

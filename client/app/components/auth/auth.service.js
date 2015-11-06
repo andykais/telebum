@@ -14,15 +14,7 @@ angular.module('telebumApp')
 
     return {
 
-      setShowId: function(seriesid, added) {
-        console.log('setting')
-        currentShow.seriesid = seriesid;
-        currentShow.added = added;
-      },
-      getShowId: function() {
-        return currentShow;
-      },
-      /**
+       /**
        * Authenticate user and save token
        *
        * @param  {Object}   user     - login info

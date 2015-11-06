@@ -14,6 +14,8 @@ $main-palatte: #5CBB5D;
 @import 'account/account';
 @import 'shows/shows';
 @import 'main/main';
+@import 'shows/addShow/addShow';
+@import 'shows/showInfo/showInfo';
 
 // @include font-face('MyWebby', '../fonts/bariol/bariol_regular-webfont');
 @import url(https://fonts.googleapis.com/css?family=NTR);
