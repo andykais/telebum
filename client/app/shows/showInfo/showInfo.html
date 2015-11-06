@@ -2,8 +2,21 @@
 
 <!-- <img class="media-object img-rounded" ng-src="{{show.poster}}"> -->
 <!-- test -->
-<div>
-  <h1>{{allData.show.title}}</h1>
-  <img class="media-object img-rounded" ng-src="{{allData.showInfo.poster}}">
-  <div class="seasons"></div>
+<div id="infoHolder">
+  <div class="row innerPad">
+    <div class="six columns">
+      <img class="media-object img-rounded" ng-src="{{showInfo.poster}}">
+    </div>
+    <div class="six columns">
+      <h1 class="title">{{showInfo.name}}</h1>
+        <h5 class="year">first aired: {{showInfo.firstAired | date : format : timezone }}</h5>
+        <h5 class="status">airing status: {{showInfo.status}}</h5>
+        <div class="overviewHolder">
+          <span class="overview">{{showInfo.overview}}</span>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="seasonItem button" ng-repeat="(number, season) in showInfo.seasons">
+  <span class="number">Season {{number}}</span>
 </div>

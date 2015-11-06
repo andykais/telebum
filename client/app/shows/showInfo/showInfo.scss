@@ -1,21 +1,46 @@
-#searchHolder {
-  margin: 2.5%;
-  width: 95%;
-  #search {
-    width: 100%;
+#infoHolder {
+  .innerPad {
+    padding: $padding-size;
+    margin-bottom: 20px;
   }
-  .searchItem {
-    // box-shadow: 0 2px 4px 0.4px #a7a7a7;
-    box-shadow: 5px 0px white, -5px 0px white, 0px 2px 6px  #888;
-    margin-top: 12px;
-    line-height: 4.0rem;
-    height: $item-height;
-    .showName {
-      padding-left: $padding-size;
+  width: 100%;
+  // margin: 1.5%;
+  box-shadow: 0 2px 6px 0.4px #a7a7a7;
+  a {
+    @include setLinkStyleAll(black);
+    -webkit-transition: color .5s; /* Safari */
+    transition: color .5s;
+  }
+  a:hover {
+    color: $main-palatte;
+  }
+
+  img {
+    height: 500px;
+  }
+  h1 {
+    text-align: center;
+  }
+  .overviewHolder {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    padding-top: $padding-size;
+    text-align: center;
+    .overview {
+      // position: absolute;
+      // top: 0;
     }
-    .year {
-      float: right;
-      padding-right: $padding-size;
-    }
+  }
+}
+.seasonItem {
+  width: 100%;
+  box-shadow: 0 2px 6px 0.4px #a7a7a7;
+  height: $item-height;
+  margin-bottom: $padding-size*2;
+  line-height: 4rem;
+  .number {
+    padding-left: $padding-size;
   }
 }

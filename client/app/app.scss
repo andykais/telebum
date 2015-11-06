@@ -2,6 +2,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 
 // global variables
 $h2-height:  4rem;
+$h5-height:  1.6rem;
 $nav-height: 45px;
 $item-height: 40px;
 $main-palatte: #5CBB5D;
@@ -33,4 +34,8 @@ html,body {
 }
 h2 {
   font-size: $h2-height;
+}
+h5 {
+  font-size: $h5-height;
+  margin-bottom: 5px;
 }
