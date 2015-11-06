@@ -31,7 +31,8 @@ var getSeriesId = function(seriesName, callback){
 }
 
 // Retrieves the Series information with the series ID from TVDB's api
-var getSeriesInfo = function(seriesId, callback){
+var getSeriesInfo = function(seriesId){
+  return function(callback) {
     request.get('http://thetvdb.com/api/' + apiKey + '/series/' + seriesId + '/all/en.xml', function (error, response, body) {
       if (error) return next(error);
       parser.parseString(body, function (err, result) {
@@ -70,7 +71,7 @@ var getSeriesInfo = function(seriesId, callback){
         callback(err, show);
       });
     });
-
+  }
 }
 
 
@@ -109,12 +110,7 @@ exports.addShow = function(showName) {
 };
 
 // Adds a show to the database !
-exports.addShowId = function(showId) {
-  var seriesName = showName
-    .toLowerCase()
-    .replace(/ /g, '_')
-    .replace(/[^\w-]+/g, '');
-
+exports.addShowId = function(showId, callback) {
   async.waterfall([
     getSeriesInfo(showId),
     getSeriesBanner
@@ -123,11 +119,11 @@ exports.addShowId = function(showId) {
     show.save(function (err) {
       if (err) {
         if (err.code == 11000) {
-          return (show.name + ' already exists.');
+          callback(show.name + ' already exists.');
         }
-        return (err);
+        callback(err);
       }
-      return(show);
+      callback(null, show)
     });
   });
 };

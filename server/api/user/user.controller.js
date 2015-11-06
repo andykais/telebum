@@ -197,20 +197,16 @@ exports.show = function(req, res, next) {
       res.status(500).send(err);
     } else {
       var show = user.shows[showId];
-      Show.find({name:req.showName}, function (err, show) {
-        if(show) {
-          showinfo = show;
-        } else {
-          showinfo = tvdb.addShow(req.body.showName);
-        }
-      });
       Show.findById(showId, function (err, showInfo) {
         if(showInfo) {
+          console.log('-----------exitst----------')
           return res.json({show: show, showInfo: showInfo});
         }
         else{
-          showinfo = tvdb.addShow(req.body.showName);
-          return res.json({showInfo: showinfo});
+          console.log('hello')
+          tvdb.addShowId(showId, function (err, firstPullShowInfo) {
+            return res.json({showInfo: firstPullShowInfo});
+          });
         }
         console.log(show)
       });
