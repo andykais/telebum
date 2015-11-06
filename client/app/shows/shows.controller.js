@@ -28,6 +28,7 @@ angular.module('telebumApp')
         }, 50)
       })
     }
+    $scope.setShowId = Auth.setShowId;
 
     $scope.advance = function (id) {
       var show = $scope.shows[id];

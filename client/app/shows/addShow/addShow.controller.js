@@ -13,7 +13,7 @@ angular.module('telebumApp')
         // if (!shows) console.log('no shows yet!')
       });
     }
-
+    $scope.setShowId = Auth.setShowId;
     // var source = $('#search')
   	// 	.asEventStream('input')
   	// 	.debounce(400)

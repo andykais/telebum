@@ -5,7 +5,9 @@
     <input id="search" type="search" placeholder="search a tv show" ng-model="searchValue">
   </form>
   <div id="{{show.seriesid}}" class="searchItem" ng-repeat="show in shows">
-    <span class="showName">{{show.seriesname}}</span>
-    <span class="year"></span>
+    <span class="showName">
+      <a href="/shows/showInfo" ng-click="setShowId(show.seriesid, false)">{{show.seriesname}}</a>
+    </span>
+    <span class="year">{{show.firstaired}}</span>
   </div>
 </div>
