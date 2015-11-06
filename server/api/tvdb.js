@@ -108,6 +108,31 @@ exports.addShow = function(showName) {
   });
 };
 
+// Adds a show to the database !
+exports.addShowId = function(showId) {
+  var seriesName = showName
+    .toLowerCase()
+    .replace(/ /g, '_')
+    .replace(/[^\w-]+/g, '');
+
+  async.waterfall([
+    getSeriesInfo(showId),
+    getSeriesBanner
+  ], function (err, show) {
+    if (err) return next(err);
+    show.save(function (err) {
+      if (err) {
+        if (err.code == 11000) {
+          return (show.name + ' already exists.');
+        }
+        return (err);
+      }
+      return(show);
+    });
+  });
+};
+
+
 
 var searchSeriesId = function(seriesName){
   return function(callback){
