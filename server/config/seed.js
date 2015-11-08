@@ -16,9 +16,21 @@ mongoose.connect('mongodb://localhost/telebum',function(){
 });
 
 
-tvdb.addShow("rick and morty");
-tvdb.addShow("adventure time");
-tvdb.addShow("house of cards");
+tvdb.addShow("rick and morty", function (tvdbError) {
+  if (tvdbError) {
+    // todo handle tvdb error
+  }
+});
+tvdb.addShow("adventure time", function (tvdbError) {
+  if (tvdbError) {
+    // todo handle tvdb error
+  }
+});
+tvdb.addShow("house of cards", function (tvdbError) {
+  if (tvdbError) {
+    // todo handle tvdb error
+  }
+});
 
 User.find({}).remove(function() {
   User.create({

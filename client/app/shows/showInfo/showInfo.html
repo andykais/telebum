@@ -17,6 +17,26 @@
     </div>
   </div>
 </div>
-<div class="seasonItem button" ng-repeat="(number, season) in showInfo.seasons">
-  <span class="number">Season {{number}}</span>
+<div class="row" ng-repeat="(sNumber, season) in showInfo.seasons">
+  <div class="one column">
+    <div class="seasonCheck button">
+      test
+      <!-- <input type="checkbox"> -->
+    </div>
+  </div>
+  <div class="eleven columns">
+    <div class="seasonItem button" ng-click="openEpisodes(sNumber)">
+      <span class="number">Season {{sNumber}}</span>
+    </div>
+    <div class="episodeItem" ng-show="showEpisodes(sNumber)" ng-repeat="(eNumber, episode) in season">
+       {{eNumber}} {{episode.episodeName}}
+     </div>
+  </div>
 </div>
+<!-- <div class="seasonItem button" ng-click="openEpisodes(sNumber)" ng-repeat="(sNumber, season) in showInfo.seasons">
+  <input class="seasonCheck" type="checkbox">
+  <span class="number">Season {{sNumber}}</span>
+  <div class="episodeItem" ng-show="showEpisodes(sNumber)" ng-repeat="(eNumber, episode) in season">
+     {{eNumber}} {{episode.episodeName}}
+  </div>
+</div> -->

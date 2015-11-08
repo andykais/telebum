@@ -27,20 +27,48 @@
     height: 100%;
     display: inline-block;
     padding-top: $padding-size;
-    text-align: center;
+    // text-align: center;
     .overview {
       // position: absolute;
       // top: 0;
     }
   }
 }
+
+.seasonCheck {
+  // min-width: 5px;
+  box-shadow: 0 2px 6px 0.4px #a7a7a7;
+  width: 5px;
+}
+
 .seasonItem {
   width: 100%;
+  @include no-touchy();
   box-shadow: 0 2px 6px 0.4px #a7a7a7;
   height: $item-height;
   margin-bottom: $padding-size*2;
-  line-height: 4rem;
+  .button {
+    // max-width: 5px;
+  }
+  .column, .columns {
+    // margin-left: 0;
+    // padding-left: 0px;
+  }
+  .overviewHolder {
+    // text-align: left;
+  }
+  .seasonCheck {
+    // margin-left: 50%;
+    // padding-left: $padding-size;
+    // margin-top: 50px;
+    // margin-bottom: 0;
+    // float: left;
+    // z-index: 100;
+  }
   .number {
-    padding-left: $padding-size;
+    // padding-right: 40px;
+  }
+  .episodeItem {
+    text-align: left;
   }
 }

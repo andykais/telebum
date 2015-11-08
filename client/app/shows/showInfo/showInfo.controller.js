@@ -10,4 +10,12 @@ angular.module('telebumApp')
       });
     }
     $scope.getshow();
+
+    var showSeason = {};
+    $scope.openEpisodes = function(seasonNumber) {
+      showSeason[seasonNumber] = !showSeason[seasonNumber];
+    }
+    $scope.showEpisodes = function(seasonNumber) {
+      return showSeason[seasonNumber]
+    }
   });

@@ -125,7 +125,12 @@ exports.addShow = function(req, res, next) {
         if(show) {
           showinfo = show;
         } else {
-          showinfo = tvdb.addShow(req.body.showName);
+          tvdb.addShow(req.body.showName, function(tvdbError, showInfo) {
+            if (tvdbError) {
+              // todo handle tvdb error
+            }
+          // console.log(showinfo)
+          });
         }
       });
 
