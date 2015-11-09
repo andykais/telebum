@@ -7,7 +7,7 @@ angular.module('telebumApp')
       controller: 'ShowsCtrl'
     })
     .state('addShow', {
-      url: '/addShow',
+      url: '/shows/add',
       templateUrl: 'app/shows/addShow/addShow.html',
       controller: 'addCtrl'
     })

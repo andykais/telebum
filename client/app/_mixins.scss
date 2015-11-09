@@ -34,3 +34,8 @@
   -ms-user-select: none;
   user-select: none;
 }
+@mixin transition($transitions...) {
+  -moz-transition: $transitions;
+  -webkit-transition: $transitions;
+  transition: $transitions;
+}

@@ -34,41 +34,49 @@
     }
   }
 }
-
-.seasonCheck {
-  // min-width: 5px;
-  box-shadow: 0 2px 6px 0.4px #a7a7a7;
-  width: 5px;
-}
-
-.seasonItem {
+#rowsHolder {
   width: 100%;
-  @include no-touchy();
-  box-shadow: 0 2px 6px 0.4px #a7a7a7;
-  height: $item-height;
-  margin-bottom: $padding-size*2;
-  .button {
-    // max-width: 5px;
+  .seasonRow {
+    padding-left: $padding-size;
+    padding-right: $padding-size;
+    .checkHolder {
+      position: relative;
+      // vertical-align: center;
+      text-align: center;
+      width: 5%;
+      display: inline-block;
+    }
+    .openHolder {
+      position: relative;
+      width: 94%;
+      display: inline-block;
+      .seasonItem {
+        width: 100%;
+        @include no-touchy();
+        box-shadow: 0 2px 6px 0.4px #a7a7a7;
+        height: $item-height;
+      }
+    }
   }
-  .column, .columns {
-    // margin-left: 0;
-    // padding-left: 0px;
+  .episodeHolder {
+    max-height: 1500px;
+
+    @include transition(all linear .35s);
   }
-  .overviewHolder {
-    // text-align: left;
+  .ng-hide:not(.ng-hide-animate) {
+    display: block !important;
+
   }
-  .seasonCheck {
-    // margin-left: 50%;
-    // padding-left: $padding-size;
-    // margin-top: 50px;
-    // margin-bottom: 0;
-    // float: left;
-    // z-index: 100;
+  .episodeHolder.ng-hide {
+    max-height: 0;
+    overflow-y: hidden;
+    opacity: 0;
   }
-  .number {
-    // padding-right: 40px;
-  }
-  .episodeItem {
-    text-align: left;
+  .episodeRow {
+    .episodeItem {
+      display: inline-block;
+      padding-left: $padding-size;
+      width: 90%;
+    }
   }
 }

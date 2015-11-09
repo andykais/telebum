@@ -32,15 +32,13 @@ $padding-size: 10px;
     .bar {
       height: $item-height;
       background-color: #B9E9B9;
-      -webkit-transition: width 1s; /* Safari */
-      transition: width 1s;
+      @include transition(width 1s);
       width: 0;
     }
   }
   a {
     @include setLinkStyleAll(black);
-    -webkit-transition: color .5s; /* Safari */
-    transition: color .5s;
+    @include transition(color .5s)
   }
   a:hover {
     color: white;

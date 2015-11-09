@@ -129,7 +129,7 @@ exports.addShowId = function(showId, callback) {
     },
     getSeriesInfo,
     getSeriesBanner
-  ], function (err, show) {
+  ], function (waterfallError, show) {
     if (waterfallError) {
       return waterfallError;
     }
