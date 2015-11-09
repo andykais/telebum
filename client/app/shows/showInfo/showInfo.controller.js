@@ -10,8 +10,16 @@ angular.module('telebumApp')
       });
     }
     $scope.getshow();
-
     var showSeason = {};
+    $scope.checkedData = [];
+    $scope.toggleChecks = function(checked) {
+      console.log(checked)
+      $scope.checkedData = [];
+    }
+    //todo: give checkboxes a third state when episodes are half finished
+    $scope.checkSeason = function(seasonNumber) {
+        // todo when clicked turn off all episode checkboxes below
+    }
     $scope.openEpisodes = function(seasonNumber) {
       showSeason[seasonNumber] = !showSeason[seasonNumber];
     }

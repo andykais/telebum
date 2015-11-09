@@ -39,12 +39,21 @@
   .seasonRow {
     padding-left: $padding-size;
     padding-right: $padding-size;
+    .seasonCheck input {
+      vertical-align: middle;
+    }
     .checkHolder {
       position: relative;
-      // vertical-align: center;
+      // line-height: 10px;
       text-align: center;
       width: 5%;
       display: inline-block;
+      input {
+        // vertical-align:middle;
+        margin: 0;
+        width: 20px;
+        height: 20px;
+      }
     }
     .openHolder {
       position: relative;
@@ -59,9 +68,16 @@
     }
   }
   .episodeHolder {
-    max-height: 1500px;
-
+    max-height: 1600px;
     @include transition(all linear .35s);
+    // @include transition(max-width linear .35s, opacity linear .5s);
+    // @include transition(max-width linear .35s);
+  }
+  .episodeItem {
+    // position: relative;
+    display: block;
+    vertical-align:top;
+    // line-height: 10px;
   }
   .ng-hide:not(.ng-hide-animate) {
     display: block !important;
@@ -70,7 +86,7 @@
   .episodeHolder.ng-hide {
     max-height: 0;
     overflow-y: hidden;
-    opacity: 0;
+    // opacity: 0;
   }
   .episodeRow {
     .episodeItem {
