@@ -1,10 +1,11 @@
+$checkbox-size: 20px;
+
 #infoHolder {
   .innerPad {
     padding: $padding-size;
     margin-bottom: 20px;
   }
   width: 100%;
-  // margin: 1.5%;
   box-shadow: 0 2px 6px 0.4px #a7a7a7;
   a {
     @include setLinkStyleAll(black);
@@ -17,9 +18,11 @@
 
   img {
     height: 500px;
-  }
-  h1 {
-    text-align: center;
+    @include for-mobile() {
+      width: 100%;
+      // height: 200px;
+      height: auto;
+    }
   }
   .overviewHolder {
     position: relative;
@@ -27,38 +30,34 @@
     height: 100%;
     display: inline-block;
     padding-top: $padding-size;
-    // text-align: center;
-    .overview {
-      // position: absolute;
-      // top: 0;
-    }
   }
 }
 #rowsHolder {
   width: 100%;
   .seasonRow {
+    overflow: hidden;
+    position: relative;
     padding-left: $padding-size;
     padding-right: $padding-size;
-    .seasonCheck input {
-      vertical-align: middle;
+    .seasonCheck {
+      line-height: $item-height;
+      input {
+        margin: 0;
+        vertical-align: middle;
+      }
     }
     .checkHolder {
-      position: relative;
-      // line-height: 10px;
-      text-align: center;
-      width: 5%;
       display: inline-block;
+      float:left;
+      padding-right: $padding-size;
       input {
-        // vertical-align:middle;
-        margin: 0;
-        width: 20px;
-        height: 20px;
+        width: $checkbox-size;
+        height: $checkbox-size;
       }
     }
     .openHolder {
-      position: relative;
-      width: 94%;
-      display: inline-block;
+      overflow: hidden;
+      display: block;
       .seasonItem {
         width: 100%;
         @include no-touchy();
@@ -69,30 +68,47 @@
   }
   .episodeHolder {
     max-height: 1600px;
-    @include transition(all linear .35s);
-    // @include transition(max-width linear .35s, opacity linear .5s);
-    // @include transition(max-width linear .35s);
+    // doesnt work on my phone!
+    @include not-for-mobile() {
+      @include transition(all linear .35s);
+      // @include transition(max-width linear .35s);
+      // @include transition(max-width linear .35s, opacity linear .5s);
+    }
   }
-  .episodeItem {
-    // position: relative;
-    display: block;
-    vertical-align:top;
-    // line-height: 10px;
-  }
-  .ng-hide:not(.ng-hide-animate) {
+  .episodeHolder.ng-hide:not(.ng-hide-animate) {
     display: block !important;
 
   }
   .episodeHolder.ng-hide {
     max-height: 0;
     overflow-y: hidden;
-    // opacity: 0;
+    opacity: 0;
   }
+
+
   .episodeRow {
+    position: relative;
+    height: $checkbox-size;
+    margin-bottom: 10px;
+    .checkHolder {
+      clear: both;
+      padding-left: $padding-size*2+20px;
+    }
+    input {
+      margin: 0;
+    }
     .episodeItem {
-      display: inline-block;
-      padding-left: $padding-size;
-      width: 90%;
+      line-height: $checkbox-size;
+      // vertical-align: center;
+      overflow: hidden;
+      display: block;
+    }
+    .episodeRow {
+      .episodeItem {
+        display: inline-block;
+        padding-left: $padding-size;
+        width: 85%;
+      }
     }
   }
 }

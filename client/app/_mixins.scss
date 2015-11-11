@@ -39,3 +39,16 @@
   -webkit-transition: $transitions;
   transition: $transitions;
 }
+@mixin not-for-mobile() {
+  @media only screen and (min-width:641px) {
+    @content;
+  }
+}
+@mixin for-mobile() {
+  @media only screen and (min-width:481px) {
+    @content;
+  }
+  @media only screen and (max-width:480px) {
+    @content;
+  }
+}

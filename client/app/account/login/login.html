@@ -3,10 +3,10 @@
   <form ng-submit="login()">
 
   <div class="user">
-    <input ng-model="user.username" type="text" placeholder="username"></input>
+    <input ng-model="user.username" type="text" placeholder="username" autofocus="true" autocapitalize="none" required>
   </div>
   <div class="password">
-    <input ng-model="user.password" type="password" placeholder="password"></input>
+    <input ng-model="user.password" type="password" placeholder="password" autocapitalize="none" required>
   </div>
   <div class="row" id="submitters">
     <div class="six columns">

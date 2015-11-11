@@ -1,18 +1,15 @@
 <div ng-controller="navbar">
-  <div id="navbar" class="row">
-    <div id="menu" class="two columns">
+  <div id="navbar">
+    <div id="menu">
       <i class="fa fa-bars fa-2x" ng-click="logout()"></i>
     </div>
-    <div id="name" class="eight columns">
-      <h2>
-        <a href="/shows">telebum</a>
-      </h2>
+    <div id="name">
+      <h2><a href="/shows">telebum</a></h2>
     </div>
-    <div id="spacer" class="two columns">
-        <a href="/shows/add" ng-show="showAddButton()">
-          <i class="fa fa-plus fa-2x"></i>
-        </a>
+    <div id="adder">
+      <a href="/shows/add" ng-show="showAddButton()">
+        <i class="fa fa-plus fa-2x"></i>
+      </a>
     </div>
   </div>
-
 </div>
