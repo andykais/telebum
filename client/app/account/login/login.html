@@ -1,21 +1,21 @@
 <div ng-controller="LoginCtrl" class="login">
+
   <h1>Login</h1>
   <form ng-submit="login()">
-
   <div class="user">
     <input ng-model="user.username" type="text" placeholder="username" autofocus="true" autocapitalize="none" required>
   </div>
   <div class="password">
     <input ng-model="user.password" type="password" placeholder="password" autocapitalize="none" required>
   </div>
-  <div class="row" id="submitters">
-    <div class="six columns">
+  <div id="submitters">
+    <div id="loginButton">
       <button type="submit">login</button>
     </div>
   </form>
-    <div class="six columns">
-      <a class="button" href="/signup">register</a>
-      <!-- <button ng-click="register()">register</button> -->
+    <div id="signupButton">
+      <a href="/signup" class="button">register</a>
     </div>
   </div>
+
 </div>

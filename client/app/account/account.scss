@@ -1,5 +1,4 @@
 .login {
-  // font-weight: bold;
   position: relative;
   max-width: 450px;
   width: 100%;
@@ -14,4 +13,20 @@
     width: 100%;
     // margin-left: 20%;
   }
+}
+#signupPad {
+  padding: 0 3%;
+}
+#submitters {
+  position: relative;
+}
+#loginButton, #signupButton {
+  position: absolute;
+
+}
+#loginButton {
+  left: 40px;
+}
+#signupButton {
+  right: 40px;
 }

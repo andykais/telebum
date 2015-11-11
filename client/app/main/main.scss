@@ -9,14 +9,14 @@
 }
 
 #loginHolder {
-  width: 40%
+  width: 40%;
 }
 
 @media only screen and (max-width: 1024px) {
   #main {
     display: inline-flex;
     flex-direction: column;
-    padding: 0 3% 0 3%;
+    padding: 0 3%;
   }
   #blurb {
     order: 2;
