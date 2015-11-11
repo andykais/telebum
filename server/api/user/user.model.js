@@ -5,6 +5,27 @@ var Schema = mongoose.Schema;
 var Show = require('../shows/shows.model');
 var crypto = require('crypto');
 
+
+
+var UserShowSchema = new Schema({
+  showId:{type: Number},
+  title: {type: String},
+  released: [Number],
+  onShow:{
+    test:{type:Number},
+    name:{type:Number}
+  },
+  seen:{
+    episodes: {type:Number},
+    test:{type:Number}
+  },
+  totalEpisodes:{type:Number},
+  season:[{
+    number:{type:Number},
+    episode:[Boolean]
+  }]
+});
+
 var UserSchema = new Schema({
   firstName: {type: String},
   lastName: {type: String},
@@ -16,8 +37,13 @@ var UserSchema = new Schema({
   hashedPassword: String,
   email: {type: String, lowercase: true },
   salt: String,
-  shows:{}
+  shows:[UserShowSchema]
 });
+
+
+
+
+
 
 /**
  * Virtuals
@@ -38,10 +64,23 @@ UserSchema
   .virtual('profile')
   .get(function() {
     return {
-      'name': this.name,
+      'firstName': this.firstName,
+      'lastName': this.lastName,
+      'username': this.username,
+      'email': this.email,
       'role': this.role
     };
   });
+
+// Information on the user's show information
+UserSchema
+  .virtual('showsCollection')
+  .get(function() {
+    return {
+      'show': this.shows
+    };
+  });
+
 
 // Non-sensitive info we'll be putting in the token
 UserSchema
@@ -115,10 +154,6 @@ UserSchema.methods = {
    * @api public
    */
   authenticate: function(plainText) {
-    console.log((plainText));
-    console.log(this.encryptPassword(plainText));
-    console.log(this.hashedPassword);
-    console.log("salt: " + this.salt);
     return this.encryptPassword(plainText) === this.hashedPassword;
   },
   /**
@@ -141,8 +176,6 @@ UserSchema.methods = {
   encryptPassword: function(password) {
     if (!password || !this.salt) return '';
     var salt = new Buffer(this.salt, 'base64');
-    console.log("here");
-    console.log(crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64'));
     return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
   }
 };
