@@ -51,7 +51,7 @@ exports.destroy = function(req, res) {
 /**
  * Get a single user
  */
-exports.show = function (req, res, next) {
+exports.getUser = function (req, res, next) {
   var userId = req.params.id;
 
   User.findById(userId, function (err, user) {
@@ -182,7 +182,6 @@ exports.removeShow = function(req, res, next) {
  */
 exports.allShows = function(req, res, next) {
   var userId = req.params.id;
-  console.log(userId);
   User.findById(userId, function (err, user) {
     if(err) {
       return res.status(200).send('Error');
@@ -203,17 +202,17 @@ exports.show = function(req, res, next) {
     } else {
       var show = user.shows[showId];
       Show.findById(showId, function (err, showInfo) {
+        if(err){
+          return res.json({show: show, showInfo: err})
+        }
         if(showInfo) {
-          console.log('-----------exitst----------')
-          return res.json({show: show, showInfo: showInfo});
+          return res.json({user: show, show: showInfo});
         }
         else{
-          console.log('hello')
           tvdb.addShowId(showId, function (err, firstPullShowInfo) {
             return res.json({showInfo: firstPullShowInfo});
           });
         }
-        console.log(show)
       });
     }
   });

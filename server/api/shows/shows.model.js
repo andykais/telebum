@@ -16,6 +16,7 @@ var ShowSchema = new Schema({
   ratingCount: Number,
   status: String,
   poster: String,
+  numberEpisodes: Number,
   episodes: [{
     season: Number,
     episodeNumber: Number,

@@ -39,8 +39,9 @@ User.find({}).remove(function() {
     email: 'andrew@andrew.com',
     password: 'andrew',
     //temporary data until joey gets the main api call working
-    shows: {
-      152831: {
+    shows: [
+      {
+        showId:152831,
         title: "Adventure Time",
         released: [22,22,28,30,20,43],
         season:[
@@ -84,7 +85,8 @@ User.find({}).remove(function() {
           episodes: 44
         }
       },
-      79861: {
+      {
+        showId: 79861:
         title: "House of Cards",
         released: [15,20],
         totalEpisodes: 35,

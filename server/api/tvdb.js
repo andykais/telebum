@@ -32,6 +32,29 @@ var getSeriesId = function(seriesName, asyncCallback) {
   });
 }
 
+var searchSeriesId = function(seriesName){
+  return function(asyncCallback){
+    request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function (requestError, response, body) {
+      if (requestError) asyncCallback(error);
+      parser.parseString(body, function (err, result) {
+        if (!result.data.series) {
+          asyncCallback(res.send(400, { message: req.body.showName + ' was not found.' }));
+        }
+
+        if(result.data.series.length){
+          var series = result.data.series.slice(0, 10);
+        }
+        else{
+          var series = [result.data.series];
+        }
+        async.map(series, getAllData, function (err, results) {
+          asyncCallback(err, series);
+        })
+      });
+    });
+  }
+}
+
 // Retrieves the Series information with the series ID from TVDB's api
 var getSeriesInfo = function(seriesId, callback){
   request.get('http://thetvdb.com/api/' + apiKey + '/series/' + seriesId + '/all/en.xml', function (requestError, response, body) {
@@ -56,6 +79,7 @@ var getSeriesInfo = function(seriesId, callback){
           runtime: series.runtime,
           status: series.status,
           poster: series.poster,
+          numberEpisodes: 0,
           seasons: {}
         });
 
@@ -89,6 +113,56 @@ var getSeriesBanner = function(show, callback) {
   });
 }
 
+function getAllData(series, asyncCallback) {
+  request.get('http://thetvdb.com/api/' + apiKey + '/series/' + series.seriesid + '/all/en.xml', function (error, response, body) {
+    parser.parseString(body, function (err, result) {
+      var series = result.data.series;
+      var episodes = result.data.episode;
+      var show = {
+        _id: series.id,
+        name: series.seriesname,
+        year: series.firstaired,
+        genre: series.genre.split('|').filter(Boolean),
+        network: series.network,
+        overview: series.overview,
+        status: series.status,
+        poster: series.poster
+      }
+      asyncCallback(null, show)
+    });
+
+  })
+}
+
+// Adds a show to the database !
+exports.addShowId = function(showId, callback) {
+  async.waterfall([
+    function (asyncCallback) {
+      asyncCallback(null, showId)
+    },
+    getSeriesInfo,
+    getSeriesBanner
+  ], function (err, show) {
+    if (err) {
+      return err;
+    }
+
+    for(var season in show.seasons){
+      show.numberEpisodes += show.seasons[season].length;
+    }
+    console.log(show.numberEpisodes);
+    show.save(function (saveError) {
+      if (saveError) {
+        if (saveError.code == 11000) {
+          callback(show.name + ' already exists.');
+        }
+        callback(saveError);
+      }
+      callback(null, show)
+    });
+  });
+}
+
 // Adds a show to the database !
 exports.addShow = function(showName, callback) {
   var seriesName = showName
@@ -119,75 +193,6 @@ exports.addShow = function(showName, callback) {
       });
     }
   });
-}
-
-// Adds a show to the database !
-exports.addShowId = function(showId, callback) {
-  async.waterfall([
-    function (asyncCallback) {
-      asyncCallback(null, showId)
-    },
-    getSeriesInfo,
-    getSeriesBanner
-  ], function (waterfallError, show) {
-    if (waterfallError) {
-      return waterfallError;
-    }
-    show.save(function (saveError) {
-      if (saveError) {
-        if (saveError.code == 11000) {
-          callback(show.name + ' already exists.');
-        }
-        callback(saveError);
-      }
-      callback(null, show)
-    });
-  });
-}
-
-
-
-var searchSeriesId = function(seriesName){
-  return function(asyncCallback){
-    request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function (requestError, response, body) {
-      if (requestError) asyncCallback(error);
-      parser.parseString(body, function (err, result) {
-        if (!result.data.series) {
-          asyncCallback(res.send(400, { message: req.body.showName + ' was not found.' }));
-        }
-
-        if(result.data.series.length){
-          var series = result.data.series.slice(0, 10);
-        }
-        else{
-          var series = [result.data.series];
-        }
-        async.map(series, getAllData, function (err, results) {
-          asyncCallback(err, series);
-        })
-      });
-    });
-  }
-}
-function getAllData(series, asyncCallback) {
-  request.get('http://thetvdb.com/api/' + apiKey + '/series/' + series.seriesid + '/all/en.xml', function (error, response, body) {
-    parser.parseString(body, function (err, result) {
-      var series = result.data.series;
-      var episodes = result.data.episode;
-      var show = {
-        _id: series.id,
-        name: series.seriesname,
-        year: series.firstaired,
-        genre: series.genre.split('|').filter(Boolean),
-        network: series.network,
-        overview: series.overview,
-        status: series.status,
-        poster: series.poster
-      }
-      asyncCallback(null, show)
-    });
-
-  })
 }
 
 
