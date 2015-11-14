@@ -17,7 +17,8 @@ angular.module('telebumApp')
     function getShows(user, asyncCallback) {
       $http.get('/api/users/' + user._id + '/allShows').success(function(shows){
         $scope.shows = shows;
-        console.log($scope.shows);
+        console.log(shows)
+
         if (!shows) console.log('no shows yet!')
         asyncCallback(null)
       });
@@ -36,9 +37,10 @@ angular.module('telebumApp')
 
 
     $scope.advance = function (id) {
-      var show = $scope.shows[id];
-      var episodeNum = show.on.episode;
-      var seasonNum = show.on.season;
+      var show = getShowById($scope.shows, id)
+
+      var episodeNum = show.current.episode;
+      var seasonNum = show.current.season;
       var numPerSeason = show.released[seasonNum - 1];
       var totalEpisodes = show.totalEpisodes;
       var totalSeasons = show.released.length;
@@ -54,8 +56,8 @@ angular.module('telebumApp')
         episodeNum ++;
         seenEpisodes ++;
       }
-      show.on.episode = episodeNum;
-      show.on.season = seasonNum;
+      show.current.episode = episodeNum;
+      show.current.season = seasonNum;
       show.seen.episodes = seenEpisodes;
       changePercentage(show, id)
       // show.released[seasonNum] = numPerSeason;
@@ -74,11 +76,26 @@ function changePercentage(show, seriesId) {
 
 function initialPercentage(shows) {
 // setTimeout(function () {
-  for (var seriesId in shows) {
-    var showModel = document.getElementById(seriesId);
-    var bar = showModel.childNodes[1].childNodes[1];
-    var show = shows[seriesId];
-    changePercentage(show, seriesId)
-  }
-// }, 100)
+shows.forEach(function (show, i) {
+  var seriesId = show.showId;
+  var showModel = document.getElementById(seriesId);
+  var bar = showModel.childNodes[1].childNodes[1];
+  var show = getShowById(shows, seriesId);
+  changePercentage(show, seriesId)
+})
+//   for (var seriesId in shows) {
+//
+//   }
+// // }, 100)
+}
+
+function getShowById(shows, id) {
+  var showById = null;
+  shows.forEach(function (show, i) {
+    if (show.showId == id) {
+      showById = show;
+    }
+  });
+  if (!showById) console.log('err! should have a show id')
+  return showById;
 }

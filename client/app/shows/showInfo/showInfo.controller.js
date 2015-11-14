@@ -3,10 +3,10 @@ angular.module('telebumApp')
 
     var user = Auth.getCurrentUser();
     $scope.getshow = function() {
-      $http.get('api/users/' + user._id + '/'+ $stateParams.seriesId).success(function(show){
-        $scope.showInfo = show.showInfo;
-        $scope.userInfo = show.show;
-        console.log(show)
+      $http.get('api/users/' + user._id + '/'+ $stateParams.seriesId).success(function(showRequest){
+        $scope.show = showRequest.show;
+        $scope.user = showRequest.user;
+        console.log(showRequest)
       });
     }
     $scope.getshow();
