@@ -17,6 +17,7 @@ angular.module('telebumApp')
     function getShows(user, asyncCallback) {
       $http.get('/api/users/' + user._id + '/allShows').success(function(shows){
         $scope.shows = shows;
+        console.log($scope.shows);
         if (!shows) console.log('no shows yet!')
         asyncCallback(null)
       });
