@@ -39,8 +39,7 @@ User.find({}).remove(function() {
     email: 'andrew@andrew.com',
     password: 'andrew',
     //temporary data until joey gets the main api call working
-    shows: [
-      {
+    shows: [{
         showId:152831,
         title: "Adventure Time",
         released: [22,22,28,30,20,43],
@@ -77,7 +76,7 @@ User.find({}).remove(function() {
           }
         ],
         totalEpisodes: 165,
-        on: {
+        current: {
           season: 2,
           episode: 21
         },
@@ -86,11 +85,11 @@ User.find({}).remove(function() {
         }
       },
       {
-        showId: 79861:
+        showId: 79861,
         title: "House of Cards",
         released: [15,20],
-        totalEpisodes: 35,
-        on: {
+        totalEpisodes: 50,
+        current: {
           season: 1,
           episode: 14
         },
@@ -98,8 +97,9 @@ User.find({}).remove(function() {
           episodes: 14
         }
       }
-    }
-  }, {
+    ]
+  }
+  , {
     provider: 'local',
     role: 'admin',
     username: 'Admin',

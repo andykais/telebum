@@ -11,9 +11,9 @@ var UserShowSchema = new Schema({
   showId:{type: Number},
   title: {type: String},
   released: [Number],
-  onShow:{
-    test:{type:Number},
-    name:{type:Number}
+  current:{
+    season:{type:Number},
+    episode:{type:Number}
   },
   seen:{
     episodes: {type:Number},
