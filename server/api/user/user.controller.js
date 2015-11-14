@@ -210,7 +210,7 @@ exports.show = function(req, res, next) {
         }
         else{
           tvdb.addShowId(showId, function (err, firstPullShowInfo) {
-            return res.json({showInfo: firstPullShowInfo});
+            return res.json({show: firstPullShowInfo});
           });
         }
       });
