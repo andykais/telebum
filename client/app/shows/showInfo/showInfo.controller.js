@@ -4,15 +4,31 @@ angular.module('telebumApp')
     var user = Auth.getCurrentUser();
     $scope.indetermChecks = [];
     $scope.show = {};
-    $scope.getshow = function() {
+    async.parallel([
+      getUserData,
+      getShow
+    ], function (err, result) {
+      if (err) console.log(err)
+      console.log($scope.show)
+      initializeChecks($scope.indetermChecks, $scope.show.seasons);
+    });
+
+    function getUserData(asyncCallback) {
+      // todo, send user info for this specific show
+      // $http.get('/api/users/' + user._id + '/user/' + $stateParams.seriesId).success(function(shows){
+        // $scope.user;
+        // asyncCallback(null);
+      // });
+    }
+    function getShow(asyncCallback) {
       $http.get('api/users/' + user._id + '/'+ $stateParams.seriesId).success(function(showRequest){
         $scope.show = showRequest.show;
         $scope.user = showRequest.user;
-        console.log(showRequest)
-        initializeChecks($scope.indetermChecks, $scope.show.seasons);
+        asyncCallback(null);
       });
     }
-    $scope.getshow();
+    // getShow();
+    // getUserData();
 
     var showSeason = {};
     $scope.toggleChecks = function(checked, seasonNum) {

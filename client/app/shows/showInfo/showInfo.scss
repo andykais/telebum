@@ -4,6 +4,7 @@ $checkbox-size: 20px;
   .innerPad {
     padding: $padding-size;
     margin-bottom: 20px;
+    position: relative;
   }
   width: 100%;
   box-shadow: 0 2px 6px 0.4px #a7a7a7;
@@ -31,6 +32,15 @@ $checkbox-size: 20px;
     display: inline-block;
     padding-top: $padding-size;
   }
+}
+#inDatabase {
+  position: absolute;
+  bottom: $padding-size;
+  right: $padding-size;
+  background-color: $main-palatte;
+  color: white;
+  // float: right;
+
 }
 #rowsHolder {
   width: 100%;
