@@ -20,7 +20,10 @@
 <div id="rowsHolder">
   <div class="seasonRow" ng-repeat="(sNumber, season) in show.seasons">
     <div class="seasonCheck checkHolder">
-        <input type="checkbox" ng-model="checked" ng-change="toggleChecks(checked)">
+
+      <!-- <input type="checkbox" ng-model="checked" ng-checked="isSeasonCheck(sNumber)" ui-indeterminate="isIndeterminate(sNumber)" ng-change="toggleChecks(checked, sNumber)"> -->
+      <input type="checkbox" ng-model="indetermChecks[sNumber].checked" ui-indeterminate="isIndeterm(sNumber)" ng-change="toggleChecks(indetermChecks[sNumber].checked, sNumber)">
+      <!-- <input type="checkbox" ui-indeterminate="checked"> -->
     </div>
     <div class="openHolder">
       <div class="seasonItem button" ng-click="openEpisodes(sNumber)">
@@ -30,7 +33,7 @@
     <div class="episodeHolder"  ng-show="showEpisodes(sNumber)">
       <div class="episodeRow" ng-repeat="(eNumber, episode) in season">
       <div class="checkHolder">
-        <input type="checkbox">
+        <input type="checkbox" ng-model="episode.watched">
       </div>
       <div class="episodeItem">
          {{eNumber}} {{episode.episodeName}}

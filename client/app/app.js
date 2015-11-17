@@ -1,4 +1,4 @@
-angular.module('telebumApp', ['ui.router', 'ngCookies', 'ngResource'])
+angular.module('telebumApp', ['ui.router', 'ngCookies', 'ngResource', 'ui.indeterminate'])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $compileProvider) {
     $urlRouterProvider.otherwise('/')
     $locationProvider.html5Mode(true);
