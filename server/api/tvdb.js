@@ -35,22 +35,26 @@ var getSeriesId = function(seriesName, asyncCallback) {
 var searchSeriesId = function(seriesName){
   return function(asyncCallback){
     request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function (requestError, response, body) {
-      if (requestError) asyncCallback(error);
-      parser.parseString(body, function (err, result) {
-        if (!result.data.series) {
-          asyncCallback(res.send(400, { message: req.body.showName + ' was not found.' }));
-        }
-
-        if(result.data.series.length){
-          var series = result.data.series.slice(0, 10);
-        }
-        else{
-          var series = [result.data.series];
-        }
-        async.map(series, getAllData, function (err, results) {
-          asyncCallback(err, series);
-        })
-      });
+      if (requestError) {
+        asyncCallback(requestError);
+      } else {
+        parser.parseString(body, function (err, result) {
+          if (!result.data.series) {
+            asyncCallback(seriesName + ' was not found.');
+          }
+          else {
+            if(result.data.series.length){
+              var series = result.data.series.slice(0, 10);
+            }
+            else{
+              var series = [result.data.series];
+            }
+            async.map(series, getAllData, function (err, results) {
+              asyncCallback(err, series);
+            })
+          }
+        });
+      }
     });
   }
 }
@@ -207,7 +211,7 @@ exports.searchShows = function(showName, cb){
     async.waterfall([
       searchSeriesId(seriesName)
     ], function (err, shows) {
-      if (err) return res.send(err);
+      if (err) return cb(err);
       cb(shows);
     });
 }
