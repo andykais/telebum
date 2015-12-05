@@ -62,12 +62,14 @@ angular.module('telebumApp')
       return showSeason[seasonNumber]
     }
     $scope.addNewShow = function(showId){
-      showInfoService.addNewShow(showId, function(callback){
+      var data = {userId:user._id};
+      showInfoService.addNewShow(showId, data, function(callback){
         getShow(function(){})
       })
     }
     $scope.removeExistingShow = function(showId){
-      showInfoService.addNewShow(showId, function(callback){
+      var data = {userId:user._id};
+      showInfoService.addNewShow(showId, data, function(callback){
         getShow(function(){})
       })
     }

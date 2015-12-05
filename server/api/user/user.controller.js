@@ -107,23 +107,27 @@ exports.authCallback = function(req, res, next) {
  * Add shows to user's list
  */
 exports.addShow = function(req, res, next) {
-  var userId = req.user._id;
+  var showId = req.params.id;
   var showinfo;
-
+  var userId = req.body.userId;
+  console.log(userId);
   User.findById(userId, function (err, user) {
     if(err) {
       res.status(500).send(err);
     } else {
-
       user.shows.forEach( function(val, key){
+        console.log(val.title);
         if(val.title == req.showName){
           return res.status(200).send('already added');
         }
       })
 
-      Show.find({name:req.showName}, function (err, show) {
-        if(show) {
+      Show.findById(showId, function (err, show) {
+        console.log(show);
+        if(show != undefined) {
           showinfo = show;
+          console.log(5);
+          console.log(showinfo);
         } else {
           tvdb.addShow(req.body.showName, function(tvdbError, showInfo) {
             if (tvdbError) {
@@ -134,13 +138,15 @@ exports.addShow = function(req, res, next) {
         }
       });
 
-      numEpisodes = 0;
-      seasons = [];
+      var numEpisodes = 0;
+      var seasons = [];
+      console.log(showinfo);
       for(season in showinfo.seasons){
         numEpisodes+=seasons.length;
         seasons.append(seasons.length);
       }
       // Add it to the user's dataset
+      console.log(5);
       userShow = {
         showId: showinfo._id,
         title: showinfo.name,
