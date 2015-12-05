@@ -31,6 +31,10 @@ gulp.task('styles', function() {
 
 });
 
+gulp.task('seed', function () {
+  var seed = require('./server/config/seed.js');
+})
+
 // task for linting js files
 gulp.task('js', function(){
 	// grab all the files
