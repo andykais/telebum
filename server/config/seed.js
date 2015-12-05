@@ -7,10 +7,29 @@
 
 var User = require('../api/user/user.model');
 var mongoose = require('mongoose');
+var tvdb = require('../api/tvdb');
+
 /* Connect to the DB */
 mongoose.connect('mongodb://localhost/telebum',function(){
     /* Drop the DB */
     mongoose.connection.db.dropDatabase();
+});
+
+
+tvdb.addShow("rick and morty", function (tvdbError) {
+  if (tvdbError) {
+    // todo handle tvdb error
+  }
+});
+tvdb.addShow("adventure time", function (tvdbError) {
+  if (tvdbError) {
+    // todo handle tvdb error
+  }
+});
+tvdb.addShow("house of cards", function (tvdbError) {
+  if (tvdbError) {
+    // todo handle tvdb error
+  }
 });
 
 User.find({}).remove(function() {
@@ -20,12 +39,44 @@ User.find({}).remove(function() {
     email: 'andrew@andrew.com',
     password: 'andrew',
     //temporary data until joey gets the main api call working
-    shows: {
-      183122: {
+    shows: [{
+        showId:152831,
         title: "Adventure Time",
         released: [22,22,28,30,20,43],
+        season:[
+          {number: 1,
+            episode: [
+              true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true
+            ]
+          },
+          {number: 2,
+            episode: [
+              true,true,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false
+            ]
+          },
+          {number: 3,
+            episode: [
+              false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
+            ]
+          },
+          {number: 4,
+            episode: [
+              false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
+            ]
+          },
+          {number: 5,
+            episode: [
+              false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
+            ]
+          },
+          {number: 6,
+            episode: [
+              false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
+            ]
+          }
+        ],
         totalEpisodes: 165,
-        on: {
+        current: {
           season: 2,
           episode: 21
         },
@@ -33,11 +84,12 @@ User.find({}).remove(function() {
           episodes: 44
         }
       },
-      652123: {
+      {
+        showId: 79861,
         title: "House of Cards",
         released: [15,20],
-        totalEpisodes: 35,
-        on: {
+        totalEpisodes: 50,
+        current: {
           season: 1,
           episode: 14
         },
@@ -45,8 +97,9 @@ User.find({}).remove(function() {
           episodes: 14
         }
       }
-    }
-  }, {
+    ]
+  }
+  , {
     provider: 'local',
     role: 'admin',
     username: 'Admin',

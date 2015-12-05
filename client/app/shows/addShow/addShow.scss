@@ -1,0 +1,21 @@
+#searchHolder {
+  margin: 2.5%;
+  width: 95%;
+  #search {
+    width: 100%;
+  }
+  .searchItem {
+    // box-shadow: 0 2px 4px 0.4px #a7a7a7;
+    box-shadow: 5px 0px white, -5px 0px white, 0px 2px 6px  #888;
+    margin-top: 12px;
+    line-height: 4.0rem;
+    height: $item-height;
+    .showName {
+      padding-left: $padding-size;
+    }
+    .year {
+      float: right;
+      padding-right: $padding-size;
+    }
+  }
+}

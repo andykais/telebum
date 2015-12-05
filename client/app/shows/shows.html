@@ -1,18 +1,18 @@
 <div id="navbarholder" ng-include src="'app/components/navbar/navbar.html'"></div>
 
-<div id="{{ seriesId }}" class="showItem" ng-repeat="(seriesId, show) in shows">
+<div id="{{ show.showId }}" class="showItem" ng-repeat="show in shows">
   <div class="progressBar">
     <div class="bar"></div>
     <!-- <div class="bar" style="width:{{ show.percentComplete }}%;"></div> -->
   </div>
 
-  <span class="advanceIcon" ng-click="advance(seriesId)">
+  <span class="advanceIcon" ng-click="advance(show.showId)">
     <i class="fa fa-check fa-1x"></i>
   </span>
   <span class="showName">
-    {{ show.title }}
+    <a href="/shows/{{show.showId}}">{{ show.title }}</a>
   </span>
   <span class="lastSeen">
-    Season {{ show.on.season }}  Episode {{ show.on.episode }}
+    Season {{ show.current.season }}  Episode {{ show.current.episode }}
   </span>
 </div>

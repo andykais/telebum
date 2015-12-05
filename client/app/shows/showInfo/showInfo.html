@@ -1,0 +1,43 @@
+<div id="navbarholder" ng-include src="'app/components/navbar/navbar.html'"></div>
+
+<!-- <img class="media-object img-rounded" ng-src="{{show.poster}}"> -->
+<!-- test -->
+<div id="infoHolder">
+  <div class="row innerPad">
+    <div class="six columns">
+      <img class="media-object img-rounded" ng-src="{{show.poster}}">
+    </div>
+    <div class="six columns">
+      <h1 class="title">{{show.name}}</h1>
+        <h5 class="year">first aired: {{show.firstAired | date : format : timezone }}</h5>
+        <h5 class="status">airing status: {{show.status}}</h5>
+        <div class="overviewHolder">
+          <span class="overview">{{show.overview}}</span>
+        </div>
+        <div class="button" id="inDatabase" ng-show="user" ng-click="removeExistingShow(show._id)">remove show</div>
+        <div class="button" id="notInDatabase" ng-hide="user" ng-click='addNewShow(show._id)'>add show</div>
+    </div>
+  </div>
+</div>
+<div id="rowsHolder">
+  <div class="seasonRow" ng-repeat="(sNumber, season) in show.seasons">
+    <div class="seasonCheck checkHolder">
+      <input type="checkbox" ng-model="indetermChecks[sNumber]" ui-indeterminate="isIndeterm(sNumber)" ng-change="toggleChecks(indetermChecks[sNumber], sNumber)">
+    </div>
+    <div class="openHolder">
+      <div class="seasonItem button" ng-click="openEpisodes(sNumber)">
+        <span class="number">Season {{sNumber}}</span>
+      </div>
+    </div>
+    <div class="episodeHolder"  ng-show="showEpisodes(sNumber)">
+      <div class="episodeRow" ng-repeat="(eNumber, episode) in season">
+      <div class="checkHolder">
+        <input type="checkbox" ng-model="episode.watched">
+      </div>
+      <div class="episodeItem">
+         {{eNumber}} {{episode.episodeName}}
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -16,5 +16,5 @@ angular.module('telebumApp')
       .catch( function(err) {
         $scope.errors.other = err.message;
       });
-    };
+    }
   });

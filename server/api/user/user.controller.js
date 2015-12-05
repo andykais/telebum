@@ -5,6 +5,7 @@ var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
 var tvdb = require('../tvdb');
+var Show = require('../shows/shows.model');
 
 var validationError = function(res, err) {
   return res.status(422).json(err);
@@ -50,7 +51,7 @@ exports.destroy = function(req, res) {
 /**
  * Get a single user
  */
-exports.show = function (req, res, next) {
+exports.getUser = function (req, res, next) {
   var userId = req.params.id;
 
   User.findById(userId, function (err, user) {
@@ -124,7 +125,12 @@ exports.addShow = function(req, res, next) {
         if(show) {
           showinfo = show;
         } else {
-          showinfo = tvdb.addShow(req.body.showName);
+          tvdb.addShow(req.body.showName, function(tvdbError, showInfo) {
+            if (tvdbError) {
+              // todo handle tvdb error
+            }
+          // console.log(showinfo)
+          });
         }
       });
 
@@ -171,18 +177,43 @@ exports.removeShow = function(req, res, next) {
   });
 };
 
-
-
 /**
- * Add shows to user's list
+ * Displays all shows in the user's list
  */
 exports.allShows = function(req, res, next) {
   var userId = req.params.id;
-  console.log(userId);
   User.findById(userId, function (err, user) {
     if(err) {
       return res.status(200).send('Error');
     }
     res.json(user.shows);
+  });
+};
+
+/**
+ * Adds one show to user's list
+ */
+exports.show = function(req, res, next) {
+  var userId = req.params.id,
+      showId = req.params.showId;
+  User.findById(userId, function (err, user) {
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      var show = user.shows[showId];
+      Show.findById(showId, function (err, showInfo) {
+        if(err){
+          return res.json({show: show, showInfo: err})
+        }
+        if(showInfo) {
+          return res.json({user: show, show: showInfo});
+        }
+        else{
+          tvdb.addShowId(showId, function (err, firstPullShowInfo) {
+            return res.json({show: firstPullShowInfo});
+          });
+        }
+      });
+    }
   });
 };

@@ -5,30 +5,41 @@ $font-color: white;
 
 #navbar {
   background-color: #5CBB5D;
-  text-align:center;
+  position: relative;
   height: $nav-height;
+  box-shadow: 0 2px 6px 0.4px #a7a7a7;
+  text-align:center;
   color: $font-color;
-
-  .column,.columns {
-    height: 100%;
-    margin-top: auto;
-    display: inline-block;
-
-    i {
-      line-height: 4rem;
-      color: $font-color;
-      cursor: pointer;
-    }
-    a {
-      @include setLinkStyleAll($font-color);
-    }
+  h2 {
+    margin: 0;
   }
-  @media only screen and (max-width: 550px){
-    #menu, #spacer {
-      width: 20%;
-    }
-    #name {
-      width: 60%;
-    }
+  i {
+    line-height: 4rem;
+    color: $font-color;
+    cursor: pointer;
   }
+  a {
+    @include setLinkStyleAll($font-color);
+  }
+}
+#menu, #adder {
+  width: 50px;
+  position: absolute;
+  top: 0;
+  // padding: $padding-size;
+  // display: inline-block;
+}
+#menu {
+  // line-height: $nav-height;
+  // vertical-align: middle;
+  left: 0;
+}
+#name {
+  overflow: hidden;
+  display: block;
+}
+#adder {
+  // float:right;
+  position: absolute;
+  right: 0;
 }

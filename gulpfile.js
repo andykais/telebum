@@ -10,7 +10,10 @@ var gulp      = require('gulp'),
   path        = require('path'),
   nodemon     = require('gulp-nodemon'),				 // Watches for changing files and restarts
   sass        = require('gulp-sass'),
-  lr          = require('tiny-lr')()
+  lr          = require('tiny-lr')(),
+  spawn = require('child_process').spawn,
+  exec = require('child_process').exec,
+  node;
 
 // move font awesome to
 gulp.task('icons', function() { 
@@ -94,6 +97,11 @@ gulp.task('watch',function() {
 gulp.task('tiny', function () {
   lr.listen(35729);
 })
+// seed the database
+gulp.task('reseed', function () {
+  node = spawn('node', ['server/config/seed.js'], {stdio: 'inherit'})
+});
+
 
 // the nodemon task
 gulp.task('nodemon',function() {
@@ -115,7 +123,7 @@ gulp.task('nodemon',function() {
 // [nodemon, tiny]
 // [styles, minification]
 // watch
-gulp.task('default', ['nodemon', 'tiny', 'styles', 'watch']);		// Just run gulp!
+gulp.task('default', ['reseed', 'nodemon', 'tiny', 'styles', 'watch']);		// Just run gulp!
 
 
 // need to handle errors, make sure nodemon exits

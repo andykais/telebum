@@ -9,8 +9,13 @@ var tvdb = require('../tvdb');
 
 // Adds a show to the database !
 exports.addShow = function(req, res, next) {
-  var response = tvdb.addShow(req.body.showName);
-  res.send(response);
+  tvdb.addShow(req.body.showName, function(tvdbError, response) {
+    if (tvdbError) {
+      // todo handle
+    }
+    res.send(response);
+
+  });
 };
 
 // Adds a show to the database !

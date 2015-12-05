@@ -3,6 +3,10 @@
 angular.module('telebumApp')
   .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
     var currentUser = {};
+    var currentShow = {
+      seriesid: '',
+      added: false
+    };
     if($cookieStore.get('token')) {
       console.log("Making a call for the token");
       currentUser = User.get();
@@ -10,7 +14,7 @@ angular.module('telebumApp')
 
     return {
 
-      /**
+       /**
        * Authenticate user and save token
        *
        * @param  {Object}   user     - login info

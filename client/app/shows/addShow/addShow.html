@@ -4,5 +4,10 @@
   <form ng-submit="search()">
     <input id="search" type="search" placeholder="search a tv show" ng-model="searchValue">
   </form>
-  <div>{{ searchValue }}</div>
+  <div id="{{show.seriesid}}" class="searchItem" ng-repeat="show in shows">
+    <span class="showName">
+      <a href="/shows/{{show.seriesid}}">{{show.seriesname}}</a>
+    </span>
+    <span class="year">{{show.firstaired}}</span>
+  </div>
 </div>

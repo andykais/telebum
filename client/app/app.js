@@ -1,8 +1,10 @@
-angular.module('telebumApp', ['ui.router', 'ngCookies', 'ngResource'])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+angular.module('telebumApp', ['ui.router', 'ngCookies', 'ngResource', 'ui.indeterminate'])
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $compileProvider) {
     $urlRouterProvider.otherwise('/')
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|data:image):/);
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob):|data:image|data:text\//);
 
     // $mdThemingProvider
     //   .theme('green')

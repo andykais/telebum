@@ -1,5 +1,5 @@
 angular.module('telebumApp')
-  .controller('navbar', function($scope, Auth, $state) {
+  .controller('navbar', function($scope, Auth, $state, $location) {
     $scope.showAddButton = function() {
       if (!Auth.isLoggedIn())
         return false;
@@ -7,5 +7,9 @@ angular.module('telebumApp')
         return false;
       else
         return true;
+    }
+    $scope.logout = function () {
+      Auth.logout()
+      $location.path('/');
     }
   });
