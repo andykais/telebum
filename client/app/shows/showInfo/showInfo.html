@@ -14,14 +14,15 @@
         <div class="overviewHolder">
           <span class="overview">{{show.overview}}</span>
         </div>
-        <div class="button" id="inDatabase" ng-hide="user">add show</div>
+        <div class="button" id="inDatabase" ng-show="user">remove show</div>
+        <div class="button" id="notInDatabase" ng-hide="user">add show</div>
     </div>
   </div>
 </div>
 <div id="rowsHolder">
   <div class="seasonRow" ng-repeat="(sNumber, season) in show.seasons">
     <div class="seasonCheck checkHolder">
-      <input type="checkbox" ng-model="indetermChecks[sNumber].checked" ui-indeterminate="isIndeterm(sNumber)" ng-change="toggleChecks(indetermChecks[sNumber].checked, sNumber)">
+      <input type="checkbox" ng-model="indetermChecks[sNumber]" ui-indeterminate="isIndeterm(sNumber)" ng-change="toggleChecks(indetermChecks[sNumber], sNumber)">
     </div>
     <div class="openHolder">
       <div class="seasonItem button" ng-click="openEpisodes(sNumber)">

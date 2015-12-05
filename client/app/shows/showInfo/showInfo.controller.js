@@ -12,12 +12,11 @@ angular.module('telebumApp')
       console.log($scope.show)
       initializeChecks($scope.indetermChecks, $scope.show.seasons);
     });
-
     function getUserData(asyncCallback) {
       // todo, send user info for this specific show
       // $http.get('/api/users/' + user._id + '/user/' + $stateParams.seriesId).success(function(shows){
         // $scope.user;
-        // asyncCallback(null);
+        asyncCallback(null);
       // });
     }
     function getShow(asyncCallback) {
@@ -48,9 +47,9 @@ angular.module('telebumApp')
         }
       });
       if (numWatched == totalEpisodes) {
-        $scope.indetermChecks[seasonNum].checked = true;
+        $scope.indetermChecks[seasonNum] = true;
       } else if (numWatched == 0) {
-        $scope.indetermChecks[seasonNum].checked = false;
+        $scope.indetermChecks[seasonNum] = false;
       } else {
         return true;
       }
@@ -74,10 +73,7 @@ function initializeChecks(indetermChecks, seasonsData) {
   for (var sNum in seasonsData) {
     if (seasonsData.hasOwnProperty(sNum)) {
       // 0: none checked 1: some checked 2: complete
-      indetermChecks[sNum] = {
-        checked: false,
-        indeterminate: false
-      };
+      indetermChecks[sNum] = false;
       seasonsData[sNum].forEach(function(episode, eNum) {
         episode.watched = false;
       });

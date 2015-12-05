@@ -33,14 +33,19 @@ $checkbox-size: 20px;
     padding-top: $padding-size;
   }
 }
-#inDatabase {
+.deleteAddButton {
   position: absolute;
   bottom: $padding-size;
   right: $padding-size;
-  background-color: $main-palatte;
   color: white;
-  // float: right;
-
+}
+#notInDatabase {
+  @extend .deleteAddButton;
+  background-color: $main-palatte;
+}
+#inDatabase {
+  @extend .deleteAddButton;
+  background-color: $opposite-palatte;
 }
 #rowsHolder {
   width: 100%;
