@@ -1,5 +1,5 @@
 angular.module('telebumApp')
-  .controller('showInfo', function($scope, $http, $stateParams, Auth, $state) {
+  .controller('showInfo', function($scope, $http, $stateParams, Auth, $state, showInfoService) {
 
     var user = Auth.getCurrentUser();
     $scope.indetermChecks = [];
@@ -60,6 +60,16 @@ angular.module('telebumApp')
     }
     $scope.showEpisodes = function(seasonNumber) {
       return showSeason[seasonNumber]
+    }
+    $scope.addNewShow = function(showId){
+      showInfoService.addNewShow(showId, function(callback){
+        getShow(function(){})
+      })
+    }
+    $scope.removeExistingShow = function(showId){
+      showInfoService.addNewShow(showId, function(callback){
+        getShow(function(){})
+      })
     }
   });
 
