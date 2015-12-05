@@ -4,6 +4,7 @@ var User = require('./user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
+var tvdb = require('../tvdb');
 
 var validationError = function(res, err) {
   return res.status(422).json(err);
@@ -33,7 +34,6 @@ exports.create = function (req, res, next) {
     res.json({ token: token });
   });
 };
-
 
 /**
  * Deletes a user
@@ -100,4 +100,89 @@ exports.me = function(req, res, next) {
  */
 exports.authCallback = function(req, res, next) {
   res.redirect('/');
+};
+
+/**
+ * Add shows to user's list
+ */
+exports.addShow = function(req, res, next) {
+  var userId = req.user._id;
+  var showinfo;
+
+  User.findById(userId, function (err, user) {
+    if(err) {
+      res.status(500).send(err);
+    } else {
+
+      user.shows.forEach( function(val, key){
+        if(val.title == req.showName){
+          return res.status(200).send('already added');
+        }
+      })
+
+      Show.find({name:req.showName}, function (err, show) {
+        if(show) {
+          showinfo = show;
+        } else {
+          showinfo = tvdb.addShow(req.body.showName);
+        }
+      });
+
+      numEpisodes = 0;
+      seasons = [];
+      for(season in showinfo.seasons){
+        numEpisodes+=seasons.length;
+        seasons.append(seasons.length);
+      }
+      // Add it to the user's dataset
+      userShow = {
+        showId: showinfo._id,
+        title: showinfo.name,
+        seen : {episodes : 0 },
+        on : {
+          episode : 1,
+          season : 1
+        },
+        totalEpisodes : numEpisodes,
+        released: seasons
+      };
+      user.shows.append(userShow);
+      res.json(userShow);
+    }
+  });
+};
+
+/**
+ * remove show from user's list
+ */
+exports.removeShow = function(req, res, next) {
+  var userId = req.user._id,
+      show = req.body.showId;
+  User.findById(userId, function (err, user) {
+    if(err) {
+      res.status(500).send(err);
+    } else {
+      delete user.shows[showId];
+      user.save(function(err) {
+        if (err) return res.status(500).send(err);
+        res.status(200).send('OK');
+      });
+    }
+  });
+};
+
+
+
+/**
+ * Add shows to user's list
+ */
+exports.allShows = function(req, res, next) {
+  var userId = req.params.id;
+  console.log(userId);
+  User.findById(userId, function (err, user) {
+    if(err) {
+      return res.status(200).send('Error');
+    }
+    res.json(user.shows);
+  });
 };

@@ -1,30 +1,47 @@
-$font-size: 1.1em;
-
+$font-size: 1.6rem;
+$padding-size: 10px;
 
 .showItem {
   font-size: $font-size;
-  border-top: 1px solid #ececec;
-  border-bottom: 1px solid #ececec;
-  margin-top: 7px;
-  box-shadow: 0 2px 4px 0.3px #a7a7a7;
+  height: $item-height;
+  // border-top: 1px solid #ececec;
+  border-bottom: 1px solid #a7a7a7;
+  margin-top: 12px;
+  box-shadow: 0 2px 6px 0.4px #a7a7a7;
+  line-height: 4.0rem;
   .showName {
-    padding-left: 5px;
+    padding-left: $padding-size;
   }
   .lastSeen {
     float: right;
-    padding-right: 5px;
+    padding-right: $padding-size;
+  }
+  .advanceIcon {
+    cursor: pointer;
+    @include no-touchy();
+    padding-left: $padding-size;
+  }
+  .advanceIcon:hover {
+    color: white;
+  }
+  .progressBar {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    .bar {
+      height: $item-height;
+      background-color: #B9E9B9;
+      -webkit-transition: width 1s; /* Safari */
+      transition: width 1s;
+      width: 0;
+    }
   }
 }
 
-.progressBar {
-  position: absolute;
-  z-index: -1;
-  width: 100%;
-  .bar {
-    height: 28px;
-    background-color: #B9E9B9;
-    -webkit-transition: width 1s; /* Safari */
-    transition: width 1s;
-    width: 0;
+#searchHolder {
+  margin: 2.5%;
+  width: 95%;
+  #search {
+    width: 100%;
   }
 }
