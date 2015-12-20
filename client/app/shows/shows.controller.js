@@ -1,6 +1,5 @@
 angular.module('telebumApp')
   .controller('ShowsCtrl', function($scope, Auth, User, $http, $cookieStore, $q) {
-
     async.waterfall([
       getUser,
       getShows,
@@ -61,6 +60,32 @@ angular.module('telebumApp')
       show.seen.episodes = seenEpisodes;
       changePercentage(show, id)
       // show.released[seasonNum] = numPerSeason;
+    }
+    $scope.togglePoster = function(showId) {
+      if ($scope.poster && $scope.poster.id == showId) {
+        $scope.poster = {};
+
+      }
+      else {
+        async.waterfall([
+          function (waterfallCallback) {
+            User.get().$promise.then( function(user) {
+              waterfallCallback(null, user);
+            });
+          },
+          function (user, waterfallCallback) {
+            $http.get('api/users/' + user._id + '/'+ showId).success(function(showRequest){
+              waterfallCallback(null, showRequest);
+            });
+          }
+        ], function(err, showRequest) {
+          $scope.poster = {};
+          $scope.poster.id = showId;
+          $scope.poster.data = showRequest.show.poster;
+          $scope.poster.seen = true
+        });
+      }
+
     }
   });
 

@@ -1,6 +1,6 @@
 <div id="navbarholder" ng-include src="'app/components/navbar/navbar.html'"></div>
 
-<div id="{{ show.showId }}" class="showItem" ng-repeat="show in shows">
+<div id="{{ show.showId }}" class="showItem" ng-repeat="show in shows" ng-click="togglePoster(show.showId)">
   <div class="progressBar">
     <div class="bar"></div>
     <!-- <div class="bar" style="width:{{ show.percentComplete }}%;"></div> -->
@@ -15,4 +15,9 @@
   <span class="lastSeen">
     Season {{ show.current.season }}  Episode {{ show.current.episode }}
   </span>
+</div>
+
+<div id="posterHolder" ng-show="poster.seen">
+  <div id="fade"></div>
+  <img class="media-object img-rounded" ng-src="{{poster.data}}">
 </div>
