@@ -105,61 +105,6 @@ exports.me = function(req, res, next) {
 exports.authCallback = function(req, res, next) {
   res.redirect('/');
 };
-var getUser = function(userId, callback) {
-  User.findById(userId, function (err, grabbedUser) {
-    callback(err, grabbedUser)
-  });
-}
-
-// checks if the show exists in the users db yet
-var checkUserHasShow = function (userId, showId, asyncCallback) {
-  getUser(userId, function (getUserErr, grabbedUser) {
-
-    if (getUserErr) asyncCallback(getUserErr)
-    else {
-      var existsAlready = grabbedUser.shows.filter(function (iterShow) {
-        return iterShow.showId === showId;
-      });
-      if (existsAlready.length != 0) asyncCallback(200, 'already added');
-      else asyncCallback(null, grabbedUser);
-    }
-  });
-}
-// gets the show from thetvdb.org
-var findShowById = function(showId, asyncCallback) {
-  tvdb.addShowId(showId, function (err, show) {
-    asyncCallback(err, show);
-  });
-}
-//parses stuff into usable user data
-var countEpisodes = function(show) {
-
-  var numEpisodes = 0;
-  var seasons = [];
-
-  for(var index in show.seasons){
-    var season = show.seasons[index];
-    numEpisodes+=season.length;
-    seasons.push(season.length);
-  }
-  // Add it to the user's dataset
-  var userShowAddition = {
-    showId: show._id,
-    title: show.name,
-    seen : {episodes : 0 },
-    current : {
-      episode : 1,
-      season : 1
-    },
-    totalEpisodes : numEpisodes,
-    released: seasons
-  };
-  return userShowAddition
-}
-// helps me notice where code is running
-var printMarker = function () {
-  console.log(chalk.bgCyan('notice me!'))
-}
 /**
  * Add shows to user's list
  */
@@ -167,7 +112,7 @@ exports.addShow = function(req, res, next) {
   var userId = req.user._id;
   var showId = req.params.showId;
 
-
+  // gets user and show, makes sure not already added
   async.parallel([
     async.apply(checkUserHasShow, userId, showId),
     async.apply(findShowById, showId)
@@ -226,7 +171,8 @@ exports.allShows = function(req, res, next) {
  * Adds one show to user's list
  */
 exports.show = function(req, res, next) {
-  var userId = req.params.id,
+
+  var userId = req.user._id,
       showId = req.params.showId;
   User.findById(userId, function (err, user) {
     if(err) {
@@ -249,3 +195,59 @@ exports.show = function(req, res, next) {
     }
   });
 };
+
+var getUser = function(userId, callback) {
+  User.findById(userId, function (err, grabbedUser) {
+    callback(err, grabbedUser)
+  });
+}
+
+// checks if the show exists in the users db yet
+var checkUserHasShow = function (userId, showId, asyncCallback) {
+  getUser(userId, function (getUserErr, grabbedUser) {
+
+    if (getUserErr) asyncCallback(getUserErr)
+    else {
+      var existsAlready = grabbedUser.shows.filter(function (iterShow) {
+        return iterShow.showId === Number(showId);
+      });
+      if (existsAlready.length != 0) asyncCallback(200, 'already added');
+      else asyncCallback(null, grabbedUser);
+    }
+  });
+}
+// gets the show from thetvdb.org
+var findShowById = function(showId, asyncCallback) {
+  tvdb.addShowId(showId, function (err, show) {
+    asyncCallback(err, show);
+  });
+}
+//parses stuff into usable user data
+var countEpisodes = function(show) {
+
+  var numEpisodes = 0;
+  var seasons = [];
+
+  for(var index in show.seasons){
+    var season = show.seasons[index];
+    numEpisodes+=season.length;
+    seasons.push(season.length);
+  }
+  // Add it to the user's dataset
+  var userShowAddition = {
+    showId: show._id,
+    title: show.name,
+    seen : {episodes : 0 },
+    current : {
+      episode : 1,
+      season : 1
+    },
+    totalEpisodes : numEpisodes,
+    released: seasons
+  };
+  return userShowAddition
+}
+// helps me notice where code is running
+var printMarker = function () {
+  console.log(chalk.bgCyan('notice me!'))
+}

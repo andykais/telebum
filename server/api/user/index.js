@@ -20,7 +20,8 @@ router.post('/addShow/:showId', auth.isAuthenticated(), controller.addShow);
 
 router.get('/me', auth.isAuthenticated(), controller.me);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
-router.get('/:id', auth.isAuthenticated(), controller.show);                    //
+// router.get('/showInfo/:id', auth.isAuthenticated(), controller.show);                    //
+router.get('/showInfo/:showId', auth.isAuthenticated(), controller.show);                    //
 router.post('/', controller.create);                                            // Create a user
 
 router.delete('removeShow/:id', controller.removeShow);

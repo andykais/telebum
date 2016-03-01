@@ -20,11 +20,15 @@ angular.module('telebumApp')
       // });
     }
     function getShow(asyncCallback) {
-      $http.get('api/users/' + user._id + '/'+ $stateParams.seriesId).success(function(showRequest){
+      var data = {userId:user._id};
+      $http.get('/api/users/' + user._id + '/' + $stateParams.seriesId).success(function(shows){
+      // showInfoService.getShowInfo($stateParams.seriesId, data, function(serviceError, showRequest){
         $scope.show = showRequest.show;
         $scope.user = showRequest.user;
         asyncCallback(null);
       });
+      // $http.get('api/users/' + user._id + '/'+ $stateParams.seriesId).success(function(showRequest){
+      // });
     }
     // getShow();
     // getUserData();
@@ -63,13 +67,13 @@ angular.module('telebumApp')
     }
     $scope.addNewShow = function(showId){
       var data = {userId:user._id};
-      showInfoService.addNewShow(showId, data, function(callback){
+      showInfoService.addNewShow(showId, data, function(serviceError){
         getShow(function(){})
       })
     }
     $scope.removeExistingShow = function(showId){
       var data = {userId:user._id};
-      showInfoService.addNewShow(showId, data, function(callback){
+      showInfoService.addNewShow(showId, data, function(serviceError){
         getShow(function(){})
       })
     }
