@@ -1,5 +1,5 @@
 angular.module('telebumApp')
-  .controller('showInfo', function($scope, $http, $stateParams, Auth, $state) {
+  .controller('showInfo', function($scope, $http, $stateParams, Auth, $state, showInfoService) {
 
     var user = Auth.getCurrentUser();
     $scope.indetermChecks = [];
@@ -61,13 +61,17 @@ angular.module('telebumApp')
     $scope.showEpisodes = function(seasonNumber) {
       return showSeason[seasonNumber]
     }
-    $scope.addShowToDb = function() {
-      console.log('trying to add')
-      //console.log($http.post('api/users/' + user._id + '/'+ $stateParams.seriesId))
-      $http.post('api/users/' + user._id + '/'+ $stateParams.seriesId).success(function(addRequest){
-        console.log(addRequest);
-        //asyncCallback(null);
-      });
+    $scope.addNewShow = function(showId){
+      var data = {userId:user._id};
+      showInfoService.addNewShow(showId, data, function(callback){
+        getShow(function(){})
+      })
+    }
+    $scope.removeExistingShow = function(showId){
+      var data = {userId:user._id};
+      showInfoService.addNewShow(showId, data, function(callback){
+        getShow(function(){})
+      })
     }
   });
 

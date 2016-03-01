@@ -188,55 +188,6 @@ exports.addShow = function(req, res, next) {
       res.json(userShowAddition);
     }
   })
-
-
-/*  User.findById(userId, function (err, user) {
-    if(err) {
-      clientErrors(res, 500, err);
-    } else {
-
-      user.shows.forEach( function(val, key){
-        if(val.title == req.showName){
-          return res.status(200).send('already added');
-        }
-      })
-
-      Show.find({name:req.showName}, function (err, show) {
-        console.log('show', show)
-        if(show) {
-          showinfo = show;
-        } else {
-          tvdb.addShow(req.body.showName, function(tvdbError, showInfo) {
-            if (tvdbError) {
-              // todo handle tvdb error
-            }
-          // console.log(showinfo)
-          });
-        }
-      });
-
-      var numEpisodes = 0;
-      var seasons = [];
-      for(var season in showinfo.seasons){
-        numEpisodes+=seasons.length;
-        seasons.append(seasons.length);
-      }
-      // Add it to the user's dataset
-      userShow = {
-        showId: showinfo._id,
-        title: showinfo.name,
-        seen : {episodes : 0 },
-        on : {
-          episode : 1,
-          season : 1
-        },
-        totalEpisodes : numEpisodes,
-        released: seasons
-      };
-      user.shows.append(userShow);
-      res.json(userShow);
-    }
-  });*/
 };
 
 /**
