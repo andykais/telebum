@@ -42,35 +42,35 @@ User.find({}).remove(function() {
     shows: [{
         showId:152831,
         title: "Adventure Time",
-        released: [22,22,28,30,20,43],
-        season:[
+        // released: [22,22,28,30,20,43],
+        seasons:[
           {number: 1,
-            episode: [
+            episodes: [
               true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true
             ]
           },
           {number: 2,
-            episode: [
+            episodes: [
               true,true,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false
             ]
           },
           {number: 3,
-            episode: [
+            episodes: [
               false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
             ]
           },
           {number: 4,
-            episode: [
+            episodes: [
               false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
             ]
           },
           {number: 5,
-            episode: [
+            episodes: [
               false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
             ]
           },
           {number: 6,
-            episode: [
+            episodes: [
               false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
             ]
           }

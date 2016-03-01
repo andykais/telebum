@@ -38,9 +38,12 @@ angular.module('telebumApp')
     }
     $scope.isIndeterm = function(seasonNum) {
       var seasonProbed = $scope.show.seasons[seasonNum];
-      var totalEpisodes = seasonProbed.length;
+      // var seasonProbed = $scope.user.season;
+      var totalEpisodes = $scope.show.seasons[seasonNum].length;
       var numWatched = 0;
+      // console.log(seasonProbed)
       seasonProbed.forEach(function (episode, eNum) {
+        // console.log(episode.watched)
         if (episode.watched) {
           numWatched ++;
         }

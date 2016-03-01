@@ -6,25 +6,37 @@ var Show = require('../shows/shows.model');
 var crypto = require('crypto');
 
 
-
 var UserShowSchema = new Schema({
   showId:{type: Number},
   title: {type: String},
-  released: [Number],
+  seasons:[{
+    number:{type:Number},
+    episodes:[Boolean]
+  }],
   current:{
     season:{type:Number},
     episode:{type:Number}
-  },
-  seen:{
-    episodes: {type:Number},
-    test:{type:Number}
-  },
-  totalEpisodes:{type:Number},
-  season:[{
-    number:{type:Number},
-    episode:[Boolean]
-  }]
+  }
 });
+//
+// var UserShowSchema = new Schema({
+//   showId:{type: Number},
+//   title: {type: String},
+//   released: [Number],
+//   current:{
+//     season:{type:Number},
+//     episode:{type:Number}
+//   },
+//   seen:{
+//     episodes: {type:Number},
+//     test:{type:Number}
+//   },
+//   totalEpisodes:{type:Number},
+//   season:[{
+//     number:{type:Number},
+//     episode:[Boolean]
+//   }]
+// });
 
 var UserSchema = new Schema({
   firstName: {type: String},

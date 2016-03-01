@@ -158,6 +158,16 @@ exports.removeShow = function(req, res, next) {
 };
 
 /**
+ * marks a specific episode as watched (true)
+ */
+exports.watchEpisode = function(req, res, next) {
+  var userId = req.user._id;
+  var showId = req.params.showId;
+
+  // console.log(req.user._id);
+}
+
+/**
  * Displays all shows in the user's list
  */
 exports.allShows = function(req, res, next) {
@@ -251,21 +261,29 @@ var countEpisodes = function(show) {
   var seasons = [];
 
   for(var index in show.seasons){
-    var season = show.seasons[index];
-    numEpisodes+=season.length;
-    seasons.push(season.length);
+    var seasonData = show.seasons[index];
+    var episodes = [];
+    for (var episodeIndex in seasonData) {
+      console.log(episodeIndex)
+      episodes.push(false);
+    }
+    var seasonInput = {
+      number: index+1,
+      episodes: episodes
+    }
+    // var season = show.seasons[index];
+    // numEpisodes+=season.length;
+    seasons.push(seasonInput);
   }
   // Add it to the user's dataset
   var userShowAddition = {
     showId: show._id,
     title: show.name,
-    seen : {episodes : 0 },
+    seasons: seasons,
     current : {
       episode : 1,
       season : 1
     },
-    totalEpisodes : numEpisodes,
-    released: seasons
   };
   return userShowAddition
 }
