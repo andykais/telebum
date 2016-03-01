@@ -15,7 +15,7 @@ angular.module('telebumApp')
       });
     }
     function getShows(user, asyncCallback) {
-      $http.get('/api/users/' + user._id + '/allShows').success(function(shows){
+      $http.get('/api/users/allShows').success(function(shows){
         $scope.shows = shows;
         console.log(shows)
 

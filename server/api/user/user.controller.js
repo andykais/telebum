@@ -56,9 +56,8 @@ exports.destroy = function(req, res) {
  */
 exports.getUser = function (req, res, next) {
   var userId = req.params.id;
-
-  User.findById(userId, function (err, user) {
-    if (err) return next(err);
+  getUser(userId, function(getUserErr, user) {
+    if (getUserErr) return next(err);
     if (!user) return res.status(401).send('Unauthorized');
     res.json(user.profile);
   });
@@ -139,16 +138,20 @@ exports.addShow = function(req, res, next) {
  * remove show from user's list
  */
 exports.removeShow = function(req, res, next) {
-  var userId = req.user._id,
-      show = req.body.showId;
-  User.findById(userId, function (err, user) {
-    if(err) {
-      res.status(500).send(err);
-    } else {
-      delete user.shows[showId];
-      user.save(function(err) {
-        if (err) return res.status(500).send(err);
-        res.status(200).send('OK');
+  var userId = req.user._id;
+  var showId = req.params.showId;
+
+  getUser(userId, function(getUserErr, grabbedUser) {
+    if (getUserErr) clientErrors(res, 500, getUserErr);
+    else {
+      for (var index in grabbedUser.shows) {
+        if (grabbedUser.shows[index].showId == Number(showId)) {
+          grabbedUser.shows.splice(index, 1);
+        }
+      }
+      grabbedUser.save(function (saveErr) {
+        if (saveErr) clientErrors(res, 500, saveErr);
+        else res.status(200).send('OK');
       });
     }
   });
@@ -158,7 +161,7 @@ exports.removeShow = function(req, res, next) {
  * Displays all shows in the user's list
  */
 exports.allShows = function(req, res, next) {
-  var userId = req.params.id;
+  var userId = req.user._id;
   User.findById(userId, function (err, user) {
     if(err) {
       return res.status(200).send('Error');
@@ -167,28 +170,41 @@ exports.allShows = function(req, res, next) {
   });
 };
 
+exports.userShow = function(req, res, next) {
+  printMarker()
+  var userId = req.user._id;
+  var showId = req.params.showId;
+  getUserShowById(userId, showId, function(getUserErr, grabbedUser, grabbedShow) {
+    if (getUserErr) clientErrors(res, 200, getUserErr);
+    else res.json(grabbedShow);
+  })
+}
+
 /**
  * Adds one show to user's list
  */
 exports.show = function(req, res, next) {
-
   var userId = req.user._id,
       showId = req.params.showId;
   User.findById(userId, function (err, user) {
     if(err) {
       res.status(500).send(err);
     } else {
+      // change that other helpers
       var show = user.shows[showId];
       Show.findById(showId, function (err, showInfo) {
         if(err){
-          return res.json({show: show, showInfo: err})
+          return clientErrors(res, 500, err)
+          // return res.json({show: show, showInfo: err})
         }
         if(showInfo) {
-          return res.json({user: show, show: showInfo});
+          return res.json(showInfo)
+          // return res.json({user: show, show: showInfo});
         }
         else{
           tvdb.addShowId(showId, function (err, firstPullShowInfo) {
-            return res.json({show: firstPullShowInfo});
+            return res.json(firstPullShowInfo)
+            // return res.json({show: firstPullShowInfo});
           });
         }
       });
@@ -201,20 +217,26 @@ var getUser = function(userId, callback) {
     callback(err, grabbedUser)
   });
 }
-
-// checks if the show exists in the users db yet
-var checkUserHasShow = function (userId, showId, asyncCallback) {
+var getUserShowById = function (userId, showId, callback) {
   getUser(userId, function (getUserErr, grabbedUser) {
-
-    if (getUserErr) asyncCallback(getUserErr)
+    if (getUserErr) callback(getUserErr, grabbedUser)
     else {
       var existsAlready = grabbedUser.shows.filter(function (iterShow) {
         return iterShow.showId === Number(showId);
       });
-      if (existsAlready.length != 0) asyncCallback(200, 'already added');
-      else asyncCallback(null, grabbedUser);
+      callback(null, grabbedUser, existsAlready[0]);
     }
   });
+}
+// checks if the show exists in the users db yet
+var checkUserHasShow = function (userId, showId, asyncCallback) {
+  getUserShowById(userId, showId, function (userErr, grabbedUser, grabbedShow) {
+    if (userErr) asyncCallback(userErr);
+    else {
+      if (grabbedShow) asyncCallback(200, 'already added');
+      else asyncCallback(null, grabbedUser);
+    }
+  })
 }
 // gets the show from thetvdb.org
 var findShowById = function(showId, asyncCallback) {

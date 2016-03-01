@@ -10,28 +10,23 @@ angular.module('telebumApp')
     ], function (err, result) {
       if (err) console.log(err)
       console.log($scope.show)
+      console.log($scope.user)
       initializeChecks($scope.indetermChecks, $scope.show.seasons);
     });
     function getUserData(asyncCallback) {
-      // todo, send user info for this specific show
-      // $http.get('/api/users/' + user._id + '/user/' + $stateParams.seriesId).success(function(shows){
-        // $scope.user;
+      var data = {userId:user._id};
+      showInfoService.getUserShowInfo($stateParams.seriesId, data, function(serviceError, showRequest) {
+        $scope.user = showRequest;
         asyncCallback(null);
-      // });
+      });
     }
     function getShow(asyncCallback) {
       var data = {userId:user._id};
-      $http.get('/api/users/' + user._id + '/' + $stateParams.seriesId).success(function(shows){
-      // showInfoService.getShowInfo($stateParams.seriesId, data, function(serviceError, showRequest){
-        $scope.show = showRequest.show;
-        $scope.user = showRequest.user;
+      showInfoService.getShowInfo($stateParams.seriesId, data, function(serviceError, showRequest){
+        $scope.show = showRequest;
         asyncCallback(null);
       });
-      // $http.get('api/users/' + user._id + '/'+ $stateParams.seriesId).success(function(showRequest){
-      // });
     }
-    // getShow();
-    // getUserData();
 
     var showSeason = {};
     $scope.toggleChecks = function(checked, seasonNum) {
@@ -68,13 +63,13 @@ angular.module('telebumApp')
     $scope.addNewShow = function(showId){
       var data = {userId:user._id};
       showInfoService.addNewShow(showId, data, function(serviceError){
-        getShow(function(){})
+        getUserData(function(){})
       })
     }
     $scope.removeExistingShow = function(showId){
       var data = {userId:user._id};
-      showInfoService.addNewShow(showId, data, function(serviceError){
-        getShow(function(){})
+      showInfoService.removeExistingShow(showId, data, function(serviceError){
+        getUserData(function(){})
       })
     }
   });

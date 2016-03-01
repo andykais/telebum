@@ -13,18 +13,18 @@ var router = express.Router();
 // router.post('/login',  controller.login);
 
 router.get('/', auth.hasRole('admin'), controller.index);
-router.get('/:id/allShows', auth.isAuthenticated(), controller.allShows)
-router.get('/:id/:showId', auth.isAuthenticated(), controller.show)
+router.get('/allShows', auth.isAuthenticated(), controller.allShows)
+router.get('/showInfo/:showId', auth.isAuthenticated(), controller.show);                    //
+router.get('/userShowInfo/:showId', auth.isAuthenticated(), controller.userShow);                    //
 // add a show to a users db
 router.post('/addShow/:showId', auth.isAuthenticated(), controller.addShow);
+router.delete('/removeShow/:showId', auth.isAuthenticated(), controller.removeShow);
 
 router.get('/me', auth.isAuthenticated(), controller.me);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
-// router.get('/showInfo/:id', auth.isAuthenticated(), controller.show);                    //
-router.get('/showInfo/:showId', auth.isAuthenticated(), controller.show);                    //
 router.post('/', controller.create);                                            // Create a user
 
-router.delete('removeShow/:id', controller.removeShow);
+// router.delete('removeShow/:id', controller.removeShow);
 
 // router.delete('/:id', auth.hasRole('admi-n'), controller.destroy);
 module.exports = router;
