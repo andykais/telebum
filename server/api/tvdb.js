@@ -15,7 +15,12 @@ var parser = xml2js.Parser({
 });
 
 // Retrieves the Series ID from the series Name from TVDB's api
-var getSeriesId = function(seriesName, asyncCallback) {
+var getSeriesId = function(showName, asyncCallback) {
+  var seriesName = showName
+    .toLowerCase()
+    .replace(/ /g, '_')
+    .replace(/[^\w-]+/g, '');
+
   request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function (requestError, response, body) {
     if (requestError) {
       asyncCallback(requestError)
@@ -43,11 +48,12 @@ var searchSeriesId = function(seriesName){
             asyncCallback(seriesName + ' was not found.');
           }
           else {
+            var series;
             if(result.data.series.length){
-              var series = result.data.series.slice(0, 10);
+              series = result.data.series.slice(0, 10);
             }
             else{
-              var series = [result.data.series];
+              series = [result.data.series];
             }
             async.map(series, getAllData, function (err, results) {
               asyncCallback(err, series);
@@ -146,57 +152,38 @@ exports.addShowId = function(showId, callback) {
     },
     getSeriesInfo,
     getSeriesBanner
-  ], function (err, show) {
-    if (err) {
-      return err;
+  ], function (getErr, show) {
+    if (getErr) callback(getErr);
+    else {
+
+      for(var season in show.seasons){
+        show.numberEpisodes += show.seasons[season].length;
+      }
+      console.log(show.name, '-', show.numberEpisodes);
+      show.save(function (saveErr) {
+        if (!saveErr || saveErr.code == 11000) {
+          //duplicate entries are not errors
+          callback(null, show)
+        }
+        else {
+          callback(saveErr)
+        }
+      });
     }
 
-    for(var season in show.seasons){
-      show.numberEpisodes += show.seasons[season].length;
-    }
-    console.log(show.numberEpisodes);
-    show.save(function (saveError) {
-      if (saveError) {
-        if (saveError.code == 11000) {
-          callback(show.name + ' already exists.');
-        }
-        callback(saveError);
-      }
-      callback(null, show)
-    });
   });
 }
 
 // Adds a show to the database !
 exports.addShow = function(showName, callback) {
-  var seriesName = showName
-    .toLowerCase()
-    .replace(/ /g, '_')
-    .replace(/[^\w-]+/g, '');
-
+  var addShowById = module.exports.addShowId;
   async.waterfall([
     function (asyncCallback) {
-      asyncCallback(null, seriesName)
+      asyncCallback(null, showName)
     },
     getSeriesId,
-    getSeriesInfo,
-    getSeriesBanner
-  ], function (waterfallError, show) {
-    if (waterfallError) {
-      callback(waterfallError);
-    }
-    else {
-      show.save(function (saveError) {
-        if (saveError) {
-          if (saveError.code == 11000) {
-            callback(show.name + ' already exists.');
-          }
-          callback(saveError);
-        }
-        callback(null, show);
-      });
-    }
-  });
+    addShowById
+  ], callback);
 }
 
 

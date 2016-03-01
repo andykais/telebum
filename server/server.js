@@ -16,7 +16,6 @@ var config = require('./config/environment');
 // Connect to database
 mongoose.connect('mongodb://localhost/telebum');
 
-// Populate DB with sample data
 if(config.seedDB) { require('./config/seed'); }
 
 // Setup server

@@ -6,6 +6,9 @@ var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
 var tvdb = require('../tvdb');
 var Show = require('../shows/shows.model');
+var clientErrors = require('../../components/errors');
+var async = require('async');
+var chalk = require('chalk');
 
 var validationError = function(res, err) {
   return res.status(422).json(err);
@@ -102,60 +105,89 @@ exports.me = function(req, res, next) {
 exports.authCallback = function(req, res, next) {
   res.redirect('/');
 };
+var getUser = function(userId, callback) {
+  User.findById(userId, function (err, grabbedUser) {
+    callback(err, grabbedUser)
+  });
+}
 
+// checks if the show exists in the users db yet
+var checkUserHasShow = function (userId, showId, asyncCallback) {
+  getUser(userId, function (getUserErr, grabbedUser) {
+
+    if (getUserErr) asyncCallback(getUserErr)
+    else {
+      var existsAlready = grabbedUser.shows.filter(function (iterShow) {
+        return iterShow.showId === showId;
+      });
+      if (existsAlready.length != 0) asyncCallback(200, 'already added');
+      else asyncCallback(null, grabbedUser);
+    }
+  });
+}
+// gets the show from thetvdb.org
+var findShowById = function(showId, asyncCallback) {
+  tvdb.addShowId(showId, function (err, show) {
+    asyncCallback(err, show);
+  });
+}
+//parses stuff into usable user data
+var countEpisodes = function(show) {
+
+  var numEpisodes = 0;
+  var seasons = [];
+
+  for(var index in show.seasons){
+    var season = show.seasons[index];
+    numEpisodes+=season.length;
+    seasons.push(season.length);
+  }
+  // Add it to the user's dataset
+  var userShowAddition = {
+    showId: show._id,
+    title: show.name,
+    seen : {episodes : 0 },
+    current : {
+      episode : 1,
+      season : 1
+    },
+    totalEpisodes : numEpisodes,
+    released: seasons
+  };
+  return userShowAddition
+}
+// helps me notice where code is running
+var printMarker = function () {
+  console.log(chalk.bgCyan('notice me!'))
+}
 /**
  * Add shows to user's list
  */
 exports.addShow = function(req, res, next) {
   var userId = req.user._id;
-  var showinfo;
+  var showId = req.params.showId;
 
-  User.findById(userId, function (err, user) {
-    if(err) {
-      res.status(500).send(err);
-    } else {
 
-      user.shows.forEach( function(val, key){
-        if(val.title == req.showName){
-          return res.status(200).send('already added');
-        }
+  async.parallel([
+    async.apply(checkUserHasShow, userId, showId),
+    async.apply(findShowById, showId)
+  ], function (addingErrors, result) {
+    if (addingErrors) clientErrors(res, addingErrors, result);
+    else {
+      var foundUser = result[0];
+      var foundShow = result[1];
+
+      var userShowAddition = countEpisodes(foundShow);
+      var myShows = foundUser.get('shows');
+      myShows.push(userShowAddition);
+      console.log(Array.isArray(myShows))
+      foundUser.update({'shows': myShows}, function (err) {
+        console.log(err)
       })
-
-      Show.find({name:req.showName}, function (err, show) {
-        if(show) {
-          showinfo = show;
-        } else {
-          tvdb.addShow(req.body.showName, function(tvdbError, showInfo) {
-            if (tvdbError) {
-              // todo handle tvdb error
-            }
-          // console.log(showinfo)
-          });
-        }
-      });
-
-      numEpisodes = 0;
-      seasons = [];
-      for(season in showinfo.seasons){
-        numEpisodes+=seasons.length;
-        seasons.append(seasons.length);
-      }
-      // Add it to the user's dataset
-      userShow = {
-        showId: showinfo._id,
-        title: showinfo.name,
-        seen : {episodes : 0 },
-        on : {
-          episode : 1,
-          season : 1
-        },
-        totalEpisodes : numEpisodes,
-        released: seasons
-      };
-      user.shows.append(userShow);
-      res.json(userShow);
+      // foundUser.shows.append(userShowAddition);
+      res.json(userShowAddition);
     }
-  });
+  })
 };
 
 /**
