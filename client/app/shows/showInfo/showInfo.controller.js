@@ -61,6 +61,14 @@ angular.module('telebumApp')
     $scope.showEpisodes = function(seasonNumber) {
       return showSeason[seasonNumber]
     }
+    $scope.addShowToDb = function() {
+      console.log('trying to add')
+      //console.log($http.post('api/users/' + user._id + '/'+ $stateParams.seriesId))
+      $http.post('api/users/' + user._id + '/'+ $stateParams.seriesId).success(function(addRequest){
+        console.log(addRequest);
+        //asyncCallback(null);
+      });
+    }
   });
 
 function setChecks(season, value) {
