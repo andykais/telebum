@@ -18,25 +18,6 @@ var UserShowSchema = new Schema({
     episode:{type:Number}
   }
 });
-//
-// var UserShowSchema = new Schema({
-//   showId:{type: Number},
-//   title: {type: String},
-//   released: [Number],
-//   current:{
-//     season:{type:Number},
-//     episode:{type:Number}
-//   },
-//   seen:{
-//     episodes: {type:Number},
-//     test:{type:Number}
-//   },
-//   totalEpisodes:{type:Number},
-//   season:[{
-//     number:{type:Number},
-//     episode:[Boolean]
-//   }]
-// });
 
 var UserSchema = new Schema({
   firstName: {type: String},
@@ -192,4 +173,4 @@ UserSchema.methods = {
   }
 };
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema, 'user');

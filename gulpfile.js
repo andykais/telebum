@@ -96,12 +96,7 @@ gulp.task('watch',function() {
 // port for the brower livereload
 gulp.task('tiny', function () {
   lr.listen(35729);
-})
-// seed the database
-gulp.task('reseed', function () {
-  node = spawn('node', ['server/config/seed.js'], {stdio: 'inherit'})
 });
-
 
 // the nodemon task
 gulp.task('nodemon',function() {
@@ -123,7 +118,7 @@ gulp.task('nodemon',function() {
 // [nodemon, tiny]
 // [styles, minification]
 // watch
-gulp.task('default', ['reseed', 'nodemon', 'tiny', 'styles', 'watch']);		// Just run gulp!
+gulp.task('default', ['nodemon', 'tiny', 'styles', 'watch']);		// Just run gulp!
 
 
 // need to handle errors, make sure nodemon exits

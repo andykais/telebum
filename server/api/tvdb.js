@@ -7,6 +7,7 @@ var request = require('request');
 var xml2js = require('xml2js');
 var _ = require('lodash');
 var Show = require('./shows/shows.model');
+var chalk = require('chalk');
 
 // Parses xml to javascript object notation
 var parser = xml2js.Parser({
@@ -159,8 +160,10 @@ exports.addShowId = function(showId, callback) {
       for(var season in show.seasons){
         show.numberEpisodes += show.seasons[season].length;
       }
-      console.log(show.name, '-', show.numberEpisodes);
       show.save(function (saveErr) {
+        if (saveErr && saveErr.code == 11000) {
+          console.log('Adding', chalk.green(show.name), 'to showbase');
+        }
         if (!saveErr || saveErr.code == 11000) {
           //duplicate entries are not errors
           callback(null, show)

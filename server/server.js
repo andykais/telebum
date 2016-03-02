@@ -14,9 +14,10 @@ var server = require('http').createServer(app);
 var config = require('./config/environment');
 
 // Connect to database
-mongoose.connect('mongodb://localhost/telebum');
-
-if(config.seedDB) { require('./config/seed'); }
+mongoose.connect('mongodb://localhost/telebum', function (err) {
+  if (err) console.log(err);
+  if(config.seedDB) { require('./config/seed'); }
+});
 
 // Setup server
 expressConfig(app);

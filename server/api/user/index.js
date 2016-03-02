@@ -19,6 +19,9 @@ router.get('/userShowInfo/:showId', auth.isAuthenticated(), controller.userShow)
 // add a show to a users db
 router.post('/addShow/:showId', auth.isAuthenticated(), controller.addShow);
 router.delete('/removeShow/:showId', auth.isAuthenticated(), controller.removeShow);
+router.put('/watchEpisode/:showId', auth.isAuthenticated(), controller.watchEpisode);
+router.put('/unwatchEpisode/:showId', auth.isAuthenticated(), controller.unwatchEpisode);
+
 
 router.get('/me', auth.isAuthenticated(), controller.me);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);

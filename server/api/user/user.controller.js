@@ -124,7 +124,6 @@ exports.addShow = function(req, res, next) {
       var userShowAddition = countEpisodes(foundShow);
       var myShows = foundUser.get('shows');
       myShows.push(userShowAddition);
-      console.log(Array.isArray(myShows))
       foundUser.update({'shows': myShows}, function (err) {
         console.log(err)
       })
@@ -133,7 +132,6 @@ exports.addShow = function(req, res, next) {
     }
   })
 };
-
 /**
  * remove show from user's list
  */
@@ -163,22 +161,55 @@ exports.removeShow = function(req, res, next) {
 exports.watchEpisode = function(req, res, next) {
   var userId = req.user._id;
   var showId = req.params.showId;
-
-  // console.log(req.user._id);
+  var seasonNum = req.body.season;
+  var episodeNum = req.body.episode;
+  getUser(userId, function (getUserErr, grabbedUser) {
+    if (getUserErr) clientErrors(res, 500, getUserErr)
+    else {
+      grabbedUser.shows.forEach(function(show, index, user) {
+        if (show.showId == showId) {
+          grabbedUser.shows[index].seasons[seasonNum].episodes[episodeNum] = true;
+        }
+      });
+      grabbedUser.update({'shows': grabbedUser.shows}, function (updateErr) {
+          if (updateErr) clientErrors(res, 500, updateErr);
+          else res.status(200).send('OK');
+      });
+    }
+  });
 }
-
+exports.unwatchEpisode = function(req, res, next) {
+  var userId = req.user._id;
+  var showId = req.params.showId;
+}
 /**
  * Displays all shows in the user's list
  */
 exports.allShows = function(req, res, next) {
   var userId = req.user._id;
-  User.findById(userId, function (err, user) {
-    if(err) {
-      return res.status(200).send('Error');
+  getUser(userId, function(getUserErr, user) {
+    if (getUserErr) clientErrors(res, 500, getUserErr);
+    else {
+      var showIds = [];
+      user.shows.forEach(function(showData) {
+        showIds.push(showData.showId);
+      })
+      async.map(showIds, MongooseFindById, function(mapErr, foundShows) {
+        res.json({user:user.shows, shows:foundShows});
+      });
     }
-    res.json(user.shows);
   });
 };
+
+var MongooseFindById = function(showId, callback) {
+  Show.findById(showId, function (mongoErr, showData) {
+    //remove the poster for now for faster loading times
+    showData.poster = undefined;
+    // console.log(showData.poster)
+    callback(mongoErr, showData);
+  });
+}
+
 
 exports.userShow = function(req, res, next) {
   printMarker()
@@ -264,7 +295,6 @@ var countEpisodes = function(show) {
     var seasonData = show.seasons[index];
     var episodes = [];
     for (var episodeIndex in seasonData) {
-      console.log(episodeIndex)
       episodes.push(false);
     }
     var seasonInput = {

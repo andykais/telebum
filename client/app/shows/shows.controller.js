@@ -1,26 +1,27 @@
 angular.module('telebumApp')
-  .controller('ShowsCtrl', function($scope, Auth, User, $http, $cookieStore, $q) {
+  .controller('ShowsCtrl', function($scope, Auth, User, $http, $cookieStore, $q, showService) {
+    var user = Auth.getCurrentUser();
 
-    async.waterfall([
-      getUser,
+    async.series([
       getShows,
       checkHtml
     ], function (err, results) {
-      initialPercentage($scope.shows);
+      var showRequest = results[0]
+      initialPercentage($scope);
     });
+    // function getUser(asyncCallback) {
+    //   User.get().$promise.then( function(user) {
+    //     asyncCallback(null, user);
+    //   });
+    // }
+    function getShows(asyncCallback) {
+      showService.getAllShows(function (serviceError, showRequest) {
+        $scope.shows = showRequest.shows;
+        $scope.user = showRequest.user;
+        console.log(showRequest)
 
-    function getUser(asyncCallback) {
-      User.get().$promise.then( function(user) {
-        asyncCallback(null, user);
-      });
-    }
-    function getShows(user, asyncCallback) {
-      $http.get('/api/users/allShows').success(function(shows){
-        $scope.shows = shows;
-        console.log(shows)
-
-        if (!shows) console.log('no shows yet!')
-        asyncCallback(null)
+        if (!showRequest.user) console.log('no shows yet!')
+        asyncCallback(null, showRequest);
       });
     }
     function checkHtml(asyncCallback) {
@@ -37,36 +38,48 @@ angular.module('telebumApp')
 
 
     $scope.advance = function (id) {
-      var show = getShowById($scope.shows, id)
+      var show = getShowById($scope.shows, id);
+      var userInfo = getShowById($scope.user, id);
 
-      var episodeNum = show.current.episode;
-      var seasonNum = show.current.season;
-      var numPerSeason = show.released[seasonNum - 1];
-      var totalEpisodes = show.totalEpisodes;
-      var totalSeasons = show.released.length;
-      var seenEpisodes = show.seen.episodes;
+      var episodeNum = userInfo.current.episode;
+      var seasonNum = userInfo.current.season;
+      var numPerSeason = show.seasons[seasonNum].length;
+      var totalEpisodes = show.numberEpisodes;
+      totalSeasons = 0;
+      for (var i in show.seasons) {
+        totalSeasons ++;
+      }
+      var seenEpisodes = getNumWatched(userInfo);
+
+      userInfo.seasons[seasonNum - 1].episodes[episodeNum - 1] = true;
 
       if (seasonNum == totalSeasons && episodeNum >= numPerSeason) {
         // do nothing for now
-      } else if (episodeNum >= numPerSeason) {
-        episodeNum = 1;
-        seasonNum ++;
-        seenEpisodes ++;
-      } else {
-        episodeNum ++;
-        seenEpisodes ++;
+        // return;
       }
-      show.current.episode = episodeNum;
-      show.current.season = seasonNum;
-      show.seen.episodes = seenEpisodes;
-      changePercentage(show, id)
-      // show.released[seasonNum] = numPerSeason;
+      else {
+        // need to deal with arbitrary seen episodes
+        if (episodeNum >= numPerSeason) {
+          seasonNum ++;
+          episodeNum = 1;
+        }
+        else {
+          episodeNum ++;
+        }
+        seenEpisodes ++;
+        userInfo.current.episode = episodeNum;
+        userInfo.current.season = seasonNum;
+        updateEpisode(showService, id, seasonNum, episodeNum);
+      }
+      changePercentage(userInfo, show, id)
     }
   });
 
-function changePercentage(show, seriesId) {
-  var percent = parseInt(show.seen.episodes)/parseInt(show.totalEpisodes)*100;
-  percent = Math.round(percent);
+function changePercentage(userInfo, show, seriesId) {
+  var seenEpisodes = getNumWatched(userInfo);
+
+  var percent = parseInt(seenEpisodes)/parseInt(show.numberEpisodes)*100;
+  // percent = Math.round(percent);
 
   var showModel = document.getElementById(seriesId);
   var bar = showModel.childNodes[1].childNodes[1];
@@ -74,28 +87,44 @@ function changePercentage(show, seriesId) {
 
 }
 
-function initialPercentage(shows) {
+function initialPercentage($scope) {
+  var userInfo = $scope.user;
+  var shows = $scope.shows
 // setTimeout(function () {
-shows.forEach(function (show, i) {
-  var seriesId = show.showId;
-  var showModel = document.getElementById(seriesId);
-  var bar = showModel.childNodes[1].childNodes[1];
-  var show = getShowById(shows, seriesId);
-  changePercentage(show, seriesId)
-})
-//   for (var seriesId in shows) {
-//
-//   }
-// // }, 100)
+  userInfo.forEach(function (userShow, i) {
+    var seriesId = userShow.showId;
+    var showModel = document.getElementById(seriesId);
+    var bar = showModel.childNodes[1].childNodes[1];
+    var showDB = getShowById(shows, seriesId)
+    // var Usershow = getShowById(shows, seriesId);
+    changePercentage(userShow, showDB, seriesId)
+  })
 }
 
 function getShowById(shows, id) {
   var showById = null;
   shows.forEach(function (show, i) {
-    if (show.showId == id) {
+    if (show.showId === id || show._id === id) {
       showById = show;
     }
   });
   if (!showById) console.log('err! should have a show id')
   return showById;
+}
+
+function getNumWatched(userInfo) {
+  var seenEpisodes = 0;
+  userInfo.seasons.forEach(function (season) {
+    season.episodes.forEach(function (episode) {
+      if (episode) seenEpisodes ++;
+    });
+  });
+  return seenEpisodes;
+}
+
+function updateEpisode(showService, showId, seasonNum, episodeNum) {
+  showService.watchEpisode(showId, seasonNum, episodeNum, function (serviceError) {
+
+  })
+  //make an api call to update this in mongo
 }
