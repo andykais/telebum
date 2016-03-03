@@ -9,6 +9,50 @@ $font-size: 1.6rem;
   margin-top: 12px;
   box-shadow: 0 2px 6px 0.4px #a7a7a7;
   line-height: 4.0rem;
+  .seasonBar {
+    min-height:1px;
+    height: $item-height;
+    // position: relative;
+    display: inline-block;
+  }
+  .episodeBar {
+    min-height:1px;
+    height: inherit;
+    display: inline-block;
+
+    // width: 200px; height: 100px;
+    // background-image: linear-gradient(to left,
+    //                                     transparent,
+    //                                     transparent 50%,
+    //                                     #00c6ff 50%,
+    //                                     #00c6ff);
+    // background-position: 100% 0;
+    // background-size: 100% 200%;
+    // transition: all .25s ease-in;
+
+    // transition: background-position 1s;
+
+
+    // background-size: 100% 200%;
+    // background-image: linear-gradient(to bottom, red 50%, black 50%);
+    // transition: background-position 1s;
+  }
+  .watched {
+    // background-position: 0 -100%;
+
+    background-color: $light-green-color;
+
+    @include transition(background-color 1s);
+    // position: relative;
+  }
+  .slider {
+    min-height: 1px;
+    // width: 5px;
+    height: inherit;
+    // display: inline-block;
+
+    background-color: $light-green-color;
+  }
   .showName {
     padding-left: $padding-size;
   }
@@ -30,7 +74,7 @@ $font-size: 1.6rem;
     width: 100%;
     .bar {
       height: $item-height;
-      background-color: #B9E9B9;
+      background-color: $light-green-color;
       @include transition(width 1s);
       width: 0;
     }

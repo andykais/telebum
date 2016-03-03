@@ -2,7 +2,16 @@
 
 <div id="{{ show.showId }}" class="showItem" ng-repeat="show in user">
   <div class="progressBar">
-    <div class="bar"></div>
+    <div class="seasonBar" ng-repeat="(sNumber, season) in show.seasons" style="width:{{season.episodes.length/numEpisodes(show.showId)*100}}%">
+      <!-- {{season.episodes.length/numEpisodes(show.showId)}} -->
+      <!-- <div class="episodeBar" ng-repeat="episode in season" ng-class="{watched: episode}" style="width: {{getWidth(show.showId)}}%"></div> -->
+      <!-- {{sNumber}} -->
+      <!-- <div class="episodeBar" ng-class="{watched: episode}" ng-repeat="(eNumber, episode) in season.episodes track by $index" style="padding-left: {{100/season.episodes.length}}%"></div> -->
+      <div id="episode-{{sNumber}}-{{eNumber}}" class="episodeBar" ng-class="{watched: episode}" ng-repeat="(eNumber, episode) in season.episodes track by $index" style="padding-left: {{100/season.episodes.length}}%">
+        <div class="slider"></div>
+      </div>
+    </div>
+    <!-- <div class="bar"></div> -->
     <!-- <div class="bar" style="width:{{ show.percentComplete }}%;"></div> -->
   </div>
 

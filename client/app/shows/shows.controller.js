@@ -31,11 +31,17 @@ angular.module('telebumApp')
       Auth.currentShow.seriesid = seriesId;
       Auth.currentShow.added = added;
     }
-
+    $scope.getWidth = function (seriesId) {
+      return 100/getShowById($scope.shows, seriesId).numberEpisodes
+    }
+    $scope.numEpisodes = function (seriesId) {
+      return getShowById($scope.shows, seriesId).numberEpisodes;
+    }
 
     $scope.advance = function (id) {
       var show = getShowById($scope.shows, id);
       var userInfo = getShowById($scope.user, id);
+      // console.log(userInfo)
 
       var episodeNum = userInfo.current.episode || 0;
       var seasonNum = userInfo.current.season || 0;
@@ -55,13 +61,38 @@ angular.module('telebumApp')
         if (areAllWatched(userInfo)) userInfo.finished = true;
 
         updateEpisode(showService, id, seasonNum, episodeNum);
+        // console.log($scope.user)
+        changePercentage(userInfo.current, id)
         userInfo.current = getLastUnWatchedEpisode(userInfo);
       }
-      changePercentage(userInfo, show, id)
     }
   });
 
-function changePercentage(userInfo, show, seriesId) {
+function changePercentage(current, seriesId) {
+  // var seenEpisodes = getNumWatched(userInfo);
+  // var percent = parseInt(seenEpisodes)/parseInt(show.numberEpisodes)*100;
+  // percent = Math.round(percent);
+  //
+  // var episode = current.episode,
+  //   season = current.season,
+  //   showModel = document.getElementById(seriesId);
+  // var bar = showModel.childNodes[1]
+  Element.prototype.getElementById = function(id) {
+      return document.getElementById(id);
+  }
+
+  var episodeId = 'episode-' + current.season + '-' + current.episode;
+  var singleBar = document.getElementById(seriesId).getElementById(episodeId)
+  // console.log(singleBar)
+  // console.log(bar)
+  // var slider = singleBar.childNodes[1];
+  // slider.style.width = '5px';
+  // console.log(slider)
+  // console.log(slider)
+  // singleBar.style.backgroundPosition = '0 0%';
+  // singleBar.style.backgroundPosition = '0 0%';
+}
+function changePercentageOld(userInfo, show, seriesId) {
   var seenEpisodes = getNumWatched(userInfo);
   var percent = parseInt(seenEpisodes)/parseInt(show.numberEpisodes)*100;
   // percent = Math.round(percent);
@@ -69,7 +100,6 @@ function changePercentage(userInfo, show, seriesId) {
   var showModel = document.getElementById(seriesId);
   var bar = showModel.childNodes[1].childNodes[1];
   bar.style.width=percent + "%";
-
 }
 
 function initialPercentage($scope) {
@@ -85,7 +115,7 @@ function initialPercentage($scope) {
     userShow.current = getLastUnWatchedEpisode(userShow);
     userShow.finished = areAllWatched(userShow);
     $scope.$apply()
-    changePercentage(userShow, showDB, seriesId)
+    changePercentage(userShow.current, seriesId, seriesId)
   })
 }
 
