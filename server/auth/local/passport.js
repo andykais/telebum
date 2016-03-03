@@ -15,9 +15,6 @@ exports.setup = function (User, config) {
         if (!user) {
           return done(null, false, { message: 'User name is not registered.' });
         }
-        console.log(user);
-        console.log("this is password");
-        console.log(password);
         if (!user.authenticate(password)) {
           return done(null, false, { message: 'This password is not correct.' });
         }

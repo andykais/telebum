@@ -101,7 +101,7 @@ function seedWatchSeason(userId, showId, seasonNum, callback) {
     function (results, cb) {
       var show = results[0],
           user = results[1],
-          userShow = results[2][1];
+          userShow = results[2];
 
       var length = show.get('seasons')[seasonNum].length;
       var episodeChanges = Array.apply(null, Array(length)).map(function(v) {return true});;
@@ -137,11 +137,7 @@ function countEpisodes(show) {
   var userShowAddition = {
     showId: show._id,
     title: show.name,
-    seasons: seasons,
-    current : {
-      episode : 1,
-      season : 1
-    },
+    seasons: seasons
   };
   return userShowAddition
 }

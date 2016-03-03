@@ -3,12 +3,13 @@
 var User = require('./user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
+var clientErrors = require('../../components/errors');
 var jwt = require('jsonwebtoken');
 var tvdb = require('../tvdb');
 var Show = require('../shows/shows.model');
-var clientErrors = require('../../components/errors');
 var async = require('async');
 var chalk = require('chalk');
+var helpers = require('./user.helper')
 
 var validationError = function(res, err) {
   return res.status(422).json(err);
@@ -156,31 +157,58 @@ exports.removeShow = function(req, res, next) {
 };
 
 /**
- * marks a specific episode as watched (true)
+ * marks a specific episodeof a show as watched (true)
  */
 exports.watchEpisode = function(req, res, next) {
   var userId = req.user._id;
   var showId = req.params.showId;
   var seasonNum = req.body.season;
   var episodeNum = req.body.episode;
-  getUser(userId, function (getUserErr, grabbedUser) {
-    if (getUserErr) clientErrors(res, 500, getUserErr)
-    else {
-      grabbedUser.shows.forEach(function(show, index, user) {
-        if (show.showId == showId) {
-          grabbedUser.shows[index].seasons[seasonNum].episodes[episodeNum] = true;
+
+  async.waterfall([
+    async.apply(helpers.getUserShowById, userId, showId),
+    function (userShow, cb) {
+      userShow.seasons[seasonNum].episodes[episodeNum] = true;
+      var updateQuery = {
+          '_id': userId,
+          'shows.showId': showId
+        },
+        updateValues = {
+          '$set': {'shows.$': userShow}
         }
-      });
-      grabbedUser.update({'shows': grabbedUser.shows}, function (updateErr) {
-          if (updateErr) clientErrors(res, 500, updateErr);
-          else res.status(200).send('OK');
-      });
+      User.findOneAndUpdate(updateQuery, updateValues, cb)
     }
+  ], function (waterfallErr, results) {
+    if (waterfallErr) clientErrors(res, 500, waterfallErr);
+    else res.status(200).send('OK');
   });
 }
+/**
+ * marks a specific episode of a show as watched (true)
+ */
 exports.unwatchEpisode = function(req, res, next) {
-  var userId = req.user._id;
-  var showId = req.params.showId;
+  var userId = req.user._id,
+    showId = req.params.showId,
+    seasonNum = req.body.season,
+    episodeNum = req.body.episode;
+
+  async.waterfall([
+    async.apply(helpers.getUserShowById, userId, showId),
+    function (userShow, cb) {
+      userShow.seasons[seasonNum].episodes[episodeNum] = false;
+      var updateQuery = {
+          '_id': userId,
+          'shows.showId': showId
+        },
+        updateValues = {
+          '$set': {'shows.$': userShow}
+        }
+      User.findOneAndUpdate(updateQuery, updateValues, cb)
+    }
+  ], function (waterfallErr, results) {
+    if (waterfallErr) clientErrors(res, 500, waterfallErr);
+    else res.status(200).send('OK');
+  });
 }
 /**
  * Displays all shows in the user's list
@@ -212,7 +240,6 @@ var MongooseFindById = function(showId, callback) {
 
 
 exports.userShow = function(req, res, next) {
-  printMarker()
   var userId = req.user._id;
   var showId = req.params.showId;
   getUserShowById(userId, showId, function(getUserErr, grabbedUser, grabbedShow) {
@@ -310,10 +337,6 @@ var countEpisodes = function(show) {
     showId: show._id,
     title: show.name,
     seasons: seasons,
-    current : {
-      episode : 1,
-      season : 1
-    },
   };
   return userShowAddition
 }

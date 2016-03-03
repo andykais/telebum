@@ -9,8 +9,7 @@ angular.module('telebumApp')
       getShow
     ], function (err, result) {
       if (err) console.log(err)
-      console.log($scope.show)
-      console.log($scope.user)
+      console.log({show: $scope.show, user: $scope.user})
       initializeChecks($scope.indetermChecks, $scope.show.seasons);
     });
     function getUserData(asyncCallback) {

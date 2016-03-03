@@ -37,7 +37,7 @@ exports.getUserByName = function(name, callback) {
 exports.saveUserField = function(user, field, callback) {
   user.update(field, function (saveErr) {
     callback(saveErr);
-  })
+  });
 }
 exports.getUserShowById = function (userId, showId, callback) {
   module.exports.getUserById(userId, function (getUserErr, grabbedUser) {
@@ -46,7 +46,7 @@ exports.getUserShowById = function (userId, showId, callback) {
       var existsAlready = grabbedUser.get('shows').filter(function (iterShow) {
         return iterShow.showId === Number(showId);
       });
-      callback(null, grabbedUser, existsAlready[0]);
+      callback(null, existsAlready[0]);
     }
   });
 }

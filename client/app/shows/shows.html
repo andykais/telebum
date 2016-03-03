@@ -12,7 +12,8 @@
   <span class="showName">
     <a href="/shows/{{show.showId}}">{{ show.title }}</a>
   </span>
-  <span class="lastSeen">
-    Season {{ show.current.season }}  Episode {{ show.current.episode }}
+  <span ng-hide="show.finished" class="lastSeen">
+    Season {{ show.current.season + 1 }}  Episode {{ show.current.episode + 1 }}
   </span>
+  <span ng-show="show.finished" class="lastSeen">show completed!</span>
 </div>

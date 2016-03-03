@@ -12,11 +12,7 @@ var UserShowSchema = new Schema({
   seasons:[{
     number:{type:Number},
     episodes:[Boolean]
-  }],
-  current:{
-    season:{type:Number},
-    episode:{type:Number}
-  }
+  }]
 });
 
 var UserSchema = new Schema({

@@ -97,9 +97,11 @@ var getSeriesInfo = function(seriesId, callback){
         _.each(result.data.episode, function (episode, key) {
           if(episode.seasonnumber > 0){
             if(episode.episodenumber == 1){
-              show.seasons[episode.seasonnumber] = [];
+              // makes more sense to make 1st array value 0
+              var arrayedSeasonNumber = episode.seasonnumber - 1;
+              show.seasons[episode.seasonnumber - 1] = [];
             }
-            show.seasons[episode.seasonnumber].push({
+            show.seasons[episode.seasonnumber - 1].push({
               season: episode.seasonnumber,
               episodeNumber: episode.episodenumber,
               episodeName: episode.episodename,
