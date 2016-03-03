@@ -157,6 +157,26 @@ exports.removeShow = function(req, res, next) {
 };
 
 /**
+ * sets all the episodes for a user to the given set of data
+ */
+exports.updateWatched = function(req, res, next) {
+  var userId = req.user._id,
+    showId = req.params.showId,
+    showData = req.body.userSeasons;
+
+    var updateQuery = {
+        '_id': userId,
+        'shows.showId': showId
+    };
+    var updateValues = {
+        '$set': {'shows.$.seasons': showData}
+    }
+    User.findOneAndUpdate(updateQuery, updateValues, function (mongoErr) {
+      if (mongoErr) clientErrors(res, 500, waterfallErr);
+      else res.status(200).send('OK');
+    });
+}
+/**
  * marks a specific episodeof a show as watched (true)
  */
 exports.watchEpisode = function(req, res, next) {

@@ -21,6 +21,7 @@ router.post('/addShow/:showId', auth.isAuthenticated(), controller.addShow);
 router.delete('/removeShow/:showId', auth.isAuthenticated(), controller.removeShow);
 router.put('/watchEpisode/:showId', auth.isAuthenticated(), controller.watchEpisode);
 router.put('/unwatchEpisode/:showId', auth.isAuthenticated(), controller.unwatchEpisode);
+router.put('/watched/:showId', auth.isAuthenticated(), controller.updateWatched);
 
 
 router.get('/me', auth.isAuthenticated(), controller.me);

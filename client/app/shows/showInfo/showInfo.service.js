@@ -36,12 +36,20 @@ angular.module('telebumApp')
       });
     }
 
+    var updateWatched = function(showId, data, callback)
+    {
+      $http.put('/api/users/watched/' + showId, data).success(function(data, error) {
+        console.log(data);
+        callback(error, data);
+      })
+    }
+
     return {
       getShowInfo: getShowInfo,
       getUserShowInfo: getUserShowInfo,
       addNewShow: addNewShow,
-      removeExistingShow: removeExistingShow
-
+      removeExistingShow: removeExistingShow,
+      updateWatched: updateWatched
 
     };
   });

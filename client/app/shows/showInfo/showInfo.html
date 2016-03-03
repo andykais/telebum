@@ -32,7 +32,7 @@
     <div class="episodeHolder"  ng-show="showEpisodes(sNumber)">
       <div class="episodeRow" ng-repeat="(eNumber, episode) in season">
       <div class="checkHolder">
-        <input type="checkbox" ng-model="episode.watched">
+        <input type="checkbox" ng-model="user.seasons[sNumber].episodes[eNumber]">
       </div>
       <div class="episodeItem">
          {{eNumber}} {{episode.episodeName}}
