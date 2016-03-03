@@ -4,10 +4,9 @@ $font-size: 1.6rem;
 .showItem {
   font-size: $font-size;
   height: $item-height;
-  // border-top: 1px solid #ececec;
-  border-bottom: 1px solid #a7a7a7;
-  margin-top: 12px;
-  box-shadow: 0 2px 6px 0.4px #a7a7a7;
+  border-bottom: 1px solid $shadow-color;
+  margin-top: $margin-size;
+  box-shadow: 0 2px 6px 0.4px $shadow-color;
   line-height: 4.0rem;
   .showName {
     padding-left: $padding-size;

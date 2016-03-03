@@ -1,30 +1,68 @@
-.alertify-logs.center {
-  display:table;
-  left:0;
-  width:100%; //Or however wide you want the container to be
-  // height: $item-height;
+.alertify-logs.bottom {
+  bottom: $margin-size;
   .default {
     background: none;
     box-shadow: none;
-    // display:table-cell; //This allows the use of vertical-align
-    // vertical-align:bottom;
-    text-align:center;
-    width:100%;
-    height: 60px;
-    color: $text-color;
-    transition: all 0.4s linear;
+    overflow:visible;
+    color: $text-white;
+    // transition: all 0.4s linear;
+    transition: all 0.2s linear;
   }
   .inner {
-    height: $item-height;
-    box-shadow: 0 0 10px 0 rgba(0,0,0,.2);
+    background-color: $main-palatte;
+    padding: $padding-size;
+    font-size: 1.2em;
+    box-shadow: 0 2px 4px 1px $shadow-color;
     box-sizing: border-box;
-    border-radius: 1px;
+    border-radius: 5px;
+    // transition: padding 0.2s linear;
+  }
+  .spanHolder {
     display: inline-block;
-    margin: 10px;
-    padding: 10px;
+  }
+  .watchButton {
+    background-color: $light-green-color;
+    color: $text-black;
+    display:inline-block;
+    margin-left: 5px;
+    padding: 0 5px;
+    // border: solid 1px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+}
+// set clickable on top
+// works but then the button is unclickable or unpositionable inside the div
+// .default {
+//   position: relative;
+// }
+// .inner {
+//   position: relative;
+//   z-index: -5;
+//   padding: $padding-size;
+//   padding-right: $padding-size + 37.5px + 5px + 5px;
+// }
+// .watchButton {
+//   position: absolute;
+//   // left: 0;
+//   top: 0;
+// }
+// to center a variable width .inner div
+.alertify-logs.center {
+  display:table;
+  left:0; // toggle to get a side div
+  width:100%; //toggle to get a side div
+  .default {
+    text-align:center;
+    width:100%;
+  }
+  .inner {
+    // height: $item-height;
+    display: inline-block;
     line-height: 20px;
   }
 }
+// remove existing transitions, add a bottom transition
 .alertify-logs>.show {
   margin: 0;
   padding: 0;
@@ -42,18 +80,4 @@
   bottom: -110px;
 }
 .added .inner {
-  font-size: 1.2em;
-  background-color: $main-palatte;
-  span {
-      // background-color: red;
-  }
-  .watchButton {
-    background-color: $light-green-color;
-    display:inline-block;
-    margin-left: 5px;
-    padding: 0 5px;
-    // border: solid 1px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
 }

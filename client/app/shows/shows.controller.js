@@ -1,3 +1,5 @@
+var globalShowScope;
+var globalShowService
 angular.module('telebumApp')
   .controller('ShowsCtrl', function($scope, Auth, User, $http, $cookieStore, $q, showService) {
     var user = Auth.getCurrentUser();
@@ -8,6 +10,8 @@ angular.module('telebumApp')
     ], function (err, results) {
       var showRequest = results[0]
       initialPercentage($scope);
+      globalShowScope = $scope;
+      globalShowService = showService;
     });
     function getShows(asyncCallback) {
       showService.getAllShows(function (serviceError, showRequest) {
@@ -37,7 +41,6 @@ angular.module('telebumApp')
     $scope.numEpisodes = function (seriesId) {
       return getShowById($scope.shows, seriesId).numberEpisodes;
     }
-
     $scope.advance = function (id) {
       var show = getShowById($scope.shows, id);
       var userInfo = getShowById($scope.user, id);
@@ -65,15 +68,18 @@ angular.module('telebumApp')
 
         var msg = "<div class=\"inner\">" +
                   "<span>Watched: " + episodeName + "</span>" +
-                  "<span class=\"watchButton\">Undo</span>" +
+                  "<span class=\"watchButton\" onclick=unWatchEpisode(" + id + "," + seasonNum + "," + episodeNum + ")>Undo</span>" +
                   "</div>";
+
         alertify
           .logPosition("bottom center added")
+          .delay(2000)
           .maxLogItems(1)
+          .closeLogOnClick(true)
           .log(msg, function (clicked) {
-            console.log(clicked)
-          })
-        // toastr.success('Have fun storming the castle!', 'Miracle Max Says')
+            // this will be fixed on next release
+            // console.log(clicked)
+          });
         // changePercentage(userInfo.current, id)
         userInfo.current = getLastUnWatchedEpisode(userInfo);
       }
@@ -135,6 +141,15 @@ function updateEpisode(showService, showId, seasonNum, episodeNum) {
   })
   //make an api call to update this in mongo
 }
+function unWatchEpisode(seriesId, seasonNum, episodeNum) {
+  var userShow = getShowById(globalShowScope.user, seriesId)
+  userShow.seasons[seasonNum].episodes[episodeNum] = false;
+  userShow.current = {season: seasonNum, episode: episodeNum}
+  globalShowScope.$apply();
+  globalShowService.unwatchEpisode(seriesId, seasonNum, episodeNum, function (serviceError) {
+
+  });
+}
 
 function getLastUnWatchedEpisode(userInfo) {
   // console.log('getLast')
@@ -190,7 +205,6 @@ function areAllWatched(userInfo) {
   return !unwatched;
 }
 function getNextEpisode(userInfo, sIndex, eIndex) {
-  // console.log('getNextEpisode')
   var current = {
     season: 0,
     episode: 0
