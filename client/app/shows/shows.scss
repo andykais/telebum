@@ -9,50 +9,6 @@ $font-size: 1.6rem;
   margin-top: 12px;
   box-shadow: 0 2px 6px 0.4px #a7a7a7;
   line-height: 4.0rem;
-  .seasonBar {
-    min-height:1px;
-    height: $item-height;
-    // position: relative;
-    display: inline-block;
-  }
-  .episodeBar {
-    min-height:1px;
-    height: inherit;
-    display: inline-block;
-
-    // width: 200px; height: 100px;
-    // background-image: linear-gradient(to left,
-    //                                     transparent,
-    //                                     transparent 50%,
-    //                                     #00c6ff 50%,
-    //                                     #00c6ff);
-    // background-position: 100% 0;
-    // background-size: 100% 200%;
-    // transition: all .25s ease-in;
-
-    // transition: background-position 1s;
-
-
-    // background-size: 100% 200%;
-    // background-image: linear-gradient(to bottom, red 50%, black 50%);
-    // transition: background-position 1s;
-  }
-  .watched {
-    // background-position: 0 -100%;
-
-    background-color: $light-green-color;
-
-    @include transition(background-color 1s);
-    // position: relative;
-  }
-  .slider {
-    min-height: 1px;
-    // width: 5px;
-    height: inherit;
-    // display: inline-block;
-
-    background-color: $light-green-color;
-  }
   .showName {
     padding-left: $padding-size;
   }
@@ -72,13 +28,52 @@ $font-size: 1.6rem;
     position: absolute;
     z-index: -1;
     width: 100%;
-    .bar {
-      height: $item-height;
-      background-color: $light-green-color;
-      @include transition(width 1s);
-      width: 0;
-    }
+    height: $item-height;
   }
+  .seasonBar {
+    height: $item-height;
+    position: relative;
+    display: inline-block;
+  }
+  .episodeBar {
+    // min-height:1px;
+    height: inherit;
+    display: inline-block;
+    position: relative;
+    z-index: -1;
+    // width: 100%;
+  }
+  // .slider { // width transition
+  //   width: 0;
+  //   height: inherit;
+  //   @include transition(width .5s);
+  //   background-color: $light-green-color;
+  // }
+  // .slider.watched {
+  //   width: 100%;
+  // }// end width transition
+  .slider { // height tranisition
+    position:absolute;
+    bottom:0;
+    height: 0;
+    width: 100%;
+    @include transition(height 0.5s);
+    background-color: $light-green-color;
+  }
+  .slider.watched {
+    height: inherit;
+  } // end height tranisition
+  // .episodeBar {// background position transition
+  //   width: 100%;
+  //   height: inherit;
+  //   background-size: 100% 200%;
+  //   background-image: linear-gradient(to top, $light-green-color 50%, transparent 50%);
+  //   transition: background-position 1s;
+  // }
+  // .episodeBar.watched {
+  //   background-position: 0 100%;
+  // }//end background position transition
+
   a {
     @include setLinkStyleAll(black);
     @include transition(color .5s)

@@ -9,17 +9,21 @@ $padding-size: 10px;
 $main-palatte: #5CBB5D;
 $opposite-palatte: #458C8C;
 $light-green-color: #B9E9B9;
+$text-color: black;
 
-@import '../bower_components/normalize.css/normalize';
-@import '../bower_components/Skeleton-Sass/scss/skeleton';
-@import '../bower_components/font-awesome/scss/font-awesome';
-@import 'mixins';
-@import 'components/navbar/navbar';
-@import 'account/account';
-@import 'shows/shows';
-@import 'main/main';
-@import 'shows/addShow/addShow';
-@import 'shows/showInfo/showInfo';
+@import
+  '../bower_components/normalize.css/normalize',
+  '../bower_components/Skeleton-Sass/scss/skeleton',
+  '../bower_components/font-awesome/scss/font-awesome',
+  // '../bower_components/alertify.js/dist/css/alertify',
+  'mixins',
+  'components/navbar/navbar',
+  'components/alertify_custom',
+  'account/account',
+  'shows/shows',
+  'main/main',
+  'shows/addShow/addShow',
+  'shows/showInfo/showInfo';
 
 // @include font-face('MyWebby', '../fonts/bariol/bariol_regular-webfont');
 @import url(https://fonts.googleapis.com/css?family=NTR);

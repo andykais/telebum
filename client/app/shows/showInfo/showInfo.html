@@ -26,7 +26,7 @@
     </div>
     <div class="openHolder">
       <div class="seasonItem button" ng-click="openEpisodes(sNumber)">
-        <span class="number">Season {{sNumber}}</span>
+        <span class="number">Season {{(sNumber * 1) + 1}}</span>
       </div>
     </div>
     <div class="episodeHolder"  ng-show="showEpisodes(sNumber)">
@@ -35,7 +35,7 @@
         <input type="checkbox" ng-model="user.seasons[sNumber].episodes[eNumber]">
       </div>
       <div class="episodeItem">
-         {{eNumber}} {{episode.episodeName}}
+         {{(eNumber * 1) + 1}} {{episode.episodeName}}
       </div>
       </div>
     </div>

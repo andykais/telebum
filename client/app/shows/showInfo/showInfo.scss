@@ -49,6 +49,9 @@ $checkbox-size: 20px;
 }
 #rowsHolder {
   width: 100%;
+  @include not-for-mobile() {
+    margin-bottom: 300px;
+  }
   .seasonRow {
     overflow: hidden;
     position: relative;

@@ -89,6 +89,8 @@ gulp.task('watch',function() {
   });
   // compile the sass to css
   gulp.watch( ['client/app/**/*.scss'], ['styles'])
+  gulp.watch(['client/bower_components/alertify.js/src/css/*.css'], ['styles'])
+
   // watch css files and run css task to minify
   // gulp.watch(	['client/assets/css/*.css'],['css']);
 

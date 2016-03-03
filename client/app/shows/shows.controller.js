@@ -47,6 +47,7 @@ angular.module('telebumApp')
       var seasonNum = userInfo.current.season || 0;
       var numPerSeason = show.seasons[seasonNum].length;
       var totalEpisodes = show.numberEpisodes;
+      var episodeName = show.seasons[seasonNum][episodeNum].episodeName;
       totalSeasons = 0;
       for (var i in show.seasons) {
         totalSeasons ++;
@@ -61,37 +62,24 @@ angular.module('telebumApp')
         if (areAllWatched(userInfo)) userInfo.finished = true;
 
         updateEpisode(showService, id, seasonNum, episodeNum);
-        // console.log($scope.user)
-        changePercentage(userInfo.current, id)
+
+        var msg = "<div class=\"inner\">" +
+                  "<span>Watched: " + episodeName + "</span>" +
+                  "<span class=\"watchButton\">Undo</span>" +
+                  "</div>";
+        alertify
+          .logPosition("bottom center added")
+          .maxLogItems(1)
+          .log(msg, function (clicked) {
+            console.log(clicked)
+          })
+        // toastr.success('Have fun storming the castle!', 'Miracle Max Says')
+        // changePercentage(userInfo.current, id)
         userInfo.current = getLastUnWatchedEpisode(userInfo);
       }
     }
   });
 
-function changePercentage(current, seriesId) {
-  // var seenEpisodes = getNumWatched(userInfo);
-  // var percent = parseInt(seenEpisodes)/parseInt(show.numberEpisodes)*100;
-  // percent = Math.round(percent);
-  //
-  // var episode = current.episode,
-  //   season = current.season,
-  //   showModel = document.getElementById(seriesId);
-  // var bar = showModel.childNodes[1]
-  Element.prototype.getElementById = function(id) {
-      return document.getElementById(id);
-  }
-
-  var episodeId = 'episode-' + current.season + '-' + current.episode;
-  var singleBar = document.getElementById(seriesId).getElementById(episodeId)
-  // console.log(singleBar)
-  // console.log(bar)
-  // var slider = singleBar.childNodes[1];
-  // slider.style.width = '5px';
-  // console.log(slider)
-  // console.log(slider)
-  // singleBar.style.backgroundPosition = '0 0%';
-  // singleBar.style.backgroundPosition = '0 0%';
-}
 function changePercentageOld(userInfo, show, seriesId) {
   var seenEpisodes = getNumWatched(userInfo);
   var percent = parseInt(seenEpisodes)/parseInt(show.numberEpisodes)*100;
@@ -115,7 +103,8 @@ function initialPercentage($scope) {
     userShow.current = getLastUnWatchedEpisode(userShow);
     userShow.finished = areAllWatched(userShow);
     $scope.$apply()
-    changePercentage(userShow.current, seriesId, seriesId)
+
+    // changePercentage(userShow.current, seriesId, seriesId)
   })
 }
 
@@ -150,7 +139,10 @@ function updateEpisode(showService, showId, seasonNum, episodeNum) {
 function getLastUnWatchedEpisode(userInfo) {
   // console.log('getLast')
   //get the furthest along episode that has been watched
-  var current = {};
+  var current = {
+    season: 0,
+    episode: 0
+  };
   var lastSeason,
     lastEpisode;
   userInfo.seasons.forEach(function (season, sIndex, seasons) {
