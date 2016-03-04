@@ -64,6 +64,7 @@ angular.module('telebumApp')
       return false;
     }
     $scope.openEpisodes = function(seasonNumber) {
+      console.log(document.getElementById('season-'+seasonNumber).getAttribute('data-height'))
       showSeason[seasonNumber] = !showSeason[seasonNumber];
     }
     $scope.showEpisodes = function(seasonNumber) {

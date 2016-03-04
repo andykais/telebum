@@ -73,7 +73,7 @@ angular.module('telebumApp')
 
         alertify
           .logPosition("bottom center added")
-          .delay(2000)
+          .delay(3000)
           .maxLogItems(1)
           .closeLogOnClick(true)
           .log(msg, function (clicked) {

@@ -1,5 +1,3 @@
-$checkbox-size: 20px;
-
 #infoHolder {
   .innerPad {
     padding: $padding-size;
@@ -7,23 +5,9 @@ $checkbox-size: 20px;
     position: relative;
   }
   width: 100%;
-  box-shadow: 0 2px 6px 0.4px #a7a7a7;
-  a {
-    @include setLinkStyleAll(black);
-    -webkit-transition: color .5s; /* Safari */
-    transition: color .5s;
-  }
-  a:hover {
-    color: $main-palatte;
-  }
-
+  box-shadow: 0 2px 6px 0.4px $shadow-color;
   img {
     height: 500px;
-    @include for-mobile() {
-      width: 100%;
-      // height: 200px;
-      height: auto;
-    }
   }
   .overviewHolder {
     position: relative;
@@ -33,19 +17,31 @@ $checkbox-size: 20px;
     padding-top: $padding-size;
   }
 }
+// mobile styles
+@include for-mobile() {
+  #infoHolder {
+    img {
+      width: 100%;
+      height: auto;
+    }
+    .overviewHolder {
+      margin-bottom: 60px;
+    }
+  }
+}
 .deleteAddButton {
   position: absolute;
   bottom: $padding-size;
   right: $padding-size;
-  color: white;
+  color: $text-white;
 }
 #notInDatabase {
   @extend .deleteAddButton;
-  background-color: $main-palatte;
+  background-color: $main-color;
 }
 #inDatabase {
   @extend .deleteAddButton;
-  background-color: $opposite-palatte;
+  background-color: $blue-color;
 }
 #rowsHolder {
   width: 100%;
@@ -79,7 +75,7 @@ $checkbox-size: 20px;
       .seasonItem {
         width: 100%;
         @include no-touchy();
-        box-shadow: 0 2px 6px 0.4px #a7a7a7;
+        box-shadow: 0 2px 6px 0.4px $shadow-color;
         height: $item-height;
       }
     }
@@ -90,7 +86,6 @@ $checkbox-size: 20px;
     @include not-for-mobile() {
       @include transition(all linear .35s);
       // @include transition(max-width linear .35s);
-      // @include transition(max-width linear .35s, opacity linear .5s);
     }
   }
   .episodeHolder.ng-hide:not(.ng-hide-animate) {
@@ -100,7 +95,7 @@ $checkbox-size: 20px;
   .episodeHolder.ng-hide {
     max-height: 0;
     overflow-y: hidden;
-    opacity: 0;
+    // opacity: 0;
   }
 
 

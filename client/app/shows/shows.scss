@@ -42,36 +42,20 @@ $font-size: 1.6rem;
     z-index: -1;
     // width: 100%;
   }
-  // .slider { // width transition
-  //   width: 0;
-  //   height: inherit;
-  //   @include transition(width .5s);
-  //   background-color: $light-green-color;
-  // }
-  // .slider.watched {
-  //   width: 100%;
-  // }// end width transition
-  .slider { // height tranisition
-    position:absolute;
-    bottom:0;
-    height: 0;
-    width: 100%;
-    @include transition(height 0.5s);
-    background-color: $light-green-color;
+  .slider { // width transition
+    @extend .sliderWidth;
+    // @extend .sliderHeight;
   }
   .slider.watched {
-    height: inherit;
-  } // end height tranisition
-  // .episodeBar {// background position transition
-  //   width: 100%;
-  //   height: inherit;
-  //   background-size: 100% 200%;
-  //   background-image: linear-gradient(to top, $light-green-color 50%, transparent 50%);
-  //   transition: background-position 1s;
-  // }
-  // .episodeBar.watched {
-  //   background-position: 0 100%;
-  // }//end background position transition
+    @extend .sliderWidthWatched;
+    // @extend .sliderHeightWatched;
+  }
+  .episodeBar {
+    // @extend .episodeBarWidth;
+  }
+  .episodeBar.watched {
+    // @extend .episodeBarWidthWatched;
+  }
 
   a {
     @include setLinkStyleAll(black);
@@ -80,5 +64,38 @@ $font-size: 1.6rem;
   a:hover {
     color: white;
   }
-
 }
+
+// for setting width transition
+.sliderWidth { // width transition
+  width: 0;
+  height: inherit;
+  @include transition(width .5s);
+  background-color: $light-green-color;
+}
+.sliderWidthWatched {
+  width: 100%;
+}// end width transition
+// for setting height transition
+.sliderHeight {
+  position:absolute;
+  bottom:0;
+  height: 0;
+  width: 100%;
+  @include transition(height 0.5s);
+  background-color: $light-green-color;
+}
+.sliderHeightWatched {
+  height: inherit;
+} // end height tranisition
+// for setting background transition
+.episodeBarWidth {
+  width: 100%;
+  height: inherit;
+  background-size: 100% 200%;
+  background-image: linear-gradient(to top, $light-green-color 50%, transparent 50%);
+  transition: background-position 1s;
+}
+.episodeBarWidthWatched {
+  background-position: 0 100%;
+}//end background position transition

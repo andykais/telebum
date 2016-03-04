@@ -1,20 +1,17 @@
 $fa-font-path: "/bower_components/font-awesome/fonts";
 
 // global variables
-$h2-height:  4rem;
-$h5-height:  1.6rem;
 $nav-height: 45px;
 $item-height: 40px;
 $padding-size: 10px;
 $margin-size: 12px;
-$main-palatte: #5CBB5D;
+$checkbox-size: 20px;
 $main-color: #5CBB5D;
-$opposite-palatte: #458C8C;
 $blue-color: #458C8C;
 $light-green-color: #B9E9B9;
 $text-color: black;
-// $shadow-color: #ececec;
 $shadow-color: #a7a7a7;
+// $shadow-color: #ececec;
 $text-black: black;
 $text-white: white;
 
@@ -47,9 +44,9 @@ html,body {
   color: $text-color;
 }
 h2 {
-  font-size: $h2-height;
+  font-size: 4rem;
 }
 h5 {
-  font-size: $h5-height;
+  font-size: 1.6rem;
   margin-bottom: 5px;
 }
