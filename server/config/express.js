@@ -14,6 +14,7 @@ var errorHandler = require('errorhandler');
 var path = require('path');
 var config = require('./environment');
 var passport = require('passport');
+var favicon = require('favicon');
 
 module.exports = function(app) {
   var env = app.get('env');
@@ -24,22 +25,24 @@ module.exports = function(app) {
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
-  // inject livreload to browser
-  app.use(require('connect-livereload')({port: 35729}));
   app.use(methodOverride());
   app.use(cookieParser());
   app.use(passport.initialize());
+
+
+
   if ('production' === env) {
-    app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
-    app.use(express.static(path.join(config.root, 'public')));
     app.set('appPath', path.join(config.root, 'public'));
+    app.use(favicon(path.join(app.get('appPath'), 'favicon.ico')));
+    app.use(express.static(app.get('appPath')));
     app.use(morgan('dev'));
   }
 
   if ('development' === env || 'test' === env) {
-    app.use(express.static(path.join(config.root, '.tmp')));
-    app.use(express.static(path.join(config.root, 'client')));
+    app.use(require('connect-livereload')()); // inject livreload to browser
     app.set('appPath', path.join(config.root, 'client'));
+    app.use(express.static(path.join(config.root, '.tmp')));
+    app.use(express.static(app.get('appPath')));
     app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last
   }

@@ -8,7 +8,7 @@ module.exports = {
     uri: 'mongodb://localhost/telebum'
   },
 
-  // Server Address
-  addr: "http://localhost:8080",
+  // Seed database on startup
+  seedDB: true
 
 };

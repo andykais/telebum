@@ -7,7 +7,7 @@ a note taking web app for organizing television shows and movies
 - install Mongo DB
 once installed, make sure your mongo db is running, then run
 ```
-npm install -g gulp bower
+npm install -g bower "gulpjs/gulp-cli#4.0" 
 npm install
 bower install
 gulp

@@ -1,4 +1,9 @@
+// @include font-face('MyWebby', '../fonts/bariol/bariol_regular-webfont');
+@import url(https://fonts.googleapis.com/css?family=NTR);
+// @import url(https://fonts.googleapis.com/css?family=Varela+Round);
 $fa-font-path: "/bower_components/font-awesome/fonts";
+@import '../bower_components/font-awesome/scss/font-awesome';
+// '../bower_components/alertify.js/dist/css/alertify',
 
 // global variables
 $nav-height: 45px;
@@ -15,23 +20,7 @@ $shadow-color: #a7a7a7;
 $text-black: black;
 $text-white: white;
 
-@import
-  '../bower_components/normalize.css/normalize',
-  '../bower_components/Skeleton-Sass/scss/skeleton',
-  '../bower_components/font-awesome/scss/font-awesome',
-  // '../bower_components/alertify.js/dist/css/alertify',
-  'mixins',
-  'components/navbar/navbar',
-  'components/alertify_custom',
-  'account/account',
-  'shows/shows',
-  'main/main',
-  'shows/addShow/addShow',
-  'shows/showInfo/showInfo';
 
-// @include font-face('MyWebby', '../fonts/bariol/bariol_regular-webfont');
-@import url(https://fonts.googleapis.com/css?family=NTR);
-// @import url(https://fonts.googleapis.com/css?family=Varela+Round);
 
 
 
@@ -50,3 +39,14 @@ h5 {
   font-size: 1.6rem;
   margin-bottom: 5px;
 }
+
+// injector
+@import 'mixins';
+@import 'account/account';
+@import 'components/alertifycustom';
+@import 'components/navbar/navbar';
+@import 'main/main';
+@import 'shows/addShow/addShow';
+@import 'shows/showInfo/showInfo';
+@import 'shows/shows';
+// endinjector

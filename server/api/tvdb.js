@@ -163,7 +163,7 @@ exports.addShowId = function(showId, callback) {
         show.numberEpisodes += show.seasons[season].length;
       }
       show.save(function (saveErr) {
-        if (saveErr && saveErr.code == 11000) {
+        if (!saveErr) {
           console.log('Adding', chalk.green(show.name), 'to showbase');
         }
         if (!saveErr || saveErr.code == 11000) {

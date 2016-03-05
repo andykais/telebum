@@ -9,12 +9,14 @@ var async = require('async');
 var chalk = require('chalk');
 
 
-exports.printMarker = function(print) {
-  if (print) console.log(chalk.bgCyan('Notice Me!!!') + print);
-  else console.log(chalk.bgCyan('Notice Me!!!'));
+exports.marker = function(print, color) {
+  var message = print || 'Notice Me!!!';
+  var messageColor = color || 'bgCyan';
+  console.log(chalk[messageColor](message));
 }
 // exports.MongooseFindById = function(showId, callback) {
 exports.getShowById = function(showId, callback) {
+
   tvdb.addShowId(showId, function (mongoErr, showData) {
     callback(mongoErr, showData);
   });
@@ -43,10 +45,32 @@ exports.getUserShowById = function (userId, showId, callback) {
   module.exports.getUserById(userId, function (getUserErr, grabbedUser) {
     if (getUserErr) callback(getUserErr, grabbedUser)
     else {
-      var existsAlready = grabbedUser.get('shows').filter(function (iterShow) {
-        return iterShow.showId === Number(showId);
+      // if (grabbedUser.get)
+      // console.log(Object.keys(existsAlready))
+
+      var existsAlready;
+      // grabbedUser.show.s
+      console.log(grabbedUser.shows.length)
+      grabbedUser.shows.forEach(function (iterShow) {
+        console.log(iterShow.showId, showId)
+        if (Number(iterShow.showId) === Number(showId)) {
+          existsAlready = iterShow;
+          module.exports.marker('found a match!', 'blue')
+          // console.log(Object.keys(existsAlready))
+        }
       });
-      callback(null, existsAlready[0]);
+      if (!existsAlready) module.exports.marker('didnt find a match :()', 'red');
+      // console.log(Object.keys(existsAlready))
+      callback(null, existsAlready)
+      // var existsAlready = grabbedUser.get('shows').filter(function (iterShow) {
+      //   console.log(iterShow.showId, Number(showId))
+      //   console.log(Number(iterShow.showId) === Number(showId))
+      //   return Number(iterShow.showId) === Number(showId);
+      // });
+      // if (existsAlready.length == 0) {
+      //   module.exports.marker()
+      // }
+      // callback(null, existsAlready[0]);
     }
   });
 }

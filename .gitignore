@@ -3,3 +3,5 @@ Gemfile.lock
 node_modules
 client/bower_components
 client/assets/css
+dist
+.tmp

@@ -1,6 +1,6 @@
 angular.module("telebumApp")
   .controller('cookies', function($scope, Auth, $cookies) {
-    $scope.saveCookies() = function{
+    $scope.saveCookies() = function(){
         if(!Auth.isLoggedIn())
           return false;
         else{

@@ -6,6 +6,7 @@
 'use strict';
 
 var User = require('../api/user/user.model');
+var Show = require('../api/shows/shows.model');
 var UserController = require('../api/user/user.controller');
 var mongoose = require('mongoose');
 var tvdb = require('../api/tvdb');
@@ -13,11 +14,21 @@ var async = require('async')
 var helpers = require('../api/user/user.helper');
 
 
-/* Connect to the DB */
-mongoose.connect('mongodb://localhost/telebum',function(){
-    /* Drop the DB */
-    mongoose.connection.db.dropDatabase();
-});
+/* Remove content of user Collection */
+User.remove({}, function (err) {});
+/* Remove content of shows Collection */
+Show.remove({},function (err) {});
+
+var showSeeds = [
+  {
+    seriesId: 152831,
+    watchSeason: 1,
+  },
+  {
+    seriesId: 262980,
+    watchSeason: 1,
+  }
+]
 
 User.find({}).remove(function() {
   User.create({
@@ -36,35 +47,15 @@ User.find({}).remove(function() {
     password: 'admin'
   }, function() {
       User.find({username: 'andrew'}, function (err, user) {
-        (function () {
+        var userId = user[0]._id;
 
-          var userId = user[0]._id;
-          var episodeChanges = [];
-          var episodeChanges2 = [];
-          for (var i = 0; i < 25; ++i) {
-            episodeChanges.push(i);
-          }
-          for (var i=0; i < 3; ++i) {
-            episodeChanges2.push(i)
-          }
-
-          async.series([
-            function (cb) {
-              // add adventure time
-              seedAddShow(userId, 152831, function(err) {
-                seedWatchSeason(userId, 152831, 1, cb)
-              });
-            }, function (cb) {
-              // add house of cards
-              seedAddShow(userId, 262980, function(err) {
-                seedWatchSeason(userId, 262980, 1, cb)
-              });
-            }
-          ], function (error, results) {
-            console.log('finished populating users');
+        async.each(showSeeds, function (item, eachCb) {
+          seedAddShow(userId, item.seriesId, function(err) {
+            seedWatchSeason(userId, item.seriesId, item.watchSeason, eachCb)
           });
-        })(User);
-
+        }, function (err) {
+          console.log('finished populating users');
+        });
       });
     }
   );
@@ -90,6 +81,7 @@ function seedAddShow(userId, showId, callback) {
   });
 }
 function seedWatchSeason(userId, showId, seasonNum, callback) {
+
   async.waterfall([
     function (cb) {
       async.parallel([
@@ -104,7 +96,7 @@ function seedWatchSeason(userId, showId, seasonNum, callback) {
           userShow = results[2];
 
       var length = show.get('seasons')[seasonNum].length;
-      var episodeChanges = Array.apply(null, Array(length)).map(function(v) {return true});;
+      var episodeChanges = Array.apply(null, Array(length)).map(function(v) {return true});
       episodeChanges.forEach(function (value, episodeNum) {
         userShow.seasons[seasonNum - 1].episodes[episodeNum] = value;
       });
