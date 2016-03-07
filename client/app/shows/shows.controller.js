@@ -1,8 +1,10 @@
+'use strict';
+
 var globalShowScope;
 var globalShowService
 angular.module('telebumApp')
   .controller('ShowsCtrl', function($scope, Auth, User, $http, $cookieStore, $q, showService) {
-    var user = Auth.getCurrentUser();
+    // var user = Auth.getCurrentUser();
 
     async.series([
       getShows,
@@ -60,7 +62,6 @@ angular.module('telebumApp')
          // do nothing for now
          // return;
       } else {
-        var seenEpisodes = getNumWatched(userInfo);
         userInfo.seasons[seasonNum].episodes[episodeNum] = true;
         if (areAllWatched(userInfo)) userInfo.finished = true;
 
@@ -83,7 +84,7 @@ angular.module('telebumApp')
         // changePercentage(userInfo.current, id)
         userInfo.current = getLastUnWatchedEpisode(userInfo);
       }
-    }
+    };
   });
 
 function changePercentageOld(userInfo, show, seriesId) {
@@ -93,22 +94,22 @@ function changePercentageOld(userInfo, show, seriesId) {
 
   var showModel = document.getElementById(seriesId);
   var bar = showModel.childNodes[1].childNodes[1];
-  bar.style.width=percent + "%";
+  bar.style.width=percent + '%';
 }
 
 function initialPercentage($scope) {
   var user = $scope.user;
-  var shows = $scope.shows
+  var shows = $scope.shows;
 // setTimeout(function () {
-  user.forEach(function (userShow, i, scopedUserInfo) {
+  user.forEach(function (userShow) {
     var seriesId = userShow.showId;
     var showModel = document.getElementById(seriesId);
-    var bar = showModel.childNodes[1].childNodes[1];
-    var showDB = getShowById(shows, seriesId)
+    // var bar = showModel.childNodes[1].childNodes[1];
+    var showDB = getShowById(shows, seriesId);
     // initialize the current show
     userShow.current = getLastUnWatchedEpisode(userShow);
     userShow.finished = areAllWatched(userShow);
-    $scope.$apply()
+    $scope.$apply();
 
     // changePercentage(userShow.current, seriesId, seriesId)
   })
@@ -116,12 +117,12 @@ function initialPercentage($scope) {
 
 function getShowById(shows, id) {
   var showById = null;
-  shows.forEach(function (show, i) {
+  shows.forEach(function (show) {
     if (show.showId === id || show._id === id) {
       showById = show;
     }
   });
-  if (!showById) console.log('err! should have a show id')
+  if (!showById) {console.log('err! should have a show id')}
   return showById;
 }
 
@@ -129,7 +130,7 @@ function getNumWatched(userInfo) {
   var seenEpisodes = 0;
   userInfo.seasons.forEach(function (season) {
     season.episodes.forEach(function (episode) {
-      if (episode) seenEpisodes ++;
+      if (episode) {seenEpisodes ++;}
     });
   });
   return seenEpisodes;
@@ -137,17 +138,17 @@ function getNumWatched(userInfo) {
 
 function updateEpisode(showService, showId, seasonNum, episodeNum) {
   showService.watchEpisode(showId, seasonNum, episodeNum, function (serviceError) {
-
-  })
+    if (serviceError) {console.log(serviceError);}
+  });
   //make an api call to update this in mongo
 }
 function unWatchEpisode(seriesId, seasonNum, episodeNum) {
-  var userShow = getShowById(globalShowScope.user, seriesId)
+  var userShow = getShowById(globalShowScope.user, seriesId);
   userShow.seasons[seasonNum].episodes[episodeNum] = false;
   userShow.current = {season: seasonNum, episode: episodeNum}
   globalShowScope.$apply();
   globalShowService.unwatchEpisode(seriesId, seasonNum, episodeNum, function (serviceError) {
-
+    if (serviceError) {console.log(serviceError);}
   });
 }
 

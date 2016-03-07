@@ -8,52 +8,56 @@
     <meta name="description" content="">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <link rel="icon" type="image/png" href="assets/images/sword.ico">
+    <!-- build:css({.tmp,client}) app/app.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/skeleton/css/normalize.css" />
     <link rel="stylesheet" href="bower_components/skeleton/css/skeleton.css" />
+    <!-- endbuild -->
     <!-- endbower -->
-    <!-- main stylesheet -->
+    <!-- build:css({.tmp,client}) app/app.css -->
     <link rel="stylesheet" href="app/app.css">
+    <!-- endbuild -->
   </head>
 
   <body ng-view ng-app="telebumApp">
 
     <!-- div where angular content will be loaded into -->
     <div ui-view></div>
-    <!-- bower:js -->
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/async/lib/async.js"></script>
-    <script src="bower_components/angular-ui-indeterminate/dist/indeterminate.js"></script>
-    <script src="bower_components/alertify.js/dist/js/alertify.js"></script>
-    <!-- endbower -->
+
+    <!-- build:js({client,node_modules}) app/vendor.js -->
+      <!-- bower:js -->
+      <script src="bower_components/angular/angular.js"></script>
+      <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+      <script src="bower_components/angular-resource/angular-resource.js"></script>
+      <script src="bower_components/async/lib/async.js"></script>
+      <script src="bower_components/angular-ui-indeterminate/dist/indeterminate.js"></script>
+      <script src="bower_components/alertify.js/dist/js/alertify.js"></script>
+      <!-- endbower -->
+    <!-- endbuild -->
     <!-- <script src="//connect.facebook.net/en_US/sdk.js"></script> -->
-
-
-    <!-- main angular file -->
-    <script src="app/app.js"></script>
-    <!-- injector:js -->
-    <script src="app/account/facebook/fb.controller.js"></script>
-    <script src="app/account/facebook/fb.js"></script>
-    <script src="app/account/login/login.controller.js"></script>
-    <script src="app/account/login/login.js"></script>
-    <script src="app/account/register/register.controller.js"></script>
-    <script src="app/account/register/register.js"></script>
-    <script src="app/components/auth/auth.service.js"></script>
-    <script src="app/components/auth/user.service.js"></script>
-    <script src="app/components/cookies/cookies.controller.js"></script>
-    <script src="app/components/navbar/navbar.controller.js"></script>
-    <script src="app/main/main.controller.js"></script>
-    <script src="app/main/main.js"></script>
-    <script src="app/shows/addShow/addShow.controller.js"></script>
-    <script src="app/shows/showInfo/showInfo.controller.js"></script>
-    <script src="app/shows/showInfo/showInfo.service.js"></script>
-    <script src="app/shows/shows.controller.js"></script>
-    <script src="app/shows/shows.js"></script>
-    <script src="app/shows/shows.service.js"></script>
-    <!-- endinjector -->
-
+    <!-- build:js(client) app/app.js -->
+      <script src="app/app.js"></script>
+      <!-- injector:js -->
+      <script src="app/account/facebook/fb.controller.js"></script>
+      <script src="app/account/facebook/fb.js"></script>
+      <script src="app/account/login/login.controller.js"></script>
+      <script src="app/account/login/login.js"></script>
+      <script src="app/account/register/register.controller.js"></script>
+      <script src="app/account/register/register.js"></script>
+      <script src="app/components/auth/auth.service.js"></script>
+      <script src="app/components/auth/user.service.js"></script>
+      <script src="app/components/cookies/cookies.controller.js"></script>
+      <script src="app/components/navbar/navbar.controller.js"></script>
+      <script src="app/main/main.controller.js"></script>
+      <script src="app/main/main.js"></script>
+      <script src="app/shows/addShow/addShow.controller.js"></script>
+      <script src="app/shows/showInfo/showInfo.controller.js"></script>
+      <script src="app/shows/showInfo/showInfo.service.js"></script>
+      <script src="app/shows/shows.controller.js"></script>
+      <script src="app/shows/shows.js"></script>
+      <script src="app/shows/shows.service.js"></script>
+      <!-- endinjector -->
+    <!-- endbuild -->
   </body>
 </html>
