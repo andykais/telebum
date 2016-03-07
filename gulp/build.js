@@ -32,12 +32,13 @@ gulp.task('styles:dist', function () {
 gulp.task('html', function() {
     return gulp.src(`${conf.clientPath}/{app,components}/**/*.html`)
         .pipe($.angularTemplatecache({
-            module: 'yoAngularApp'
+          module: 'telebumApp'
         }))
         .pipe(gulp.dest('.tmp'));
 });
 
 gulp.task('build:client', function () {
+  // var manifest = gulp.src(`${conf.paths.dist}/${conf.clientPath}/assets/rev-manifest.json`);
 
   var options = { restore:true };
   var appFilter = $.filter('**/app.js', options);
@@ -47,12 +48,12 @@ gulp.task('build:client', function () {
 
   return gulp.src(conf.paths.client.mainView)
       .pipe($.useref())
+      // .pipe($.tap(function (file, t) {console.log(file.path)}))
           .pipe(appFilter)
               .pipe($.addSrc.append('.tmp/templates.js'))
               .pipe($.concat('app/app.js'))
           .pipe(appFilter.restore)
           .pipe(jsFilter)
-              .pipe($.tap(function (file) {console.log(file.path)}))
               .pipe($.ngAnnotate())
               .pipe($.uglify())
           .pipe(jsFilter.restore)
@@ -64,6 +65,7 @@ gulp.task('build:client', function () {
           .pipe(htmlBlock)
               .pipe($.rev())
           .pipe(htmlBlock.restore)
+      .pipe($.revReplace())
       .pipe(gulp.dest(`${conf.paths.dist}/${conf.clientPath}`));
 
 })
@@ -109,8 +111,8 @@ gulp.task(
     'inject',
     'styles',
     'html',
-    'build:client',
-    'copy'
+    'copy',
+    'build:client'
   )
 )
 gulp.task(

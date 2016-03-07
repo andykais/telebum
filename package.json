@@ -17,7 +17,6 @@
     "errorhandler": "^1.4.2",
     "express": "~4.10.3",
     "express-jwt": "^3.1.0",
-    "favicon": "0.0.2",
     "jsonwebtoken": "^5.4.0",
     "lodash": "~2.4.1",
     "method-override": "^2.3.5",
@@ -26,6 +25,7 @@
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",
     "request": "^2.65.0",
+    "serve-favicon": "^2.3.0",
     "xml2js": "^0.4.15"
   },
   "devDependencies": {

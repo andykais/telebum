@@ -14,7 +14,7 @@ var errorHandler = require('errorhandler');
 var path = require('path');
 var config = require('./environment');
 var passport = require('passport');
-var favicon = require('favicon');
+var favicon = require('serve-favicon');
 
 module.exports = function(app) {
   var env = app.get('env');
@@ -30,17 +30,16 @@ module.exports = function(app) {
   app.use(passport.initialize());
 
 
+  app.set('appPath', path.join(config.root, 'client'));
 
   if ('production' === env) {
-    app.set('appPath', path.join(config.root, 'public'));
-    app.use(favicon(path.join(app.get('appPath'), 'favicon.ico')));
+    app.use(favicon(path.join(config.root, 'client', 'favicon.ico')));
     app.use(express.static(app.get('appPath')));
     app.use(morgan('dev'));
   }
 
   if ('development' === env || 'test' === env) {
     app.use(require('connect-livereload')()); // inject livreload to browser
-    app.set('appPath', path.join(config.root, 'client'));
     app.use(express.static(path.join(config.root, '.tmp')));
     app.use(express.static(app.get('appPath')));
     app.use(morgan('dev'));
