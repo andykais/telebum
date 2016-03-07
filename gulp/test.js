@@ -4,11 +4,11 @@ var gulp = require('gulp'),
     $ = require('gulp-load-plugins')();
 
 // reusable pipelines
-exports.lintClientScripts = lazypipe()
+lintClientScripts = lazypipe()
   .pipe($.jshint, `${conf.clientPath}/.jshintrc`)
   .pipe($.jshint.reporter, 'jshint-stylish');
 
-exports.lintServerScripts = lazypipe()
+lintServerScripts = lazypipe()
   .pipe($.jshint, `${conf.serverPath}/.jshintrc`)
   .pipe($.jshint.reporter, 'jshint-stylish');
 

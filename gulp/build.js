@@ -14,7 +14,7 @@ exports.styles = lazypipe()
   .pipe($.sourcemaps.write, '.')
 
 gulp.task('clean:tmp', () => del(['.tmp/**/*'], {dot: true}));
-gulp.task('clean:dist', () => del(['dist/**/*'], {dot: true}));
+gulp.task('clean:dist', () => del([`${conf.paths.dist}/!(.git*|.openshift|Procfile)**`], {dot: true}));
 gulp.task('clean', gulp.parallel('clean:tmp', 'clean:dist'))
 
 
@@ -23,6 +23,20 @@ gulp.task('styles', function() {
   .pipe(exports.styles())
   .pipe(gulp.dest(`.tmp/app`));
 });
+gulp.task('styles:dist', function () {
+  return gulp.src(conf.paths.client.mainStyle)
+    .pipe(exports.styles())
+    .pipe(gulp.dest(`dist/app`));
+});
+
+gulp.task('html', function() {
+    return gulp.src(`${conf.clientPath}/{app,components}/**/*.html`)
+        .pipe($.angularTemplatecache({
+            module: 'yoAngularApp'
+        }))
+        .pipe(gulp.dest('.tmp'));
+});
+
 gulp.task('build:client', function () {
 
   var options = { restore:true };
@@ -34,9 +48,11 @@ gulp.task('build:client', function () {
   return gulp.src(conf.paths.client.mainView)
       .pipe($.useref())
           .pipe(appFilter)
+              .pipe($.addSrc.append('.tmp/templates.js'))
               .pipe($.concat('app/app.js'))
           .pipe(appFilter.restore)
           .pipe(jsFilter)
+              .pipe($.tap(function (file) {console.log(file.path)}))
               .pipe($.ngAnnotate())
               .pipe($.uglify())
           .pipe(jsFilter.restore)
@@ -51,25 +67,25 @@ gulp.task('build:client', function () {
       .pipe(gulp.dest(`${conf.paths.dist}/${conf.clientPath}`));
 
 })
-gulp.task('styles:dist', function () {
-  return gulp.src(conf.paths.client.mainStyle)
-    .pipe(exports.styles())
-    .pipe(gulp.dest(`dist/app`));
-});
 gulp.task('scripts:client', function() {
   return gulp.src(conf.paths.client.scripts)
   .pipe($.sourcemaps.init())
-  .pipe($.concat('app.js')) // maybe remove for non dist version
-  .pipe($.uglify())
   .pipe($.sourcemaps.write('.'))
-  .pipe(gulp.dest(`${conf.paths.dist}/client`))
+  .pipe(gulp.dest('.tmp/app'))
 });
-gulp.task('scripts:server', function () {
+// gulp.task('scripts:dist', gulp.series('scripts:client:dist'))
+gulp.task('copy:server', function () {
   return gulp.src(_.union(conf.paths.server.scripts, conf.paths.server.json))
-    .pipe(gulp.dest(`${conf.paths.dist}/${conf.server}`));
+    .pipe(gulp.dest(`${conf.paths.dist}/${conf.serverPath}`));
 });
-gulp.task('scripts', gulp.series('scripts:client', 'scripts:server'))
-gulp.task('copy', function () {
+gulp.task('copy:extras', () => {
+    return gulp.src([
+        `${conf.clientPath}/favicon.ico`,
+        `${conf.clientPath}/robots.txt`
+    ], { dot: true })
+        .pipe(gulp.dest(`${conf.paths.dist}/${conf.clientPath}`));
+});
+gulp.task('copy:base', function () {
   return gulp.src([
     'package.json',
     'bower.json',
@@ -77,12 +93,24 @@ gulp.task('copy', function () {
 ], {cwdbase: true})
     .pipe(gulp.dest(conf.paths.dist));
 });
+gulp.task(
+  'copy',
+  gulp.parallel(
+    'copy:base',
+    'copy:server',
+    'copy:extras'
+  )
+);
 
 gulp.task(
   'build:dist',
   gulp.series(
     'clean',
-    'build:client'
+    'inject',
+    'styles',
+    'html',
+    'build:client',
+    'copy'
   )
 )
 gulp.task(
@@ -90,7 +118,6 @@ gulp.task(
   gulp.series(
     'clean',
     'inject',
-    'styles',
-    'scripts'
+    'styles'
   )
 )
