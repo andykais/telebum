@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('telebumApp')
   .service('showService', function($http) {
 

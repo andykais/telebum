@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('telebumApp')
   .controller('LoginCtrl', function ($scope, Auth, $location) {
     $scope.user = {};

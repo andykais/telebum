@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('telebumApp')
   .config(function ($stateProvider) {
     $stateProvider
@@ -5,4 +7,4 @@ angular.module('telebumApp')
       url: '/signup',
       templateUrl: 'app/account/register/register.html'
     });
-  })
+  });

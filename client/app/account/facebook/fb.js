@@ -1,3 +1,5 @@
+'use strict';
+
 // Facebook SDK
 angular.module('facebook', [])
     .directive('fb', ['$FB', function($FB) {

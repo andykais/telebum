@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('telebumApp')
   .service('showInfoService', function($http) {
 
@@ -5,7 +7,7 @@ angular.module('telebumApp')
     {
       // var data = {userId:Auth.getCurrentUser()._id};
       $http.get('/api/users/showInfo/' + showId, data).success(function(data, error){
-        if (error && error != 200) console.log(error);
+        if (error && error !== 200) console.log(error);
         callback(error, data);
       });
     }

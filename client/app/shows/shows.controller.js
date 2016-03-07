@@ -29,20 +29,20 @@ angular.module('telebumApp')
     function checkHtml(asyncCallback) {
       angular.element(document).ready(function () {
         setTimeout(function () {
-          asyncCallback(null)
-        }, 50)
-      })
+          asyncCallback(null);
+        }, 50);
+      });
     }
     $scope.setShowId = function (seriesId, added) {
       Auth.currentShow.seriesid = seriesId;
       Auth.currentShow.added = added;
-    }
+    };
     $scope.getWidth = function (seriesId) {
-      return 100/getShowById($scope.shows, seriesId).numberEpisodes
-    }
+      return 100/getShowById($scope.shows, seriesId).numberEpisodes;
+    };
     $scope.numEpisodes = function (seriesId) {
       return getShowById($scope.shows, seriesId).numberEpisodes;
-    }
+    };
     $scope.advance = function (id) {
       var show = getShowById($scope.shows, id);
       var userInfo = getShowById($scope.user, id);
@@ -67,10 +67,10 @@ angular.module('telebumApp')
 
         updateEpisode(showService, id, seasonNum, episodeNum);
 
-        var msg = "<div class=\"inner\">" +
-                  "<span>Watched: " + episodeName + "</span>" +
-                  "<span class=\"watchButton\" onclick=unWatchEpisode(" + id + "," + seasonNum + "," + episodeNum + ")>Undo</span>" +
-                  "</div>";
+        var msg = '<div class=\"inner\">' +
+                  '<span>Watched: ' + episodeName + '</span>' +
+                  '<span class=\"watchButton\" onclick=unWatchEpisode(' + id + ',' + seasonNum + ',' + episodeNum + ')>Undo</span>' +
+                  '</div>';
 
         alertify
           .logPosition("bottom center added")

@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('telebumApp')
   .controller('showInfo', function($scope, $http, $stateParams, Auth, $state, showInfoService) {
 

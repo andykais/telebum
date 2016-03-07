@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('telebumApp')
   .controller('navbar', function($scope, Auth, $state, $location) {
     $scope.showAddButton = function() {

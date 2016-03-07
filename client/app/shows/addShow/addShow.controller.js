@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('telebumApp')
   .controller('addCtrl', function($scope, $http, Auth, $state) {
 
