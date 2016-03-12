@@ -1,9 +1,13 @@
-// @include font-face('MyWebby', '../fonts/bariol/bariol_regular-webfont');
 @import url(https://fonts.googleapis.com/css?family=NTR);
+// @include font-face('MyWebby', '../fonts/bariol/bariol_regular-webfont');
 // @import url(https://fonts.googleapis.com/css?family=Varela+Round);
-$fa-font-path: "/bower_components/font-awesome/fonts";
-@import '../bower_components/font-awesome/scss/font-awesome';
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css);
+// for now use font awesome cdn, no reason not to and otherwise we need to start moving font files
+// $fa-font-path: "/bower_components/font-awesome/fonts";
+// @import '../bower_components/font-awesome/scss/font-awesome';
 // '../bower_components/alertify.js/dist/css/alertify',
+
+
 
 // global variables
 $nav-height: 45px;
@@ -28,7 +32,6 @@ html,body {
   // font-family: 'Varela Round', sans-serif;
   // font-family: 'myWebby';
   font-family: 'NTR';
-
   margin: 0;
   padding: 0;
   color: $text-color;

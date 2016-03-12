@@ -53,7 +53,7 @@ angular.module('telebumApp')
       var numPerSeason = show.seasons[seasonNum].length;
       var totalEpisodes = show.numberEpisodes;
       var episodeName = show.seasons[seasonNum][episodeNum].episodeName;
-      totalSeasons = 0;
+      var totalSeasons = 0;
       for (var i in show.seasons) {
         totalSeasons ++;
       }

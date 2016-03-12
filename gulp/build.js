@@ -59,6 +59,7 @@ gulp.task('build:client', function () {
               .pipe($.uglify())
           .pipe(jsFilter.restore)
           .pipe(cssFilter)
+              // .pipe($.replace('../bower_components/fontawesome/fonts', '../fonts'))
               .pipe($.cleanCss({
                 processImport: false // will not try to resolve fonts.googleapis.com
               }))

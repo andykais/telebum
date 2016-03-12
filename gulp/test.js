@@ -4,19 +4,19 @@ var gulp = require('gulp'),
     $ = require('gulp-load-plugins')();
 
 // reusable pipelines
-lintClientScripts = lazypipe()
+exports.lintClientScripts = lazypipe()
   .pipe($.jshint, `${conf.clientPath}/.jshintrc`)
   .pipe($.jshint.reporter, 'jshint-stylish');
 
-lintServerScripts = lazypipe()
+exports.lintServerScripts = lazypipe()
   .pipe($.jshint, `${conf.serverPath}/.jshintrc`)
   .pipe($.jshint.reporter, 'jshint-stylish');
 
 gulp.task('lint:client', function () {
   return gulp.src(conf.paths.client.scripts)
-    .pipe(lintClientScripts());
+    .pipe(exports.lintClientScripts());
 });
 gulp.task('lint:server', function () {
   return gulp.src(conf.paths.server.scripts)
-    .pipe(lintClientScripts());
+    .pipe(exports.lintClientScripts());
 });

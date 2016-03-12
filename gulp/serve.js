@@ -3,23 +3,33 @@ var gulp = require('gulp'),
     nodemon = require('gulp-nodemon'),
     $ = require('gulp-load-plugins')
 
+    require('./watch'),
+    require('./build')
 
 
+gulp.task('serve', gulp.parallel(
+  'styles',
+  'watch',
+  serve
+));
+gulp.task('serve:dist', gulp.series(
+  'build',
+  serveDist
+))
 
-gulp.task('serve:dist', () => {
-    process.env.NODE_ENV = process.env.NODE_ENV || 'production';
-    config = require(`${conf.paths.dist}/${conf.serverPath}/config/environment`);
-    nodemon({
-      scripts: `${conf.paths.dist}/${conf.serverPath}`,
-      watch: `${conf.paths.dist}/${conf.serverPath}`
-    })
-});
+function serveDist() {
+  process.env.NODE_ENV = 'production';
+  config = require(`../${conf.paths.dist}/${conf.serverPath}/config/environment`);
+  return nodemon({
+    script: `${conf.paths.dist}/${conf.serverPath}`,
+    watch: `${conf.paths.dist}/${conf.paths.server.scripts}`
+  });
+}
 
-gulp.task('serve', () => {
-  process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+function serve() {
+  process.env.NODE_ENV = 'development';
   config = require(`../${conf.serverPath}/config/environment`);
-  nodemon({
-    script: `${conf.serverPath}`,
-    watch: `${conf.paths.server.scripts}`,
-  })
-});
+  return nodemon({
+    script: `${conf.serverPath}`
+  });
+}
