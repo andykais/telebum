@@ -45,6 +45,7 @@ gulp.task('build:client', function () {
   var jsFilter = $.filter('**/*.js', options);
   var cssFilter = $.filter('**/*.css', options);
   var htmlBlock = $.filter(['**/*.!(html)'], options);
+  // <!-- build:css({.tmp,client}) app/app.css -->
 
   return gulp.src(conf.paths.client.mainView)
       .pipe($.useref())
@@ -59,7 +60,7 @@ gulp.task('build:client', function () {
           .pipe(jsFilter.restore)
           .pipe(cssFilter)
               .pipe($.cleanCss({
-                processImportFrom: ['!fonts.googleapis.com']
+                processImport: false // will not try to resolve fonts.googleapis.com
               }))
           .pipe(cssFilter.restore)
           .pipe(htmlBlock)
@@ -105,7 +106,7 @@ gulp.task(
 );
 
 gulp.task(
-  'build:dist',
+  'build',
   gulp.series(
     'clean',
     'inject',
@@ -113,13 +114,5 @@ gulp.task(
     'html',
     'copy',
     'build:client'
-  )
-)
-gulp.task(
-  'build',
-  gulp.series(
-    'clean',
-    'inject',
-    'styles'
   )
 )
