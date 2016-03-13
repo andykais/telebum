@@ -96,7 +96,7 @@ var getSeriesInfo = function(seriesId, callback){
 
         _.each(result.data.episode, function (episode, key) {
           if(episode.seasonnumber > 0){
-            if(episode.episodenumber == 1){
+            if(Number(episode.episodenumber) === 1){
               // makes more sense to make 1st array value 0
               var arrayedSeasonNumber = episode.seasonnumber - 1;
               show.seasons[episode.seasonnumber - 1] = [];
@@ -165,13 +165,17 @@ exports.addShowId = function(showId, callback) {
       show.save(function (saveErr) {
         if (!saveErr) {
           console.log('Adding', chalk.green(show.name), 'to showbase');
-        }
-        if (!saveErr || saveErr.code == 11000) {
-          //duplicate entries are not errors
           callback(null, show)
         }
         else {
-          callback(saveErr)
+          //duplicate entries are not errors
+          if (saveErr.code === 11000) {
+            callback(null, show)
+          }
+          else {
+            callback(saveErr)
+          }
+
         }
       });
     }

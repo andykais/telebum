@@ -38,8 +38,8 @@ User.find({}).remove(function() {
     password: 'andrew',
     //temporary data until joey gets the main api call working
     shows: []
-  }
-  , {
+  },
+  {
     provider: 'local',
     role: 'admin',
     username: 'Admin',
@@ -49,8 +49,9 @@ User.find({}).remove(function() {
       User.find({username: 'andrew'}, function (err, user) {
         var userId = user[0]._id;
 
-        async.each(showSeeds, function (item, eachCb) {
+        async.eachSeries(showSeeds, function (item, eachCb) {
           seedAddShow(userId, item.seriesId, function(err) {
+            if (err) console.log(err)
             seedWatchSeason(userId, item.seriesId, item.watchSeason, eachCb)
           });
         }, function (err) {

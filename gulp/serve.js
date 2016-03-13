@@ -7,29 +7,32 @@ var gulp = require('gulp'),
     require('./build')
 
 
-gulp.task('serve', gulp.parallel(
-  'styles',
-  'watch',
-  serve
-));
-gulp.task('serve:dist', gulp.series(
-  'build',
-  serveDist
-))
 
-function serveDist() {
+
+gulp.task('start:server', function () {
+  process.env.NODE_ENV = 'development';
+  config = require(`../${conf.serverPath}/config/environment`);
+  return nodemon({
+    script: `${conf.serverPath}`,
+    watch: `${conf.paths.server.scripts}`
+  });
+});
+
+gulp.task('start:server:prod', function () {
   process.env.NODE_ENV = 'production';
   config = require(`../${conf.paths.dist}/${conf.serverPath}/config/environment`);
   return nodemon({
     script: `${conf.paths.dist}/${conf.serverPath}`,
     watch: `${conf.paths.dist}/${conf.paths.server.scripts}`
   });
-}
+});
 
-function serve() {
-  process.env.NODE_ENV = 'development';
-  config = require(`../${conf.serverPath}/config/environment`);
-  return nodemon({
-    script: `${conf.serverPath}`
-  });
-}
+gulp.task('serve', gulp.parallel(
+  'styles',
+  'watch',
+  'start:server'
+));
+gulp.task('serve:dist', gulp.series(
+  'build',
+  'start:server:prod'
+))

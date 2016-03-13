@@ -50,33 +50,19 @@ exports.getUserShowById = function (userId, showId, callback) {
 
       var existsAlready;
       // grabbedUser.show.s
-      console.log(grabbedUser.shows.length)
       grabbedUser.shows.forEach(function (iterShow) {
-        console.log(iterShow.showId, showId)
         if (Number(iterShow.showId) === Number(showId)) {
           existsAlready = iterShow;
-          module.exports.marker('found a match!', 'blue')
-          // console.log(Object.keys(existsAlready))
         }
       });
-      if (!existsAlready) module.exports.marker('didnt find a match :()', 'red');
-      // console.log(Object.keys(existsAlready))
+      // if (!existsAlready) module.exports.marker('didnt find a match :()', 'red');
       callback(null, existsAlready)
-      // var existsAlready = grabbedUser.get('shows').filter(function (iterShow) {
-      //   console.log(iterShow.showId, Number(showId))
-      //   console.log(Number(iterShow.showId) === Number(showId))
-      //   return Number(iterShow.showId) === Number(showId);
-      // });
-      // if (existsAlready.length == 0) {
-      //   module.exports.marker()
-      // }
-      // callback(null, existsAlready[0]);
     }
   });
 }
 // checks if the show exists in the users db yet
 exports.checkUserHasShow = function (userId, showId, asyncCallback) {
-  getUserShowById(userId, showId, function (userErr, grabbedUser, grabbedShow) {
+  exports.getUserShowById(userId, showId, function (userErr, grabbedUser, grabbedShow) {
     if (userErr) asyncCallback(userErr);
     else {
       if (grabbedShow) asyncCallback(200, 'already added');
