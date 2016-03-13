@@ -5,7 +5,7 @@ angular.module('telebumApp')
 
     var user = Auth.getCurrentUser();
     $scope.indetermChecks = [];
-    $scope.show = {};
+    $scope.show = null;
     async.parallel([
       getUserData,
       getShow
@@ -48,6 +48,7 @@ angular.module('telebumApp')
       }
     }
     $scope.isIndeterm = function(seasonNum) {
+      if (!$scope.user) return false;
       var totalEpisodes = $scope.show.seasons[seasonNum].length;
       var episodesProbed = $scope.user.seasons[seasonNum].episodes;
       var numWatched = 0;

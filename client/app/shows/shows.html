@@ -1,5 +1,3 @@
-<div id="navbarholder" ng-include src="'app/components/navbar/navbar.html'"></div>
-
 <div id="{{ show.showId }}" class="showItem" ng-repeat="show in user">
   <div class="progressBar">
     <div class="seasonBar" ng-repeat="(sNumber, season) in show.seasons" style="width:{{season.episodes.length/numEpisodes(show.showId)*100}}%">

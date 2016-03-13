@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     $ = require('gulp-load-plugins')
 
     require('./watch'),
+    require('./inject'),
     require('./build')
 
 
@@ -28,6 +29,8 @@ gulp.task('start:server:prod', function () {
 });
 
 gulp.task('serve', gulp.parallel(
+  'wiredep:client',
+  'inject',
   'styles',
   'watch',
   'start:server'

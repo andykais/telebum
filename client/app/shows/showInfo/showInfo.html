@@ -1,5 +1,3 @@
-<div id="navbarholder" ng-include src="'app/components/navbar/navbar.html'"></div>
-
 <!-- <img class="media-object img-rounded" ng-src="{{show.poster}}"> -->
 <!-- test -->
 <div id="infoHolder">
@@ -14,8 +12,10 @@
         <div class="overviewHolder">
           <span class="overview">{{show.overview}}</span>
         </div>
-        <div class="button" id="inDatabase" ng-show="user" ng-click="removeExistingShow(show._id)">remove show</div>
-        <div class="button" id="notInDatabase" ng-hide="user" ng-click='addNewShow(show._id)'>add show</div>
+        <div ng-show="show">
+          <div class="button" id="inDatabase" ng-show="user" ng-click="removeExistingShow(show._id)">remove show</div>
+          <div class="button" id="notInDatabase" ng-hide="user" ng-click='addNewShow(show._id)'>add show</div>
+        </div>
     </div>
   </div>
 </div>
