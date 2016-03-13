@@ -22,7 +22,9 @@
   <body ng-view ng-app="telebumApp">
 
     <!-- div where angular content will be loaded into -->
+    <div id="navbarholder" ng-include src="'app/components/navbar/navbar.html'"></div>
     <div ui-view></div>
+    <footer ng-include src="'app/components/footer/footer.html'"></footer>
 
     <!-- build:js({client,node_modules}) app/vendor.js -->
       <!-- bower:js -->
