@@ -1,6 +1,8 @@
 # telebum
 a note taking web app for organizing television shows and movies
 
+Check out a version of `dist/` running on [telebum.herokuapp.com](http://telebum.herokuapp.com/)
+
 # Installation
 - clone the repo
 - install nodejs
