@@ -7,7 +7,6 @@ matrix:
     - node_js: 5.1.1
 before_script:
   - npm install -g bower "gulpjs/gulp-cli#4.0"
-  - npm install "github:gulpjs/gulp#4.0"
   - bower install
 script: gulp build
 services: mongodb

@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/andykais/telebum.svg?branch=master)](https://travis-ci.org/andykais/telebum)
+
+
 # telebum
 a note taking web app for organizing television shows and movies
 
@@ -9,7 +12,7 @@ Check out a version of `dist/` running on [telebum.herokuapp.com](http://telebum
 - install Mongo DB
 once installed, make sure your mongo db is running, then run
 ```
-npm install -g bower "gulpjs/gulp-cli#4.0" 
+npm install -g bower "gulpjs/gulp-cli#4.0"
 npm install
 bower install
 gulp
