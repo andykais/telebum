@@ -72,15 +72,19 @@ angular.module('telebumApp')
                   '<span class=\"watchButton\" onclick=unWatchEpisode(' + id + ',' + seasonNum + ',' + episodeNum + ')>Undo</span>' +
                   '</div>';
 
+        var holder = document.getElementById('alertifyHolder')
+        console.log(holder)
+        // console.log(alertify.parent(holder))
         alertify
           .logPosition("bottom center added")
-          .delay(3000)
+          .delay(0)
           .maxLogItems(1)
           .closeLogOnClick(true)
           .log(msg, function (clicked) {
             // this will be fixed on next release
             // console.log(clicked)
-          });
+          })
+          .parent(holder)
         // changePercentage(userInfo.current, id)
         userInfo.current = getLastUnWatchedEpisode(userInfo);
       }
