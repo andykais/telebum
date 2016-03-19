@@ -2,6 +2,8 @@ $font-size: 1.6rem;
 
 
 .showItem {
+  display: inline-block;
+  width: 100%;
   font-size: $font-size;
   height: $item-height;
   border-bottom: 1px solid $shadow-color;
