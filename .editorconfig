@@ -1,10 +1,21 @@
 # editorconfig.org
 ; quote does not do anything but these are the guidelines
 
+root = true
+
 [*]
 indent_style  = space
 indent_size   = 2
 quote         = single
+
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.md]
+trim_trailing_whitespace = false
+
 
 [*.html]
 quote         = double

@@ -14,11 +14,14 @@
     "skeleton": "https://github.com/dhg/Skeleton.git#^2.0.4"
   },
   "resolutions": {
-    "angular": "1.4.9"
+    "angular": "1.4.10"
   },
   "overrides": {
     "skeleton": {
-      "main": ["css/normalize.css", "css/skeleton.css"]
+      "main": [
+        "css/normalize.css",
+        "css/skeleton.css"
+      ]
     }
   }
 }
