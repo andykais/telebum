@@ -10,15 +10,18 @@
     "angular-resource": "~1.4.7",
     "async": "~1.5.0",
     "angular-ui-indeterminate": "~1.0.0",
-    "alertify.js": "alertifyjs#^1.0.10",
-    "skeleton": "https://github.com/dhg/Skeleton.git#^2.0.4"
+    "skeleton": "https://github.com/dhg/Skeleton.git#^2.0.4",
+    "alertify.js": "alertifyjs#^1.0.10"
   },
   "resolutions": {
-    "angular": "1.4.9"
+    "angular": "1.4.10"
   },
   "overrides": {
     "skeleton": {
-      "main": ["css/normalize.css", "css/skeleton.css"]
+      "main": [
+        "css/normalize.css",
+        "css/skeleton.css"
+      ]
     }
   }
 }

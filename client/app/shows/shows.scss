@@ -1,7 +1,8 @@
 $font-size: 1.6rem;
 
-
 .showItem {
+  display: inline-block;
+  width: 100%;
   font-size: $font-size;
   height: $item-height;
   border-bottom: 1px solid $shadow-color;
@@ -10,53 +11,55 @@ $font-size: 1.6rem;
   line-height: 4.0rem;
   .showName {
     padding-left: $padding-size;
+    position: relative;
+    z-index: 15;
   }
   .lastSeen {
     float: right;
     padding-right: $padding-size;
+    position: relative;
+    z-index: 15;
   }
   .advanceIcon {
     cursor: pointer;
     @include no-touchy();
     padding-left: $padding-size;
+    position: relative;
+    z-index: 10;
+    i {
+      padding: 7px;
+    }
   }
   .advanceIcon:hover {
     color: white;
   }
   .progressBar {
     position: absolute;
-    z-index: -1;
     width: 100%;
-    height: $item-height;
   }
-  .seasonBar {
+  .seasonTable {
     height: $item-height;
-    position: relative;
-    display: inline-block;
+    display: table-cell;
+    // background-color: green;
+  }
+  .tableFixed {
+    height: $item-height;
+    width: 100%;
+    display: table;
+    table-layout: fixed;
   }
   .episodeBar {
-    // min-height:1px;
-    height: inherit;
-    display: inline-block;
-    position: relative;
-    z-index: -1;
-    // width: 100%;
+    height: $item-height;
+    display: table-cell;
   }
-  .slider { // width transition
-    @extend .sliderWidth;
-    // @extend .sliderHeight;
+  .slider {
+     @extend .sliderWidth;
+    //  @extend .sliderHeight;
   }
   .slider.watched {
     @extend .sliderWidthWatched;
     // @extend .sliderHeightWatched;
   }
-  .episodeBar {
-    // @extend .episodeBarWidth;
-  }
-  .episodeBar.watched {
-    // @extend .episodeBarWidthWatched;
-  }
-
   a {
     @include setLinkStyleAll(black);
     @include transition(color .5s)

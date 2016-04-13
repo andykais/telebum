@@ -27,8 +27,8 @@ $text-white: white;
 
 
 
-
 html,body {
+  height: 100%;
   // font-family: 'Varela Round', sans-serif;
   // font-family: 'myWebby';
   font-family: 'NTR';
@@ -42,6 +42,9 @@ h2 {
 h5 {
   font-size: 1.6rem;
   margin-bottom: 5px;
+}
+#view {
+  min-height: calc(100vh - #{$nav-height*2});
 }
 
 // injector

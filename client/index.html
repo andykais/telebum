@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
-    <base href="/">
     <title>telebum</title>
+    <base href="/">
+    <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <link rel="icon" type="image/png" href="assets/images/sword.ico">
@@ -23,7 +24,7 @@
 
     <!-- div where angular content will be loaded into -->
     <div id="navbarholder" ng-include src="'app/components/navbar/navbar.html'"></div>
-    <div ui-view></div>
+    <div id="view" ui-view></div>
     <footer ng-include src="'app/components/footer/footer.html'"></footer>
 
     <!-- build:js({client,node_modules}) app/vendor.js -->

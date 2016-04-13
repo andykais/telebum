@@ -1,8 +1,10 @@
 <div id="{{ show.showId }}" class="showItem" ng-repeat="show in user">
   <div class="progressBar">
-    <div class="seasonBar" ng-repeat="(sNumber, season) in show.seasons" style="width:{{season.episodes.length/numEpisodes(show.showId)*100}}%">
-      <div id="{{show.showId}}-{{sNumber}}-{{eNumber}}" class="episodeBar" ng-class="{watched: episode}" ng-repeat="(eNumber, episode) in season.episodes track by $index" style="width: {{100/season.episodes.length}}%">
-        <div class="slider" ng-class="{watched: episode}"></div>
+    <div class="seasonTable" ng-repeat="(sNumber, season) in show.seasons">
+      <div class="tableFixed">
+        <div class="episodeBar" ng-repeat="(eNumber, episode) in season.episodes track by $index">
+          <div class="slider" ng-class="{watched: episode}"></div>
+        </div>
       </div>
     </div>
   </div>

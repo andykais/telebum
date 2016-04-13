@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "5"
+matrix:
+  fast_finish: true
+before_script:
+  - npm install -g bower "gulpjs/gulp-cli#4.0"
+  - bower install
+script: gulp build
+services: mongodb
