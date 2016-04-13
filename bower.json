@@ -10,8 +10,8 @@
     "angular-resource": "~1.4.7",
     "async": "~1.5.0",
     "angular-ui-indeterminate": "~1.0.0",
-    "alertify.js": "alertifyjs#^1.0.9",
-    "skeleton": "https://github.com/dhg/Skeleton.git#^2.0.4"
+    "skeleton": "https://github.com/dhg/Skeleton.git#^2.0.4",
+    "alertify.js": "alertifyjs#^1.0.10"
   },
   "resolutions": {
     "angular": "1.4.10"
