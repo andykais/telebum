@@ -62,7 +62,7 @@ angular.module('telebumApp')
          // do nothing for now
          // return;
       } else {
-        userInfo.seasons[seasonNum].episodes[episodeNum] = true;
+        userInfo.seasons[seasonNum].episodes[episodeNum].watched = true;
         if (areAllWatched(userInfo)) userInfo.finished = true;
 
         updateEpisode(showService, id, seasonNum, episodeNum);
@@ -77,7 +77,7 @@ angular.module('telebumApp')
         // console.log(alertify.parent(holder))
         alertify
           .logPosition("bottom center added")
-          .delay(0)
+          .delay(4000)
           .maxLogItems(1)
           .closeLogOnClick(true)
           .log(msg, function (clicked) {
@@ -134,7 +134,7 @@ function getNumWatched(userInfo) {
   var seenEpisodes = 0;
   userInfo.seasons.forEach(function (season) {
     season.episodes.forEach(function (episode) {
-      if (episode) {seenEpisodes ++;}
+      if (episode.watched) {seenEpisodes ++;}
     });
   });
   return seenEpisodes;
@@ -148,7 +148,7 @@ function updateEpisode(showService, showId, seasonNum, episodeNum) {
 }
 function unWatchEpisode(seriesId, seasonNum, episodeNum) {
   var userShow = getShowById(globalShowScope.user, seriesId);
-  userShow.seasons[seasonNum].episodes[episodeNum] = false;
+  userShow.seasons[seasonNum].episodes[episodeNum].watched = false;
   userShow.current = {season: seasonNum, episode: episodeNum}
   globalShowScope.$apply();
   globalShowService.unwatchEpisode(seriesId, seasonNum, episodeNum, function (serviceError) {
@@ -167,7 +167,7 @@ function getLastUnWatchedEpisode(userInfo) {
     lastEpisode;
   userInfo.seasons.forEach(function (season, sIndex, seasons) {
     season.episodes.forEach(function (episode, eIndex, episodes) {
-      if (episode) {
+      if (episode.watched) {
         // console.log(sIndex, eIndex)
         current = getNextEpisode(userInfo, sIndex, eIndex);
       }
@@ -175,7 +175,7 @@ function getLastUnWatchedEpisode(userInfo) {
     });
     lastSeason = sIndex;
   });
-  if (current.season === lastSeason && current.episode === lastEpisode && userInfo.seasons[lastSeason].episodes[lastEpisode]) {
+  if (current.season === lastSeason && current.episode === lastEpisode && userInfo.seasons[lastSeason].episodes[lastEpisode].watched) {
     return getFirstUnWatchedEpisode(userInfo);
   }
   // console.log('---got last episode---')
@@ -188,7 +188,7 @@ function getFirstUnWatchedEpisode(userInfo) {
     noneWatched = true;
   userInfo.seasons.forEach(function (season, sIndex, seasons) {
     season.episodes.forEach(function (episode, eIndex, episodes) {
-      if (!episode && noneWatched) {
+      if (!episode.watched && noneWatched) {
         noneWatched = false;
         current = {
           season: sIndex,
@@ -204,7 +204,7 @@ function areAllWatched(userInfo) {
   var unwatched = false;
   userInfo.seasons.forEach(function (season, sIndex, seasons) {
     season.episodes.forEach(function (episode, eIndex, episodes) {
-      if (!episode) unwatched = true;
+      if (!episode.watched) unwatched = true;
     });
   });
   return !unwatched;

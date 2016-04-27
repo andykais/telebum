@@ -54,7 +54,7 @@ angular.module('telebumApp')
       var numWatched = 0;
 
       episodesProbed.forEach(function (episode, eNum) {
-        if (episode) numWatched ++;
+        if (episode.watched) numWatched ++;
       });
 
       if (numWatched == totalEpisodes) {
@@ -89,7 +89,7 @@ angular.module('telebumApp')
 
 function setChecks(season, value) {
   season.episodes.forEach(function(episode, num, scopedEpisodes) {
-    scopedEpisodes[num] = value;
+    scopedEpisodes[num].watched = value;
   });
 }
 function initializeChecks(indetermChecks, seasonsData) {

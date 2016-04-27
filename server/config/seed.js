@@ -66,7 +66,7 @@ function seedAddShow(userId, showId, callback) {
   async.waterfall([
     async.apply(helpers.getShowById, showId),
     function(foundShow, cb) {
-      cb(null, countEpisodes(foundShow));
+      cb(null, helpers.countEpisodes(foundShow));
     },
     function(userShowAddition, cb) {
       helpers.getUserById(userId, function (err, foundUser) {
@@ -99,7 +99,7 @@ function seedWatchSeason(userId, showId, seasonNum, callback) {
       var length = show.get('seasons')[seasonNum].length;
       var episodeChanges = Array.apply(null, Array(length)).map(function(v) {return true});
       episodeChanges.forEach(function (value, episodeNum) {
-        userShow.seasons[seasonNum - 1].episodes[episodeNum] = value;
+        userShow.seasons[seasonNum - 1].episodes[episodeNum].watched = value;
       });
       User.findOneAndUpdate({'_id': userId, 'shows.showId': showId}, {'$set': {'shows.$': userShow}}, function (mongoErr) {
         cb(mongoErr);
@@ -109,28 +109,28 @@ function seedWatchSeason(userId, showId, seasonNum, callback) {
     callback()
   });
 }
-function countEpisodes(show) {
-
-  var numEpisodes = 0;
-  var seasons = [];
-
-  for(var index in show.seasons){
-    var seasonData = show.seasons[index];
-    var episodes = [];
-    for (var episodeIndex in seasonData) {
-      episodes.push(false);
-    }
-    var seasonInput = {
-      number: index,
-      episodes: episodes
-    }
-    seasons.push(seasonInput);
-  }
-  // Add it to the user's dataset
-  var userShowAddition = {
-    showId: show._id,
-    title: show.name,
-    seasons: seasons
-  };
-  return userShowAddition
-}
+// function countEpisodes(show) {
+//
+//   var numEpisodes = 0;
+//   var seasons = [];
+//
+//   for(var index in show.seasons){
+//     var seasonData = show.seasons[index];
+//     var episodes = [];
+//     for (var episodeIndex in seasonData) {
+//       episodes.push({watched:false});
+//     }
+//     var seasonInput = {
+//       number: index,
+//       episodes: episodes
+//     }
+//     seasons.push(seasonInput);
+//   }
+//   // Add it to the user's dataset
+//   var userShowAddition = {
+//     showId: show._id,
+//     title: show.name,
+//     seasons: seasons
+//   };
+//   return userShowAddition
+// }

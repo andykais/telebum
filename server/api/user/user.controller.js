@@ -58,7 +58,7 @@ exports.destroy = function(req, res) {
 exports.getUser = function (req, res, next) {
   var userId = req.params.id;
   getUser(userId, function(getUserErr, user) {
-    if (getUserErr) return next(err);
+    if (getUserErr) return clientErrors(res, 500, getUserErr);
     if (!user) return res.status(401).send('Unauthorized');
     res.json(user.profile);
   });
@@ -122,7 +122,7 @@ exports.addShow = function(req, res, next) {
       var foundUser = result[0];
       var foundShow = result[1];
 
-      var userShowAddition = countEpisodes(foundShow);
+      var userShowAddition = helpers.countEpisodes(foundShow);
       var myShows = foundUser.get('shows');
       myShows.push(userShowAddition);
       foundUser.update({'shows': myShows}, function (err) {
@@ -144,7 +144,7 @@ exports.removeShow = function(req, res, next) {
     if (getUserErr) clientErrors(res, 500, getUserErr);
     else {
       for (var index in grabbedUser.shows) {
-        if (grabbedUser.shows[index].showId == Number(showId)) {
+        if (grabbedUser.shows[index].showId === Number(showId)) {
           grabbedUser.shows.splice(index, 1);
         }
       }
@@ -172,7 +172,7 @@ exports.updateWatched = function(req, res, next) {
         '$set': {'shows.$.seasons': showData}
     }
     User.findOneAndUpdate(updateQuery, updateValues, function (mongoErr) {
-      if (mongoErr) clientErrors(res, 500, waterfallErr);
+      if (mongoErr) clientErrors(res, 500, mongoErr);
       else res.status(200).send('OK');
     });
 }
@@ -180,56 +180,62 @@ exports.updateWatched = function(req, res, next) {
  * marks a specific episodeof a show as watched (true)
  */
 exports.watchEpisode = function(req, res, next) {
-  var userId = req.user._id;
-  var showId = req.params.showId;
-  var seasonNum = req.body.season;
-  var episodeNum = req.body.episode;
-
-  async.waterfall([
-    async.apply(helpers.getUserShowById, userId, showId),
-    function (userShow, cb) {
-      userShow.seasons[seasonNum].episodes[episodeNum] = true;
-      var updateQuery = {
-          '_id': userId,
-          'shows.showId': showId
-        },
-        updateValues = {
-          '$set': {'shows.$': userShow}
-        }
-      User.findOneAndUpdate(updateQuery, updateValues, cb)
-    }
-  ], function (waterfallErr, results) {
-    if (waterfallErr) clientErrors(res, 500, waterfallErr);
+  var userQuery = {
+    userId: req.user._id,
+    showId: req.params.showId,
+    seasonNum: req.body.season,
+    episodeNum: req.body.episode
+  }
+  helpers.updateEpisodeValue(userQuery, 'watched', true, function (mongoErr, results) {
+    if (mongoErr) clientErrors(res, 500, mongoErr);
     else res.status(200).send('OK');
+    console.log('watched called back')
   });
 }
 /**
  * marks a specific episode of a show as watched (true)
  */
 exports.unwatchEpisode = function(req, res, next) {
-  var userId = req.user._id,
-    showId = req.params.showId,
-    seasonNum = req.body.season,
-    episodeNum = req.body.episode;
-
-  async.waterfall([
-    async.apply(helpers.getUserShowById, userId, showId),
-    function (userShow, cb) {
-      userShow.seasons[seasonNum].episodes[episodeNum] = false;
-      var updateQuery = {
-          '_id': userId,
-          'shows.showId': showId
-        },
-        updateValues = {
-          '$set': {'shows.$': userShow}
-        }
-      User.findOneAndUpdate(updateQuery, updateValues, cb)
-    }
-  ], function (waterfallErr, results) {
-    if (waterfallErr) clientErrors(res, 500, waterfallErr);
+  var userQuery = {
+    userId: req.user._id,
+    showId: req.params.showId,
+    seasonNum: req.body.season,
+    episodeNum: req.body.episode
+  }
+  helpers.updateEpisodeValue(userQuery, 'watched', false, function (mongoErr, results) {
+    if (mongoErr) clientErrors(res, 500, mongoErr);
     else res.status(200).send('OK');
+    console.log('it called back')
   });
 }
+
+exports.favorite = function(req, res, next) {
+  var userQuery = {
+    userId: req.user._id,
+    showId: req.params.showId,
+    seasonNum: req.body.season,
+    episodeNum: req.body.episode
+  }
+  helpers.updateEpisodeValue(userQuery, 'favorite', true, function (mongoErr, results) {
+    if (mongoErr) clientErrors(res, 500, mongoErr);
+    else res.status(200).send('OK');
+    console.log('it called back')
+  });
+}
+exports.unfavorite = function(req, res, next) {
+  var userQuery = {
+    userId: req.user._id,
+    showId: req.params.showId,
+    seasonNum: req.body.season,
+    episodeNum: req.body.episode
+  }
+  helpers.updateEpisodeValue(userQuery, 'favorite', false, function (mongoErr, results) {
+    if (mongoErr) clientErrors(res, 500, mongoErr);
+    else res.status(200).send('OK');
+    console.log('it called back')
+  });
+}
+
 /**
  * Displays all shows in the user's list
  */
@@ -331,36 +337,4 @@ var findShowById = function(showId, asyncCallback) {
   tvdb.addShowId(showId, function (err, show) {
     asyncCallback(err, show);
   });
-}
-//parses stuff into usable user data
-var countEpisodes = function(show) {
-
-  var numEpisodes = 0;
-  var seasons = [];
-
-  for(var index in show.seasons){
-    var seasonData = show.seasons[index];
-    var episodes = [];
-    for (var episodeIndex in seasonData) {
-      episodes.push(false);
-    }
-    var seasonInput = {
-      number: index+1,
-      episodes: episodes
-    }
-    // var season = show.seasons[index];
-    // numEpisodes+=season.length;
-    seasons.push(seasonInput);
-  }
-  // Add it to the user's dataset
-  var userShowAddition = {
-    showId: show._id,
-    title: show.name,
-    seasons: seasons,
-  };
-  return userShowAddition
-}
-// helps me notice where code is running
-var printMarker = function () {
-  console.log(chalk.bgCyan('notice me!'))
 }

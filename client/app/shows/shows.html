@@ -3,7 +3,7 @@
     <div class="seasonTable" ng-repeat="(sNumber, season) in show.seasons">
       <div class="tableFixed">
         <div class="episodeBar" ng-repeat="(eNumber, episode) in season.episodes track by $index">
-          <div class="slider" ng-class="{watched: episode}"></div>
+          <div class="slider" ng-class="{watched: episode.watched}"></div>
         </div>
       </div>
     </div>

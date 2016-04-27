@@ -4,12 +4,12 @@ var chalk = require('chalk');
  * Error responses
  */
 
-// 'use strict';
+'use strict';
 
 module.exports = function(res, status, error) {
   // console.log('\033[31mError! \033[91m', error, status)
   console.log(chalk.red('Error!', error, status))
-  res.status(status).send(error);
+  res.status(status || 500).send(error || 'internal server error');
 }
 //
 // module.exports[404] = function pageNotFound(req, res) {

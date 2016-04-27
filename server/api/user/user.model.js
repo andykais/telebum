@@ -11,7 +11,10 @@ var UserShowSchema = new Schema({
   title: {type: String},
   seasons:[{
     number:{type:Number},
-    episodes:[Boolean]
+    episodes:[{
+      watched:{type: Boolean},
+      favorite: {type: Boolean}
+    }]
   }]
 });
 

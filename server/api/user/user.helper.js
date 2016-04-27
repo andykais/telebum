@@ -70,6 +70,29 @@ exports.checkUserHasShow = function (userId, showId, asyncCallback) {
     }
   })
 }
+// querys and changes any object value at the episode level
+exports.updateEpisodeValue = function(userQuery, key, value, controllerCallback) {
+  var userId = userQuery.userId,
+    showId = userQuery.showId,
+    seasonNum = userQuery.seasonNum,
+    episodeNum = userQuery.episodeNum;
+
+  async.waterfall([
+    async.apply(exports.getUserShowById, userId, showId),
+    function (userShow, cb) {
+      userShow.seasons[seasonNum].episodes[episodeNum][key] = value;
+      console.log(userShow.seasons[seasonNum].episodes[episodeNum])
+      var updateQuery = {
+          '_id': userId,
+          'shows.showId': showId
+        },
+        updateValues = {
+          '$set': {'shows.$': userShow}
+        }
+      User.findOneAndUpdate(updateQuery, updateValues, cb)
+    }
+  ], controllerCallback);
+}
 // gets the show from thetvdb.org
 exports.findShowById = function(showId, asyncCallback) {
   tvdb.addShowId(showId, function (err, show) {
@@ -93,4 +116,31 @@ var countEpisodes = function(show) {
       episodes: episodes
     }
   }
+}
+exports.countEpisodes = function(show) {
+
+  var numEpisodes = 0;
+  var seasons = [];
+
+  for(var index in show.seasons){
+    var seasonData = show.seasons[index];
+    var episodes = [];
+    for (var episodeIndex in seasonData) {
+      episodes.push({watched:false});
+    }
+    var seasonInput = {
+      number: index+1,
+      episodes: episodes
+    }
+    // var season = show.seasons[index];
+    // numEpisodes+=season.length;
+    seasons.push(seasonInput);
+  }
+  // Add it to the user's dataset
+  var userShowAddition = {
+    showId: show._id,
+    title: show.name,
+    seasons: seasons,
+  };
+  return userShowAddition
 }
